@@ -82,6 +82,7 @@ namespace MindClinic.Areas.Identity.Pages.Account
             public string role { get; set; }
 
 
+
             public IFormFile Imagefile { get; set; }
         }
 
@@ -99,7 +100,7 @@ namespace MindClinic.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Email = Input.Email ,Age = Input.Age,Gender = Input.Gender,Name = Input.Name,ImageFile = Input.Imagefile};
+                var user = new User { UserName = Input.Email, Email = Input.Email ,Age = Input.Age,Gender = Input.Gender,Name = Input.Name,ImageFile = Input.Imagefile , RoleId = Input.role};
                
                
 

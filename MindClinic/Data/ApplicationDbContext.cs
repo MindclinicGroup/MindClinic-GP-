@@ -10,7 +10,7 @@ namespace MindClinic.Data
     public class ApplicationDbContext : IdentityDbContext<User>
     {
         public DbSet<Schedule> Schedules { get; set; }
-        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Appointment> Appointments { get; set; } // list
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

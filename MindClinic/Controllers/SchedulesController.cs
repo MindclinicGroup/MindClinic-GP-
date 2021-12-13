@@ -51,7 +51,9 @@ namespace MindClinic.Controllers
         // GET: Schedules/Create
         public IActionResult Create()
         {
-            ViewData["doctorID"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["doctorID"] = new SelectList(_context.Users.Where(x => x.RoleId == "2"), "Id", "Name");
+            
+
             var userid = _usermanager.GetUserId(HttpContext.User);
             ViewBag.UserID = userid;
             return View();
@@ -71,7 +73,7 @@ namespace MindClinic.Controllers
                 return RedirectToAction(nameof(Index));
             }
             var userid = _usermanager.GetUserId(HttpContext.User);
-            ViewData["doctorID"] = new SelectList(_context.Users, "Id", "Id", schedule.doctorID);
+            ViewData["doctorID"] = new SelectList(_context.UserRoles.Where(x=>x.RoleId=="2"), "Id", "Name", schedule.doctorID);
            
             
                 User user = _usermanager.FindByIdAsync(userid).Result;

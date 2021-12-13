@@ -112,12 +112,15 @@
                                 <li><a href="register.html">Register</a></li>
                                 <li><a href="forgot-password.html">Forgot Password</a></li>
                             </ul>
-                            @if (signInManager.IsSignedIn(User) && User.IsInRole("DOCTOR"))
+                            @if (signInManager.IsSignedIn(User) && (User.IsInRole("DOCTOR") || User.IsInRole("ADMIN")))
                             {
                                 <li class="nav-item">
                                     <a asp-action="Create" asp-controller="Schedules" asp->Shcedule </a>
                                 </li>
                             }
+                            
+                            
+                           
 
                         </li>
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("ADMIN"))
