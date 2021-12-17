@@ -81,9 +81,6 @@ namespace MindClinic.Areas.Identity.Pages.Account
 
             public string role { get; set; }
 
-           
-
-
             public IFormFile Imagefile { get; set; }
         }
 
