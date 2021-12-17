@@ -14,6 +14,7 @@ namespace MindClinic.Data
         public DbSet<DoctorClass> Doctors { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<Awards> Awards { get; set; }
+        
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
