@@ -39,11 +39,13 @@
                 <input asp-for="Input.Age" class="form-control" />
             </div>
         
+            @if (!signInManager.IsSignedIn(User))
+            {
                 <div hidden="" class="form-group">
                  <label asp-for="Input.role"></label>
                  <input value="PATIENT" asp-for="Input.role" class="form-control"/>
              </div>
-            
+            }
             
             @if (signInManager.IsSignedIn(User) && User.IsInRole("ADMIN"))
             {
