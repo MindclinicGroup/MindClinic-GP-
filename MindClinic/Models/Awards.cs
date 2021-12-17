@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace MindClinic.Models
 {
-    public class DoctorClass
+    public class Awards
     {
         [Key]
         public int id { get; set; }
         [Required]
-        public string AboutMe { get; set; }
+        [Display(Name ="Award")]
+        public string award { get; set; }
         [Required]
-        public int pricePerSession { get; set; }
-        public string userID { get; set; }
-        public User User { get; set; }
+        public string Year { get; set; }
+        public int doctorId { get; set; }
+        public DoctorClass doctor { get; set; }
 
 
     }
