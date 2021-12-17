@@ -17,6 +17,7 @@ namespace MindClinic.Models
         public string Year { get; set; }
         public int doctorId { get; set; }
         public DoctorClass doctor { get; set; }
+        //
 
 
     }
