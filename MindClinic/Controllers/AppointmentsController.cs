@@ -117,8 +117,8 @@ namespace MindClinic.Controllers
         // GET: Appointments/Create
         public IActionResult Create()
         {
-            ViewData["doctorId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["patientId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["doctorId"] = new SelectList(_context.Users, "Id", "Name");
+            ViewData["patientId"] = new SelectList(_context.Users, "Id", "Name");
             return View();
         }
 

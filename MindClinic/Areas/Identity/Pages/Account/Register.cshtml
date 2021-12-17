@@ -1,5 +1,7 @@
 ﻿@page
+@using MindClinic.Models
 @model RegisterModel
+@inject SignInManager<User> signInManager;
 @{
     ViewData["Title"] = "Register";
 }
@@ -36,10 +38,27 @@
                 <label asp-for="Input.Age"></label>
                 <input asp-for="Input.Age" class="form-control" />
             </div>
-            <div hidden="" class="form-group">
-                <label  asp-for="Input.role"></label>
-                <input value="PATIENT" asp-for="Input.role" class="form-control" />
-            </div>
+
+
+
+            @if (User.IsInRole("PATIENT"))
+            {
+                <div hidden="" class="form-group">
+                 <label asp-for="Input.role"></label>
+                 <input value="PATIENT" asp-for="Input.role" class="form-control"/>
+             </div>
+            }
+            
+            @if (signInManager.IsSignedIn(User) && User.IsInRole("ADMIN"))
+            {
+                <div class="form-group">
+                    <label for="PATIENT">PATIENT</label>
+                    <input asp-for="Input.role" type="radio" id="PATIENT" value="PATIENT" />
+                    <label for="DOCTOR">DOCTOR</label>
+                    <input asp-for="Input.role" type="radio" id="DOCTOR" value="DOCTOR" />
+                </div>
+            }
+
             <div class="form-group">
                 <label for="Male">Male</label>
                 <input asp-for="Input.Gender" type="radio" id="Male" value="Male" />

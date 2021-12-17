@@ -126,13 +126,17 @@
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("ADMIN"))
                         {
                             <li>
-                                <a href="admin/index.html" target="_blank">Admin</a>
+                                <a asp-area="Identity" asp-page="/Account/Register" asp->Create a new User </a>
                             </li>
-                        }
 
+                        }
+                        
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("PATIENT"))
+                        {
                             <li>
                                 <a asp-action="Index" asp-controller="MyProfile" target="_blank">MyProfile</a>
                             </li>
+                        }
                         
                         <li class="login-link">
                             <a>Login / Signup</a>
