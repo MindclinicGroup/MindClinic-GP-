@@ -3,20 +3,13 @@
 @inject SignInManager<User> signInManager;
 
 @{
-    ViewData["Title"] = "getslots";
+   ViewData["Title"] = "getslots";
 }
-
-<h1>getslots</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
 <table  class="table" >
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Time)
+               Session Times
             </th>
             <th></th>
         </tr>
@@ -24,15 +17,179 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td >
-                    @Html.DisplayFor(modelItem => item.Time)
-                </td>
-                <td>
-                    <a  asp-route-DoctorId="@Context.Request.RouteValues["id"]" asp-route-a="@item.Time" asp-controller="Appointments" asp-action="TimeSelected" >Select</a> 
+            @*<li>
+                <span> @Html.DisplayFor(modelItem => item.Time.DayOfWeek)</span>
+                <span class="slot-date">
+                    @Html.DisplayFor(modelItem => item.Time.Day)<small class="slot-year">/</small>
+                    @Html.DisplayFor(modelItem => item.Time.Month)<small class="slot-year">/</small>
+                    <small class="slot-year">@Html.DisplayFor(modelItem => item.Time.Year)</small>
+                </span>
+            </li>*@
 
-                </td>
-            </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
+
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-route-DoctorId="@Context.Request.RouteValues["id"]" asp-route-a="@item.Time" asp-controller="Appointments" asp-action="TimeSelected">Select</a>
+
+            </td>
+        </tr>
         }
+    
+    
+    
+    
+    <!--<div class="col-12">-->
+
+        <!-- Schedule Widget -->
+        <!--<div class="card booking-schedule schedule-widget">-->
+
+            <!-- Schedule Header -->
+            <!--<div class="schedule-header">
+                <div class="row">
+                    <div class="col-md-12">-->
+
+                        <!-- Day Slot -->
+                        <!--<div class="day-slot">
+                            <ul>
+                                <li class="left-arrow">
+                                    <a href="#">
+                                        <i class="fa fa-chevron-left"></i>
+                                    </a>
+                                </li>
+                                
+                            @foreach (var item in Model)
+                            {
+                                <li>
+                                    <span>@Html.DisplayFor(modelItem => item.Time.DayOfWeek)</span>
+                                    <span class="slot-date">
+                                        @Html.DisplayFor(modelItem => item.Time.Day)<small class="slot-year">/</small>
+                                        @Html.DisplayFor(modelItem => item.Time.Month)<small class="slot-year">/</small>
+                                        <small class="slot-year">@Html.DisplayFor(modelItem => item.Time.Year)</small>
+                                    </span>
+                                </li>
+                            }
+                                <li class="right-arrow">
+                                    <a href="#">
+                                        <i class="fa fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>-->
+                        <!-- /Day Slot -->
+
+                    <!--</div>
+                </div>
+            </div>-->
+            <!-- /Schedule Header -->
+            <!-- Schedule Content -->
+            <!--<div class="schedule-cont">
+                <div class="row">
+                    <div class="col-md-12">-->
+
+                        <!-- Time Slot -->
+                        <!--<div class="time-slot">
+                            <ul class="clearfix">
+                                <li>
+                                    <a class="timing" href="#">
+                                        <span>9:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing" href="#">
+                                        <span>10:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing" href="#">
+                                        <span>11:00</span> <span>AM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="timing" href="#">
+                                        <span>9:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing" href="#">
+                                        <span>10:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing" href="#">
+                                        <span>11:00</span> <span>AM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="timing" href="#">
+                                        <span>9:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing" href="#">
+                                        <span>10:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing" href="#">
+                                        <span>11:00</span> <span>AM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="timing" href="#">
+                                        <span>9:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing" href="#">
+                                        <span>10:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing" href="#">
+                                        <span>11:00</span> <span>AM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="timing" href="#">
+                                        <span>9:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing selected" href="#">
+                                        <span>10:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing" href="#">
+                                        <span>11:00</span> <span>AM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="timing" href="#">
+                                        <span>9:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing" href="#">
+                                        <span>10:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing" href="#">
+                                        <span>11:00</span> <span>AM</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="timing" href="#">
+                                        <span>9:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing" href="#">
+                                        <span>10:00</span> <span>AM</span>
+                                    </a>
+                                    <a class="timing" href="#">
+                                        <span>11:00</span> <span>AM</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>-->
+                        <!-- /Time Slot -->
+
+                    <!--</div>
+                </div>
+            </div>-->
+            <!-- /Schedule Content -->
+
+        <!--</div>-->
+        <!-- /Schedule Widget -->
+        <!-- Submit Section -->
+        <!--<div class="submit-section proceed-btn text-right">
+            <a href="checkout.html" class="btn btn-primary submit-btn">Proceed to Pay</a>
+        </div>-->
+        <!-- /Submit Section -->
+
+    <!--</div>-->
+    
+    
+
     </tbody>
 </table>
