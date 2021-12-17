@@ -26,7 +26,7 @@ namespace MindClinic.Models
         public IFormFile ImageFile { get; set; }
 
         public string RoleId { get; set; }
-        public IdentityRole Role { get; set; }
+        
 
     }
 }

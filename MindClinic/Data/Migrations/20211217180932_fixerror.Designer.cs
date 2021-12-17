@@ -10,8 +10,8 @@ using MindClinic.Data;
 namespace MindClinic.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211213190708_RoleAdded")]
-    partial class RoleAdded
+    [Migration("20211217180932_fixerror")]
+    partial class fixerror
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -261,7 +261,7 @@ namespace MindClinic.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -285,8 +285,6 @@ namespace MindClinic.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -364,15 +362,6 @@ namespace MindClinic.Data.Migrations
                         .HasForeignKey("doctorID");
 
                     b.Navigation("doctor");
-                });
-
-            modelBuilder.Entity("MindClinic.Models.User", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId");
-
-                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }

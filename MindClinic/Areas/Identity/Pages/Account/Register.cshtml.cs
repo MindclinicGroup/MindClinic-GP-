@@ -81,7 +81,7 @@ namespace MindClinic.Areas.Identity.Pages.Account
 
             public string role { get; set; }
 
-            public string roleID { get; set; }
+           
 
 
             public IFormFile Imagefile { get; set; }
@@ -127,7 +127,6 @@ namespace MindClinic.Areas.Identity.Pages.Account
 
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
 
                 var result2 = await _userManager.AddToRoleAsync(user, Input.role);
 
