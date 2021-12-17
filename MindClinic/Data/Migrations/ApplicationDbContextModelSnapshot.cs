@@ -182,84 +182,6 @@ namespace MindClinic.Data.Migrations
                     b.ToTable("Appointments");
                 });
 
-            modelBuilder.Entity("MindClinic.Models.Awards", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Year")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("award")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("doctorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("doctorId");
-
-                    b.ToTable("Awards");
-                });
-
-            modelBuilder.Entity("MindClinic.Models.DoctorClass", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AboutMe")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("pricePerSession")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("userID");
-
-                    b.ToTable("Doctors");
-                });
-
-            modelBuilder.Entity("MindClinic.Models.Education", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("College")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Degree")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("doctorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("yearOfCompletion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("doctorId");
-
-                    b.ToTable("Educations");
-                });
-
             modelBuilder.Entity("MindClinic.Models.Schedule", b =>
                 {
                     b.Property<int>("id")
@@ -429,37 +351,6 @@ namespace MindClinic.Data.Migrations
                     b.Navigation("doctor");
 
                     b.Navigation("patient");
-                });
-
-            modelBuilder.Entity("MindClinic.Models.Awards", b =>
-                {
-                    b.HasOne("MindClinic.Models.DoctorClass", "doctor")
-                        .WithMany()
-                        .HasForeignKey("doctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("doctor");
-                });
-
-            modelBuilder.Entity("MindClinic.Models.DoctorClass", b =>
-                {
-                    b.HasOne("MindClinic.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("userID");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MindClinic.Models.Education", b =>
-                {
-                    b.HasOne("MindClinic.Models.DoctorClass", "doctor")
-                        .WithMany()
-                        .HasForeignKey("doctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("doctor");
                 });
 
             modelBuilder.Entity("MindClinic.Models.Schedule", b =>
