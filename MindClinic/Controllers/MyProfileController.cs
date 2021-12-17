@@ -31,5 +31,6 @@ namespace MindClinic.Controllers
 
             return View(user);
         }
+
     }
 }

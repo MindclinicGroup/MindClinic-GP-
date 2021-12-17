@@ -25,5 +25,8 @@ namespace MindClinic.Models
         [DisplayName("Upload Image")]
         public IFormFile ImageFile { get; set; }
 
+        public string RoleId { get; set; }
+        public IdentityRole Role { get; set; }
+
     }
 }

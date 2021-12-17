@@ -81,6 +81,8 @@ namespace MindClinic.Areas.Identity.Pages.Account
 
             public string role { get; set; }
 
+            public string roleID { get; set; }
+
 
             public IFormFile Imagefile { get; set; }
         }
@@ -93,15 +95,19 @@ namespace MindClinic.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            string RoleRole="";
            
 
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Email = Input.Email ,Age = Input.Age,Gender = Input.Gender,Name = Input.Name,ImageFile = Input.Imagefile};
-               
-               
+
+                if (Input.role == "ADMIN"){RoleRole = "1";}else if (Input.role == "DOCTOR"){ RoleRole = "2";}else if (Input.role == "PATIENT") { RoleRole = "3";}
+
+
+                var user = new User { UserName = Input.Email, Email = Input.Email, Age = Input.Age, Gender = Input.Gender, Name = Input.Name, ImageFile = Input.Imagefile, RoleId = RoleRole };
+
 
 
 
@@ -121,6 +127,8 @@ namespace MindClinic.Areas.Identity.Pages.Account
 
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
+
                 var result2 = await _userManager.AddToRoleAsync(user, Input.role);
 
 

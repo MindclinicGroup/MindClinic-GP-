@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,11 +14,78 @@ namespace MindClinic.Controllers
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _usermanager;
 
-        public AppointmentsController(ApplicationDbContext context)
+        public AppointmentsController(ApplicationDbContext context, UserManager<User> usermanager)
         {
             _context = context;
+            _usermanager = usermanager;
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> getslots(string? id)
+        {
+            var applicationDbContext = _context.Schedules.Include(s => s.doctor).Where(s => s.doctorID == id);
+            var appointments = new List<Appointment>();
+            
+            foreach (var item in applicationDbContext)
+            {
+
+                while (item.endtime.Hour > item.startTime.Hour)
+                {
+                    Appointment app = new Appointment();
+
+                    app.doctorId = id;
+                    app.patientId = null;
+                    app.Time = item.startTime;
+
+                    var Appointment = from contextAppointment in _context.Appointments
+                        where (app.Time == contextAppointment.Time && app.doctorId==contextAppointment.doctorId) 
+
+                        select contextAppointment;
+
+                    if (Appointment.Any())
+                    {
+                        
+                    }
+                    else
+                    {
+                        appointments.Add(app);
+                    }
+
+                             
+                    item.startTime = item.startTime.AddHours(1);
+
+                }
+            }
+            return View(appointments);
+        }
+
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> TimeSelected(DateTime a,string DoctorId)
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+
+            var TimeSelected = new Appointment
+            {
+                patientId = userid,
+                doctorId = DoctorId,
+                status = "True",
+                Time = (DateTime)a
+
+            };
+
+            _context.Add(TimeSelected);
+           await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index","Home");
+
+        }
+
 
         // GET: Appointments
         public async Task<IActionResult> Index()
@@ -49,8 +117,8 @@ namespace MindClinic.Controllers
         // GET: Appointments/Create
         public IActionResult Create()
         {
-            ViewData["doctorId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["patientId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["doctorId"] = new SelectList(_context.Users, "Id", "Name");
+            ViewData["patientId"] = new SelectList(_context.Users, "Id", "Name");
             return View();
         }
 
