@@ -17,7 +17,10 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="~/assets/css/feathericon.min.css">
 
+    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/all.min.css">
@@ -25,7 +28,8 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="~/assets/css/style.css">
 
- 
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
 
 
 </head>
@@ -114,229 +118,236 @@
                             </ul>
                             @if (signInManager.IsSignedIn(User) && (User.IsInRole("DOCTOR") || User.IsInRole("ADMIN")))
                             {
-                                <li class="nav-item">
-                                    <a asp-action="Create" asp-controller="Schedules" asp->Shcedule </a>
+
+
+                            <li class="nav-item">
+                                <a asp-action="Create" asp-controller="Schedules" asp->Shcedule </a>
+                            </li>
+                        }
+
+
+
+
+                            </li>
+                            @if (signInManager.IsSignedIn(User) && User.IsInRole("ADMIN"))
+                            {
+                                <li>
+                                    <a asp-area="Identity" asp-page="/Account/Register" asp->Create a new User </a>
+                                </li>
+
+                            }
+
+                            @if (signInManager.IsSignedIn(User))
+                            {
+                                <li>
+                                    <a asp-action="Index" asp-controller="MyProfile" target="_blank">MyProfile</a>
                                 </li>
                             }
-                            
-                            
-                           
 
+                            <li class="login-link">
+                                <a>Login / Signup</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="nav header-navbar-rht">
+                        <li class="nav-item contact-item">
+                            <div class="header-contact-img">
+                                <i class="far fa-hospital"></i>
+                            </div>
+                            <div class="header-contact-detail">
+                                <p class="contact-header">Contact</p>
+                                <p class="contact-info-header"> +1 315 369 5943</p>
+                            </div>
                         </li>
-                        @if (signInManager.IsSignedIn(User) && User.IsInRole("ADMIN"))
+
+
+
+                        @if (signInManager.IsSignedIn(User))
                         {
-                            <li>
-                                <a asp-area="Identity" asp-page="/Account/Register" asp->Create a new User </a>
+
+                            <li class="nav-item">
+                                <a asp-area="Identity" asp-page="/Account/Logout" asp->Logout </a>
                             </li>
 
-                        }
-                        
-                        @if (signInManager.IsSignedIn(User) && User.IsInRole("PATIENT"))
-                        {
-                            <li>
-                                <a asp-action="Index" asp-controller="MyProfile" target="_blank">MyProfile</a>
+                            <li class="nav-item">
+                                <a asp-area="Identity" asp-page="/Account/Logout" asp-> </a>
                             </li>
                         }
-                        
-                        <li class="login-link">
-                            <a>Login / Signup</a>
-                        </li>
+                        else
+                        {
+                            <li class="nav-item">
+                                <a asp-area="Identity" asp-page="/Account/Login" asp->login / Signup </a>
+                            </li>
+                        }
+
+
+
+
+
                     </ul>
-                </div>
-                <ul class="nav header-navbar-rht">
-                    <li class="nav-item contact-item">
-                        <div class="header-contact-img">
-                            <i class="far fa-hospital"></i>
-                        </div>
-                        <div class="header-contact-detail">
-                            <p class="contact-header">Contact</p>
-                            <p class="contact-info-header"> +1 315 369 5943</p>
-                        </div>
-                    </li>
-                    @if (signInManager.IsSignedIn(User))
-                    {
-
-                        <li class="nav-item">
-                            <a asp-area="Identity" asp-page="/Account/Logout" asp->Logout </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a asp-area="Identity" asp-page="/Account/Logout" asp-> </a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a asp-area="Identity" asp-page="/Account/Login" asp->login / Signup </a>
-                        </li>
-                    }
-                    
-                   
-                    
-
-
-                </ul>
-            </nav>
-        </header>
-    </div>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <footer class="footer">
-
-        <!-- Footer Top -->
-        <div class="footer-top">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6">
-
-                        <!-- Footer Widget -->
-                        <div class="footer-widget footer-about">
-                            <div class="footer-logo">
-                                <img src="assets/img/footer-logo.png" alt="logo">
-                            </div>
-                            <div class="footer-about-content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                                <div class="social-icon">
-                                    <ul>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /Footer Widget -->
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-
-                        <!-- Footer Widget -->
-                        <div class="footer-widget footer-menu">
-                            <h2 class="footer-title">For Patients</h2>
-                            <ul>
-                                <li><a href="search.html"><i class="fas fa-angle-double-right"></i> Search for Doctors</a></li>
-                                <li><a href="login.html"><i class="fas fa-angle-double-right"></i> Login</a></li>
-                                <li><a href="register.html"><i class="fas fa-angle-double-right"></i> Register</a></li>
-                                <li><a href="booking.html"><i class="fas fa-angle-double-right"></i> Booking</a></li>
-                                <li><a href="patient-dashboard.html"><i class="fas fa-angle-double-right"></i> Patient Dashboard</a></li>
-                            </ul>
-                        </div>
-                        <!-- /Footer Widget -->
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-
-                        <!-- Footer Widget -->
-                        <div class="footer-widget footer-menu">
-                            <h2 class="footer-title">For Doctors</h2>
-                            <ul>
-                                <li><a href="appointments.html"><i class="fas fa-angle-double-right"></i> Appointments</a></li>
-                                <li><a href="chat.html"><i class="fas fa-angle-double-right"></i> Chat</a></li>
-                                <li><a href="login.html"><i class="fas fa-angle-double-right"></i> Login</a></li>
-                                <li><a href="doctor-register.html"><i class="fas fa-angle-double-right"></i> Register</a></li>
-                                <li><a href="doctor-dashboard.html"><i class="fas fa-angle-double-right"></i> Doctor Dashboard</a></li>
-                            </ul>
-                        </div>
-                        <!-- /Footer Widget -->
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-
-                        <!-- Footer Widget -->
-                        <div class="footer-widget footer-contact">
-                            <h2 class="footer-title">Contact Us</h2>
-                            <div class="footer-contact-info">
-                                <div class="footer-address">
-                                    <span><i class="fas fa-map-marker-alt"></i></span>
-                                    <p> 3556  Beech Street, San Francisco,<br> California, CA 94108 </p>
-                                </div>
-                                <p>
-                                    <i class="fas fa-phone-alt"></i>
-                                    +1 315 369 5943
-                                </p>
-                                <p class="mb-0">
-                                    <i class="fas fa-envelope"></i>
-                                    doccure@example.com
-                                </p>
-                            </div>
-                        </div>
-                        <!-- /Footer Widget -->
-
-                    </div>
-
-                </div>
-            </div>
+                </nav>
+            </header>
         </div>
-        <!-- /Footer Top -->
-        <!-- Footer Bottom -->
-        <div class="footer-bottom">
-            <div class="container-fluid">
+        <div class="container-fluid">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+        <footer class="footer">
 
-                <!-- Copyright -->
-                <div class="copyright">
+            <!-- Footer Top -->
+            <div class="footer-top">
+                <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-6 col-lg-6">
-                            <div class="copyright-text">
-                                <p class="mb-0"><a href="templateshub.net">Templates Hub</a></p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
+                        <div class="col-lg-3 col-md-6">
 
-                            <!-- Copyright Menu -->
-                            <div class="copyright-menu">
-                                <ul class="policy-menu">
-                                    <li><a href="term-condition.html">Terms and Conditions</a></li>
-                                    <li><a href="privacy-policy.html">Policy</a></li>
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-about">
+                                <div class="footer-logo">
+                                    <img src="assets/img/footer-logo.png" alt="logo">
+                                </div>
+                                <div class="footer-about-content">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                                    <div class="social-icon">
+                                        <ul>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-twitter"></i> </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" target="_blank"><i class="fab fa-dribbble"></i> </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Footer Widget -->
+
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-menu">
+                                <h2 class="footer-title">For Patients</h2>
+                                <ul>
+                                    <li><a href="search.html"><i class="fas fa-angle-double-right"></i> Search for Doctors</a></li>
+                                    <li><a href="login.html"><i class="fas fa-angle-double-right"></i> Login</a></li>
+                                    <li><a href="register.html"><i class="fas fa-angle-double-right"></i> Register</a></li>
+                                    <li><a href="booking.html"><i class="fas fa-angle-double-right"></i> Booking</a></li>
+                                    <li><a href="patient-dashboard.html"><i class="fas fa-angle-double-right"></i> Patient Dashboard</a></li>
                                 </ul>
                             </div>
-                            <!-- /Copyright Menu -->
+                            <!-- /Footer Widget -->
 
                         </div>
+
+                        <div class="col-lg-3 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-menu">
+                                <h2 class="footer-title">For Doctors</h2>
+                                <ul>
+                                    <li><a href="appointments.html"><i class="fas fa-angle-double-right"></i> Appointments</a></li>
+                                    <li><a href="chat.html"><i class="fas fa-angle-double-right"></i> Chat</a></li>
+                                    <li><a href="login.html"><i class="fas fa-angle-double-right"></i> Login</a></li>
+                                    <li><a href="doctor-register.html"><i class="fas fa-angle-double-right"></i> Register</a></li>
+                                    <li><a href="doctor-dashboard.html"><i class="fas fa-angle-double-right"></i> Doctor Dashboard</a></li>
+                                </ul>
+                            </div>
+                            <!-- /Footer Widget -->
+
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+
+                            <!-- Footer Widget -->
+                            <div class="footer-widget footer-contact">
+                                <h2 class="footer-title">Contact Us</h2>
+                                <div class="footer-contact-info">
+                                    <div class="footer-address">
+                                        <span><i class="fas fa-map-marker-alt"></i></span>
+                                        <p> 3556  Beech Street, San Francisco,<br> California, CA 94108 </p>
+                                    </div>
+                                    <p>
+                                        <i class="fas fa-phone-alt"></i>
+                                        +1 315 369 5943
+                                    </p>
+                                    <p class="mb-0">
+                                        <i class="fas fa-envelope"></i>
+                                        doccure@example.com
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- /Footer Widget -->
+
+                        </div>
+
                     </div>
                 </div>
-                <!-- /Copyright -->
-
             </div>
-        </div>
-        <!-- /Footer Bottom -->
+            <!-- /Footer Top -->
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="container-fluid">
 
-    </footer>
+                    <!-- Copyright -->
+                    <div class="copyright">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6">
+                                <div class="copyright-text">
+                                    <p class="mb-0"><a href="templateshub.net">Templates Hub</a></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6">
 
-    <!-- /Footer -->
-    <!-- /Main Wrapper -->
-    <!-- jQuery -->
-    <script src="~/assets/js/jquery.min.js"></script>
+                                <!-- Copyright Menu -->
+                                <div class="copyright-menu">
+                                    <ul class="policy-menu">
+                                        <li><a href="term-condition.html">Terms and Conditions</a></li>
+                                        <li><a href="privacy-policy.html">Policy</a></li>
+                                    </ul>
+                                </div>
+                                <!-- /Copyright Menu -->
 
-    <!-- Bootstrap Core JS -->
-    <script src="~/assets/js/popper.min.js"></script>
-    <script src="~/assets/js/bootstrap.min.js"></script>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Copyright -->
 
-    <!-- Slick JS -->
-    <script src="~/assets/js/slick.js"></script>
+                </div>
+            </div>
+            <!-- /Footer Bottom -->
 
-    <!-- Custom JS -->
-    <script src="~/assets/js/script.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+        </footer>
 
-</body>
+        <!-- /Footer -->
+        <!-- /Main Wrapper -->
+        <!-- jQuery -->
+        <script src="~/assets/js/jquery.min.js"></script>
 
-<!-- doccure/  30 Nov 2019 04:11:53 GMT -->
+        <!-- Bootstrap Core JS -->
+        <script src="~/assets/js/popper.min.js"></script>
+        <script src="~/assets/js/bootstrap.min.js"></script>
+
+        <!-- Slick JS -->
+        <script src="~/assets/js/slick.js"></script>
+
+        <!-- Custom JS -->
+        <script src="~/assets/js/script.js"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+
+
+    </body>
+
+    <!-- doccure/  30 Nov 2019 04:11:53 GMT -->
 </html>
+

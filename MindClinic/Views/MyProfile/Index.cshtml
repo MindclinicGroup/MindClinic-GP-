@@ -47,12 +47,27 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Age)
         </dd>
-
+        
 
 
     </dl>
 </div>
+<div id="doctorInfo"></div>
+<button id="btn"value="hello"></button>
 <div>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            method: 'GET',
+            url: '/DoctorClasses/Details',
+            success: function (response) {
+                $("#doctorInfo").html(response);
+            }
+        });
+    
+    });
+</script>

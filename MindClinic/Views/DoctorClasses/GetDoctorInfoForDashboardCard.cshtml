@@ -1,0 +1,18 @@
+﻿
+@model MindClinic.Models.User
+@{
+    Layout = "";
+}
+
+<div class="profile-info-widget">
+    <a href="#" class="booking-doc-img">
+        <img src="~/Doctorsimage/@Model.image" alt="User Image">
+    </a>
+    <div class="profile-det-info">
+        <h3>Dr. @Model.Name</h3>
+
+        <div class="patient-details">
+            <h5 class="mb-0">BDS, MDS - Oral & Maxillofacial Surgery</h5>
+        </div>
+    </div>
+</div>
