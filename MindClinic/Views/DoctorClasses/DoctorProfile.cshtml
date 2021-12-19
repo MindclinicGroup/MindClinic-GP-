@@ -1,0 +1,41 @@
+﻿@using MindClinic.Models
+@model dynamic
+
+@{
+    ViewData["Title"] = "DoctorProfile";
+}
+
+<h1>DoctorProfile</h1>
+
+<div>
+    <h4>DoctorClass</h4>
+    <hr />
+    <dl class="row">
+        
+        @foreach (var item in Model.Ghaith)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => @item)
+            </dt>
+        }
+        @*<dt class="col-sm-2">
+            @Html.DisplayNameFor(model => )
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoleId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoleId)
+        </dd>*@
+    </dl>
+</div>
+
