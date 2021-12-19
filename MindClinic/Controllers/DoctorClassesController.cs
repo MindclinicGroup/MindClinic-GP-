@@ -131,7 +131,7 @@ namespace MindClinic.Controllers
         }
 
         // GET: /DoctorClasses/DoctorProfile
-        /* public async Task<IActionResult> DoctorProfile()
+         public async Task<IActionResult> DoctorProfile()
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
 
@@ -165,7 +165,8 @@ namespace MindClinic.Controllers
             }
 
 
-        }*/
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DoctorProfile(int id, [Bind("id,AboutMe,pricePerSession,userID")] DoctorClass doctorClass)
