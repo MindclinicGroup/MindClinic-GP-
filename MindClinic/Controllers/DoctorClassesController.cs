@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -16,11 +17,36 @@ namespace MindClinic.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _usermanager;
 
+
         public DoctorClassesController(ApplicationDbContext context, UserManager<User> usermanager)
         {
             _usermanager = usermanager;
             _context = context;
+            _usermanager = usermanager;
         }
+
+
+        public IActionResult DoctorProfile()
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+            if (userid == null)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+            User user = _usermanager.FindByIdAsync(userid).Result;
+            var doctor = _context.Doctors.Where(x => x.userID == userid);
+
+            dynamic UUUser = new System.Dynamic.ExpandoObject(); ;
+
+            UUUser.Ghaith = user;
+            UUUser.SSS = doctor;
+
+
+
+            return View(UUUser);
+        }
+
+
 
         // GET: DoctorClasses
         public async Task<IActionResult> Index()
