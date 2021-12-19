@@ -1,41 +1,38 @@
-﻿@using MindClinic.Models
-@model dynamic
-
+﻿@model MindClinic.Models.DoctorClass
 @{
     Layout = "_LayoutDoctotDashboard";
 }
+<form asp-action="DoctorProfile">
+    <h4 class="card-title">About Me</h4>
+    <div class="form-group mb-0">
+        <textarea class="form-control" asp-for="AboutMe" rows="5"> </textarea>
+        <span asp-validation-for="AboutMe" class="text-danger"></span>
+    </div>
+    <br />
+    <h4 class="card-title">Pricing</h4>
+    <div class="row custom_price_cont" id="custom_price_cont" style="">
+        <div class="col-md-4">
 
-<h1>DoctorProfile</h1>
+            <input asp-for="pricePerSession" class="form-control" />
+            <span asp-validation-for="pricePerSession" class="text-danger"></span>
+        </div>
+        <div class="col-6"></div>
+        <div class="col-2"> <input type="submit" value="Save" class="btn btn-primary" /></div>
+    </div>
+</form>
+<div id="education"></div>
 
-<div>
-    <h4>DoctorClass</h4>
-    <hr />
-    <dl class="row">
-        
-        @foreach (var item in Model.Ghaith)
-        {
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => @item)
-            </dt>
-        }
-        @*<dt class="col-sm-2">
-            @Html.DisplayNameFor(model => )
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Age)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Age)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RoleId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RoleId)
-        </dd>*@
-    </dl>
-</div>
+<script>
+    $(document).ready(function () {
 
+        $.ajax({
+            method: 'GET',
+            url: '/DoctorClasses/DoctorEducation',
+            success: function (response) {
+                $("#education").html(response);
+            }
+        });
+
+    });
+
+</script>

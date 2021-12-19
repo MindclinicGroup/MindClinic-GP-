@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MindClinic.Models.Education>
+
+@{
+    ViewData["Title"] = "DoctorEducation";
+    Layout = null;
+}
+@foreach (var item in Model)
+{
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Education</h4>
+            <div class="education-info">
+                <div class="row form-row education-cont">
+                    <div class="col-12 col-md-10 col-lg-11">
+                        <div class="row form-row">
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="@item.Degree" class="control-label"></label>
+                                    <input asp-for="@item.Degree" class="form-control" />
+                                    <span asp-validation-for="@item.Degree" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="@item.College" class="control-label"></label>
+                                    <input asp-for="@item.College" class="form-control" />
+                                    <span asp-validation-for="@item.College" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <label asp-for="@item.yearOfCompletion" class="control-label"></label>
+                                    <input asp-for="@item.yearOfCompletion" class="form-control" />
+                                    <span asp-validation-for="@item.yearOfCompletion" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>  <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="add-more">
+                <a href="javascript:void(0);" class="add-education"><i class="fa fa-plus-circle"></i> Add More</a>
+            </div>
+        </div>
+    </div>}
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
