@@ -144,6 +144,12 @@
                                 </li>
                             }
 
+                            @if (signInManager.IsSignedIn(User) && User.IsInRole("DOCTOR"))
+                            {
+                                <li>
+                                    <a asp-action="DoctorProfile" asp-controller="DoctorClasses" target="_blank">MyProfile</a>
+                                </li>
+                            }
                             <li class="login-link">
                                 <a>Login / Signup</a>
                             </li>

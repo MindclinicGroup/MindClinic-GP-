@@ -125,6 +125,7 @@ namespace MindClinic.Areas.Identity.Pages.Account
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
+
                 var result2 = await _userManager.AddToRoleAsync(user, Input.role);
 
 
