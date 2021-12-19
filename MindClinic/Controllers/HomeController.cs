@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MindClinic.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace MindClinic.Controllers
 {
@@ -15,11 +16,13 @@ namespace MindClinic.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private ApplicationDbContext _context;
+        private readonly UserManager<User> _usermanager;
 
-        public HomeController(ILogger<HomeController> logger , ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger , ApplicationDbContext context, UserManager<User> usermanager)
         {
             _logger = logger;
             _context = context;
+            _usermanager = usermanager;
         }
 
         public IActionResult Index()
