@@ -26,25 +26,25 @@ namespace MindClinic.Controllers
         }
 
 
-        public IActionResult DoctorProfile()
-        {
-            var userid = _usermanager.GetUserId(HttpContext.User);
-            if (userid == null)
-            {
-                return RedirectToPage("/Account/Login", new { area = "Identity" });
-            }
-            User user = _usermanager.FindByIdAsync(userid).Result;
-            var doctor = _context.Doctors.Where(x => x.userID == userid);
+        //public IActionResult DoctorProfile()
+        //{
+        //    var userid = _usermanager.GetUserId(HttpContext.User);
+        //    if (userid == null)
+        //    {
+        //        return RedirectToPage("/Account/Login", new { area = "Identity" });
+        //    }
+        //    User user = _usermanager.FindByIdAsync(userid).Result;
+        //    var doctor = _context.Doctors.Where(x => x.userID == userid);
 
-            dynamic UUUser = new System.Dynamic.ExpandoObject(); ;
+        //    dynamic UUUser = new System.Dynamic.ExpandoObject(); ;
 
-            UUUser.Ghaith = user;
-            UUUser.SSS = doctor;
+        //    UUUser.Ghaith = user;
+        //    UUUser.SSS = doctor;
 
 
 
-            return View(UUUser);
-        }
+        //    return View(UUUser);
+        //}
 
 
 

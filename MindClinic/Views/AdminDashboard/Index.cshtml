@@ -1,0 +1,252 @@
+﻿@using MindClinic.Models;
+@model Tuple<IEnumerable<MindClinic.Models.User>, IEnumerable<MindClinic.Models.Appointment>, IEnumerable<MindClinic.Models.User>>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_LayoutAdminDashboard";
+
+    var CountOfAppointment = ViewBag.CountOfAppointments;
+    var CountOfPatients = ViewBag.CountOfPatients;
+    var CountOfDoctors = ViewBag.CountOfDoctors;
+
+}
+
+<div class="page-wrapper" style="min-height: 1077px;">
+
+<div class="content container-fluid">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="page-title">Welcome Admin!</h3>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Header -->
+
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="dash-widget-header">
+                        <span class="dash-widget-icon text-primary border-primary">
+                            <i class="fe fe-users"></i>
+                        </span>
+                        <div class="dash-count">
+                            <h3>@CountOfDoctors</h3>
+                        </div>
+                    </div>
+                    <div class="dash-widget-info">
+                        <h6 class="text-muted">Doctors</h6>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-primary w-50"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="dash-widget-header">
+                        <span class="dash-widget-icon text-success">
+                            <i class="fe fe-credit-card"></i>
+                        </span>
+                        <div class="dash-count">
+                            <h3>@CountOfDoctors</h3>
+                        </div>
+                    </div>
+                    <div class="dash-widget-info">
+
+                        <h6 class="text-muted">Patients</h6>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-success w-50"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="dash-widget-header">
+                        <span class="dash-widget-icon text-danger border-danger">
+                            <i class="fe fe-money"></i>
+                        </span>
+                        <div class="dash-count">
+                            <h3>@CountOfAppointment</h3>
+                        </div>
+                    </div>
+                    <div class="dash-widget-info">
+
+                        <h6 class="text-muted">Appointment</h6>
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-danger w-50"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-6">
+
+            <!-- Sales Chart -->
+            @*<div class="card card-chart">
+                    <div class="card-header">
+                        <h4 class="card-title">Revenue</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="morrisArea" style="position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                            <svg height="342" version="1.1" width="874" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="overflow: hidden; position: relative; left: -0.0972296px; top: -0.906262px;"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.2.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs><text x="30.3125" y="305.88588835906984" text-anchor="end" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0</tspan></text><path fill="none" stroke="#aaaaaa" d="M42.8125,305.88588835906984H849.028" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="30.3125" y="235.66441626930236" text-anchor="end" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal"><tspan dy="3.333332494735714" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">75</tspan></text><path fill="none" stroke="#aaaaaa" d="M42.8125,235.66441626930236H849.028" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="30.3125" y="165.44294417953492" text-anchor="end" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal"><tspan dy="3.3333264694213938" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">150</tspan></text><path fill="none" stroke="#aaaaaa" d="M42.8125,165.44294417953492H849.028" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="30.3125" y="95.22147208976745" text-anchor="end" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal"><tspan dy="3.3333280735015762" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">225</tspan></text><path fill="none" stroke="#aaaaaa" d="M42.8125,95.22147208976745H849.028" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="30.3125" y="25" text-anchor="end" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal"><tspan dy="3.33333158493042" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">300</tspan></text><path fill="none" stroke="#aaaaaa" d="M42.8125,25H849.028" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="849.028" y="318.38588835906984" text-anchor="middle" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal" transform="matrix(1,0,0,1,0,5.5556)"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2019</tspan></text><text x="714.7200778183478" y="318.38588835906984" text-anchor="middle" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal" transform="matrix(1,0,0,1,0,5.5556)"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2018</tspan></text><text x="580.4121556366955" y="318.38588835906984" text-anchor="middle" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal" transform="matrix(1,0,0,1,0,5.5556)"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2017</tspan></text><text x="445.7362665449566" y="318.38588835906984" text-anchor="middle" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal" transform="matrix(1,0,0,1,0,5.5556)"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2016</tspan></text><text x="311.4283443633044" y="318.38588835906984" text-anchor="middle" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal" transform="matrix(1,0,0,1,0,5.5556)"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2015</tspan></text><text x="177.1204221816522" y="318.38588835906984" text-anchor="middle" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal" transform="matrix(1,0,0,1,0,5.5556)"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2014</tspan></text><text x="42.8125" y="318.38588835906984" text-anchor="middle" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal" transform="matrix(1,0,0,1,0,5.5556)"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2013</tspan></text><path fill="#346fa2" stroke="none" d="M42.8125,249.70871068725586C76.38948054541305,240.34584774195355,143.54344163623915,233.3237005329768,177.1204221816522,212.25725890604656C210.69740272706525,191.19081727911632,277.85136381789135,83.51789340813954,311.4283443633044,81.17717767181395C345.00532490871745,78.83646193548836,412.15928599954356,174.83142371292286,445.7362665449566,193.53153301544188C479.40523881789136,212.28287549413218,546.7431833637607,228.63906698681492,580.4121556366955,230.9829847966512C613.9891361821086,233.32049845946608,681.1430972729347,238.00513200562796,714.7200778183478,212.25725890604656C748.2970583637609,186.50938580646516,815.4510194545869,71.81431472651164,849.028,25L849.028,305.88588835906984L42.8125,305.88588835906984Z" fill-opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0.5;"></path><path fill="none" stroke="#1b5a90" d="M42.8125,249.70871068725586C76.38948054541305,240.34584774195355,143.54344163623915,233.3237005329768,177.1204221816522,212.25725890604656C210.69740272706525,191.19081727911632,277.85136381789135,83.51789340813954,311.4283443633044,81.17717767181395C345.00532490871745,78.83646193548836,412.15928599954356,174.83142371292286,445.7362665449566,193.53153301544188C479.40523881789136,212.28287549413218,546.7431833637607,228.63906698681492,580.4121556366955,230.9829847966512C613.9891361821086,233.32049845946608,681.1430972729347,238.00513200562796,714.7200778183478,212.25725890604656C748.2970583637609,186.50938580646516,815.4510194545869,71.81431472651164,849.028,25" stroke-width="2" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><circle cx="42.8125" cy="249.70871068725586" r="4" fill="#1b5a90" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="177.1204221816522" cy="212.25725890604656" r="4" fill="#1b5a90" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="311.4283443633044" cy="81.17717767181395" r="4" fill="#1b5a90" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="445.7362665449566" cy="193.53153301544188" r="4" fill="#1b5a90" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="580.4121556366955" cy="230.9829847966512" r="4" fill="#1b5a90" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="714.7200778183478" cy="212.25725890604656" r="4" fill="#1b5a90" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="849.028" cy="25" r="4" fill="#1b5a90" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle></svg><div class="morris-hover morris-default-style" style="left: 123.803px; top: 127px; display: none;">
+                                <div class="morris-hover-row-label">2014</div><div class="morris-hover-point" style="color: #1b5a90">
+                                    Revenue:
+                                    100
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            <!-- /Sales Chart -->
+
+        </div>
+        <!--<div class="col-md-12 col-lg-6">-->
+
+        <!-- Invoice Chart -->
+        <!--<div class="card card-chart">
+            <div class="card-header">
+                <h4 class="card-title">Status</h4>
+            </div>
+            <div class="card-body">
+                <div id="morrisLine" style="position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                    <svg height="342" version="1.1" width="874" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="overflow: hidden; position: relative; left: -0.319476px; top: -0.906262px;"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.2.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs><text x="30.3125" y="305.88588835906984" text-anchor="end" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0</tspan></text><path fill="none" stroke="#aaaaaa" d="M42.8125,305.88588835906984H849.028" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="30.3125" y="235.66441626930236" text-anchor="end" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal"><tspan dy="3.333332494735714" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">50</tspan></text><path fill="none" stroke="#aaaaaa" d="M42.8125,235.66441626930236H849.028" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="30.3125" y="165.44294417953492" text-anchor="end" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal"><tspan dy="3.3333264694213938" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">100</tspan></text><path fill="none" stroke="#aaaaaa" d="M42.8125,165.44294417953492H849.028" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="30.3125" y="95.22147208976747" text-anchor="end" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal"><tspan dy="3.3333280735016046" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">150</tspan></text><path fill="none" stroke="#aaaaaa" d="M42.8125,95.22147208976747H849.028" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="30.3125" y="25" text-anchor="end" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal"><tspan dy="3.33333158493042" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">200</tspan></text><path fill="none" stroke="#aaaaaa" d="M42.8125,25H849.028" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="849.028" y="318.38588835906984" text-anchor="middle" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal" transform="matrix(1,0,0,1,0,5.5556)"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2019</tspan></text><text x="647.6120811088296" y="318.38588835906984" text-anchor="middle" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal" transform="matrix(1,0,0,1,0,5.5556)"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2018</tspan></text><text x="446.19616221765915" y="318.38588835906984" text-anchor="middle" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal" transform="matrix(1,0,0,1,0,5.5556)"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2017</tspan></text><text x="244.22841889117043" y="318.38588835906984" text-anchor="middle" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal" transform="matrix(1,0,0,1,0,5.5556)"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2016</tspan></text><text x="42.8125" y="318.38588835906984" text-anchor="middle" font-family="sans-serif" font-size="10px" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 10px; font-weight: normal;" font-weight="normal" transform="matrix(1,0,0,1,0,5.5556)"><tspan dy="3.3333232612610004" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2015</tspan></text><path fill="none" stroke="#ff9d00" d="M42.8125,263.75300510520935C93.16647972279262,253.21978429174425,193.87443916837782,237.3983390753493,244.22841889117043,221.6201218513489C294.7203547227926,205.79867663495395,395.70422638603696,140.87023205838238,446.19616221765915,137.35435534362796C496.55014194045174,133.84808484940564,597.258101386037,198.79814342217446,647.6120811088296,193.5315330154419C697.9660608316221,188.26492260870936,798.6740202772074,119.79898732118608,849.028,95.22147208976747" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#1b5a90" d="M42.8125,165.44294417953492C93.16647972279262,193.5315330154419,193.87443916837782,276.0441642760517,244.22841889117043,277.79729952316285C294.7203547227926,279.55523788054006,395.70422638603696,184.76105366962005,446.19616221765915,179.4872385974884C496.55014194045174,174.22783285615495,597.258101386037,240.93102667603492,647.6120811088296,235.66441626930236C697.9660608316221,230.3978058625698,798.6740202772074,161.93187057504656,849.028,137.35435534362796" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><circle cx="42.8125" cy="263.75300510520935" r="4" fill="#ff9d00" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="244.22841889117043" cy="221.6201218513489" r="4" fill="#ff9d00" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="446.19616221765915" cy="137.35435534362796" r="4" fill="#ff9d00" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="647.6120811088296" cy="193.5315330154419" r="4" fill="#ff9d00" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="849.028" cy="95.22147208976747" r="4" fill="#ff9d00" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="42.8125" cy="165.44294417953492" r="4" fill="#1b5a90" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="244.22841889117043" cy="277.79729952316285" r="4" fill="#1b5a90" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="446.19616221765915" cy="179.4872385974884" r="4" fill="#1b5a90" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="647.6120811088296" cy="235.66441626930236" r="4" fill="#1b5a90" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="849.028" cy="137.35435534362796" r="4" fill="#1b5a90" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle></svg><div class="morris-hover morris-default-style" style="left: 0px; top: 61px; display: none;">
+                        <div class="morris-hover-row-label">2015</div><div class="morris-hover-point" style="color: #1b5a90">
+                            Doctors:
+                            100
+                        </div><div class="morris-hover-point" style="color: #ff9d00">
+                            Patients:
+                            30
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <!-- /Invoice Chart -->
+
+    </div>
+</div>
+
+        <div class="row">
+            <div class="col-md-6 d-flex">
+
+                <!-- Recent Orders -->
+                <div class="card card-table flex-fill">
+                    <div class="card-header">
+                        <h4 class="card-title">Doctors List</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th>Doctor Name</th>
+                                    <th>Age</th>
+                                    <th>Gender</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in Model.Item1)
+                                {
+                                    <tr><td>@item.Name</td>
+                                        <td>@item.Age</td>
+                                        <td>@item.Gender</td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Recent Orders -->
+
+            </div>
+            <div class="col-md-6 d-flex">
+
+                <!-- Feed Activity -->
+                <div class="card  card-table flex-fill">
+                    <div class="card-header">
+                        <h4 class="card-title">Patients List</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Patient Name</th>
+                                        <th>Age</th>
+                                        <th>Gender</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in Model.Item3)
+                                {
+                                    <tr>
+                                        <td>@item.Name</td>
+                                        <td>@item.Age</td>
+                                        <td>@item.Gender</td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Feed Activity -->
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+                <!-- Recent Orders -->
+                <div class="card card-table">
+                    <div class="card-header">
+                        <h4 class="card-title">Appointment List</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Appointment Time</th>
+                                        <th>Doctor Name</th>
+                                        <th>Patient Name</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in Model.Item2)
+                                {
+                                    <tr>
+                                        <td>@item.Time</td>
+                                        <td>@item.doctor.Name</td>
+                                        <td>@item.patient.Name</td>
+                                        
+
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Recent Orders -->
+
+            </div>
+        </div>
+</div>

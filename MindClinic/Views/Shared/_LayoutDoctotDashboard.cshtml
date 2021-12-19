@@ -1,5 +1,7 @@
-﻿@{ 
-   // Layout = "_Layout";
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> signInManager;
+@{
+    // Layout = "_Layout";
 }
 <!DOCTYPE html>
 
@@ -11,7 +13,7 @@
 <link rel="stylesheet" href="~/assets/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="~/assets/css/feathericon.min.css">
 
-<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="~/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <!-- Fontawesome CSS -->
 <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/fontawesome.min.css">
 <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/all.min.css">
@@ -139,7 +141,9 @@
 </html>
 <!-- Page Content -->
 
-<script>
+@if (signInManager.IsSignedIn(User) && User.IsInRole("DOCTOR"))
+{ 
+    <script>
     $(document).ready(function () {
 
         $.ajax({
@@ -152,3 +156,4 @@
 
     });
 </script>
+}
