@@ -5,8 +5,108 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
+@*<h1>@ViewData["Title"]</h1>*@
+
+<html>
+
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Doccure - Login</title>
+		
+		<!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.png">
+
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+		
+		<!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="~/assets/css/font-awesome.min.css">
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="~/assets/css/style.css">
+
+    </head>
+
+
+
+
+<body>
+    <br>
+
+<!-- Main Wrapper -->
+        <div class="main-wrapper login-body">
+
+            <div class="login-wrapper">
+
+            	<div class="container">
+
+                	<div class="loginbox">
+
+                        <div class="login-right">
+							<div class="login-right-wrap">
+								
+                                <p style="text-align:center;"><img src="~/assets/img/favicon.png" class="img-fluid" alt="Doccure Register"></p>
+                                @*<p style="text-align:center;"><img src="~/assets/img/favicon.png" class="img-fluid" alt="Doccure Register"></p>*@
+
+                                <h4>Login using existing account.</h4>
+								
+								<!-- Form -->
+								 <form id="account" method="post">
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+					<button class="btn btn-primary btn-block" type="submit">Login</button>
+                    
+                </div>
+                <div class="form-group">
+@*                    <p>
+                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                    </p>
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                    </p>*@
+                    <p>
+                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                    </p>
+                </div>
+            </form>
+								<!-- /Form -->
+								
+								<div class="text-center forgotpass"><a id="forgot-password" asp-page="./ForgotPassword">Forgot Password?</a></div>
+								<div class="login-or">
+									<span class="or-line"></span>
+									<span class="span-or">or</span>
+								</div>
+								  								
+								<div class="text-center dont-have">Don’t have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register</a></div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- /Main Wrapper -->
+
+@*<div class="row">
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
@@ -78,8 +178,21 @@
             }
         </section>
     </div>
-</div>
+</div>*@
 
+		<!-- jQuery -->
+        <script src="~/assets/js/jquery-3.2.1.min.js"></script>
+		
+		<!-- Bootstrap Core JS -->
+        <script src="~/assets/js/popper.min.js"></script>
+        <script src="~/assets/js/bootstrap.min.js"></script>
+		
+		<!-- Custom JS -->
+		<script src="~/assets/js/script.js"></script>
+
+        <br>
+</body>
+</html>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

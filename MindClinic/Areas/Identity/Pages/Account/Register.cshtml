@@ -6,9 +6,118 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <title>Doccure - Login</title>
+		
+		<!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.png">
 
-<div class="row">
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+		
+		<!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="~/assets/css/font-awesome.min.css">
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="~/assets/css/style.css">
+
+    </head>
+
+  <body>
+      <br>
+    			<!-- Page Content -->
+			<div class="content">
+				<div class="container-fluid">
+					
+					<div class="row">
+						<div class="col-md-8 offset-md-2">
+
+                            <p style="text-align:center;"><img src="~/assets/img/logo.png" class="img-fluid" alt="Doccure Register"></p>
+
+							<!-- Register Content -->									
+										<!-- Register Form -->
+										<form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+            <h4>Create a new account.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Name"></label>
+                <input asp-for="Input.Name" class="form-control" />
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Age"></label>
+                <input asp-for="Input.Age" class="form-control" />
+            </div>
+        
+            @if (!signInManager.IsSignedIn(User))
+            {
+                <div hidden="" class="form-group">
+                 <label asp-for="Input.role"></label>
+                 <input value="PATIENT" asp-for="Input.role" class="form-control"/>
+             </div>
+            }
+            
+            @if (signInManager.IsSignedIn(User) && User.IsInRole("ADMIN"))
+            {
+                <div class="form-group">
+                    <label for="PATIENT">PATIENT</label>
+                    <input asp-for="Input.role" type="radio" id="PATIENT" value="PATIENT" />
+                    <label for="DOCTOR">DOCTOR</label>
+                    <input asp-for="Input.role" type="radio" id="DOCTOR" value="DOCTOR" />
+                </div>
+            }
+
+            <div class="form-group">
+                <label for="Male">Male</label>
+                <input asp-for="Input.Gender" type="radio" id="Male" value="Male" />
+                <label for="Female">Female</label>
+                <input asp-for="Input.Gender" type="radio" id="Female" value="Female" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Imagefile"></label>
+                <input asp-for="Input.Imagefile" class="form-control" />
+                <span asp-validation-for="Input.Imagefile" class="text-danger"></span>
+            </div>
+			<div class="text-right">
+			<a class="forgot-link" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Already have an account?</a>
+			</div>
+            <button class="btn btn-primary btn-block btn-lg login-btn" type="submit">Register</button>
+        </form>
+										<!-- /Register Form -->
+										
+									</div>
+								</div>
+							</div>
+                            </div>
+
+							<!-- /Register Content -->
+								
+						<!-- /Page Content -->
+                        <br>
+                        <br>
+</body>
+
+
+
+@*<div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
             <h4>Create a new account.</h4>
@@ -102,6 +211,7 @@
         </section>
     </div>
 </div>
+*@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
