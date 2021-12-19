@@ -20,6 +20,7 @@ namespace MindClinic.Controllers
 
         public DoctorClassesController(ApplicationDbContext context, UserManager<User> usermanager)
         {
+            _usermanager = usermanager;
             _context = context;
             _usermanager = usermanager;
         }
@@ -55,16 +56,13 @@ namespace MindClinic.Controllers
         }
 
         // GET: DoctorClasses/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet]
+        public async Task<IActionResult> Details()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            var userid = _usermanager.GetUserId(HttpContext.User);
             var doctorClass = await _context.Doctors
                 .Include(d => d.User)
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.userID == userid);
             if (doctorClass == null)
             {
                 return NotFound();
@@ -73,10 +71,17 @@ namespace MindClinic.Controllers
             return View(doctorClass);
         }
 
+        public IActionResult DoctorProfile()
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+            return View();
+        }
         // GET: DoctorClasses/Create
         public IActionResult Create()
         {
-            ViewData["userID"] = new SelectList(_context.Users, "Id", "Id");
+            var userid = _usermanager.GetUserId(HttpContext.User);
+
+           
             return View();
         }
 
@@ -85,10 +90,11 @@ namespace MindClinic.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,AboutMe,pricePerSession,userID")] DoctorClass doctorClass)
+        public async Task<IActionResult> Create([Bind("id,AboutMe,pricePerSession")] DoctorClass doctorClass)
         {
             if (ModelState.IsValid)
             {
+                doctorClass.userID = _usermanager.GetUserId(HttpContext.User);
                 _context.Add(doctorClass);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -179,7 +185,21 @@ namespace MindClinic.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        [HttpGet]
+        public IActionResult GetDoctorInfoForDashboardCard()
+        {
 
+            var userid = _usermanager.GetUserId(HttpContext.User);
+
+            if (userid == null)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+
+            User user = _usermanager.FindByIdAsync(userid).Result;
+
+            return View(user);
+        }
         private bool DoctorClassExists(int id)
         {
             return _context.Doctors.Any(e => e.id == id);
