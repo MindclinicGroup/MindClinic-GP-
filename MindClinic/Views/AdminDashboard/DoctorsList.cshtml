@@ -1,0 +1,82 @@
+﻿@model IEnumerable<MindClinic.Models.User>
+@{
+    ViewData["Title"] = "DoctorsList";
+    Layout = "_LayoutAdminDashboard";
+}
+
+<div class="main-wrapper">
+
+    <!-- Header -->
+   
+    <!-- /Sidebar -->
+    <!-- Page Wrapper -->
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3 class="page-title">Appointments</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Appointments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Header -->
+            <div class="row">
+                <div class="col-md-12">
+
+                    <!-- Recent Orders -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="datatable table table-hover table-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Doctor Name</th>
+                                            <th>Age</th>
+                                            <th>Gender</th>
+                                            <th>Email</th>
+                                            <th>Doctor Photo</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item in Model)
+                                    {
+
+
+                                    <tr>
+
+                                        <td>@item.Name</td>
+
+                                        <td>@item.Age</td>
+                                       
+                                        <td>@item.Gender</td>
+                                        <td>@item.Email</td>
+                                        <td>
+                                            
+                                            <span class="avatar avatar-sm">
+                                                <img class="avatar-img rounded-circle" alt="No Photo" src="~/Doctorsimage/@item.image">
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Recent Orders -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Wrapper -->
+
+</div>
+
