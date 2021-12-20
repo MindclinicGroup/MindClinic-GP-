@@ -3,9 +3,17 @@
 @inject SignInManager<User> signInManager;
 
 @{
-   ViewData["Title"] = "getslots";
+    ViewData["Title"] = "getslots";
+
+
+    foreach (var item in Model)
+    {
+
+    }
 }
-<table  class="table" >
+
+
+@*<table  class="table" >
     <thead>
         <tr>
             <th>
@@ -17,7 +25,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            @*<li>
+            <li>
                 <span> @Html.DisplayFor(modelItem => item.Time.DayOfWeek)</span>
                 <span class="slot-date">
                     @Html.DisplayFor(modelItem => item.Time.Day)<small class="slot-year">/</small>
@@ -26,7 +34,7 @@
                 </span>
             </li>*@
 
-
+			@*
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Time)
@@ -38,158 +46,204 @@
             </td>
         </tr>
         }
-    
-    
-    
-    
-    <!--<div class="col-12">-->
 
-        <!-- Schedule Widget -->
-        <!--<div class="card booking-schedule schedule-widget">-->
-
-            <!-- Schedule Header -->
-            <!--<div class="schedule-header">
-                <div class="row">
-                    <div class="col-md-12">-->
-
-                        <!-- Day Slot -->
-                        <!--<div class="day-slot">
-                            <ul>
-                                <li class="left-arrow">
-                                    <a href="#">
-                                        <i class="fa fa-chevron-left"></i>
-                                    </a>
-                                </li>
-                                
-                            @foreach (var item in Model)
-                            {
-                                <li>
-                                    <span>@Html.DisplayFor(modelItem => item.Time.DayOfWeek)</span>
-                                    <span class="slot-date">
-                                        @Html.DisplayFor(modelItem => item.Time.Day)<small class="slot-year">/</small>
-                                        @Html.DisplayFor(modelItem => item.Time.Month)<small class="slot-year">/</small>
-                                        <small class="slot-year">@Html.DisplayFor(modelItem => item.Time.Year)</small>
-                                    </span>
-                                </li>
-                            }
-                                <li class="right-arrow">
-                                    <a href="#">
-                                        <i class="fa fa-chevron-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>-->
-                        <!-- /Day Slot -->
-
-                    <!--</div>
-                </div>
-            </div>-->
-            <!-- /Schedule Header -->
-            <!-- Schedule Content -->
-            <!--<div class="schedule-cont">
-                <div class="row">
-                    <div class="col-md-12">-->
-
-                        <!-- Time Slot -->
-                        <!--<div class="time-slot">
-                            <ul class="clearfix">
-                                <li>
-                                    <a class="timing" href="#">
-                                        <span>9:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing" href="#">
-                                        <span>10:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing" href="#">
-                                        <span>11:00</span> <span>AM</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="timing" href="#">
-                                        <span>9:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing" href="#">
-                                        <span>10:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing" href="#">
-                                        <span>11:00</span> <span>AM</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="timing" href="#">
-                                        <span>9:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing" href="#">
-                                        <span>10:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing" href="#">
-                                        <span>11:00</span> <span>AM</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="timing" href="#">
-                                        <span>9:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing" href="#">
-                                        <span>10:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing" href="#">
-                                        <span>11:00</span> <span>AM</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="timing" href="#">
-                                        <span>9:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing selected" href="#">
-                                        <span>10:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing" href="#">
-                                        <span>11:00</span> <span>AM</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="timing" href="#">
-                                        <span>9:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing" href="#">
-                                        <span>10:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing" href="#">
-                                        <span>11:00</span> <span>AM</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="timing" href="#">
-                                        <span>9:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing" href="#">
-                                        <span>10:00</span> <span>AM</span>
-                                    </a>
-                                    <a class="timing" href="#">
-                                        <span>11:00</span> <span>AM</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>-->
-                        <!-- /Time Slot -->
-
-                    <!--</div>
-                </div>
-            </div>-->
-            <!-- /Schedule Content -->
-
-        <!--</div>-->
-        <!-- /Schedule Widget -->
-        <!-- Submit Section -->
-        <!--<div class="submit-section proceed-btn text-right">
-            <a href="checkout.html" class="btn btn-primary submit-btn">Proceed to Pay</a>
-        </div>-->
-        <!-- /Submit Section -->
-
-    <!--</div>-->
-    
-    
-
-    </tbody>
+ </tbody>
 </table>
+*@
+
+<div class="container">
+				
+					<div class="row">
+						<div class="col-12">
+						
+							<div class="card">
+								<div class="card-body">
+									<div class="booking-doc-info">
+										<a href="doctor-profile.html" class="booking-doc-img">
+											<img src="assets/img/doctors/doctor-thumb-02.jpg" alt="User Image">
+										</a>
+										<div class="booking-info">
+											<h4><a href="doctor-profile.html">Dr. Darren Elder</a></h4>
+											<div class="rating">
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star filled"></i>
+												<i class="fas fa-star"></i>
+												<span class="d-inline-block average-rating">35</span>
+											</div>
+											<p class="text-muted mb-0"><i class="fas fa-map-marker-alt"></i> Newyork, USA</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<!-- Schedule Widget -->
+
+<div class="card booking-schedule schedule-widget">
+							
+								<!-- Schedule Header -->
+								<div class="schedule-header">
+									<div class="row">
+										<div class="col-md-12">
+										
+											<!-- Day Slot -->
+											<div class="day-slot">
+												<ul>
+													<li class="left-arrow">
+														<a href="#">
+															<i class="fa fa-chevron-left"></i>
+														</a>
+													</li>
+													        @foreach (var item in Model){
+															
+															} 
+													<li>
+														<span>Mon</span>
+
+													</li>
+													<li>
+														<span>Tue</span>
+													</li>
+													<li>
+														<span>Wed</span>
+													</li>
+													<li>
+														<span>Thu</span>
+													</li>
+													<li>
+														<span>Fri</span>
+													</li>
+													<li>
+														<span>Sat</span>
+													</li>
+													<li>
+														<span>Sun</span>
+													</li>
+													<li class="right-arrow">
+														<a href="#">
+															<i class="fa fa-chevron-right"></i>
+														</a>
+													</li>
+												</ul>
+											</div>
+											<!-- /Day Slot -->
+											
+										</div>
+									</div>
+								</div>
+								<!-- /Schedule Header -->
+								
+								<!-- Schedule Content -->
+								<div class="schedule-cont">
+									<div class="row">
+										<div class="col-md-12">
+										
+											<!-- Time Slot -->
+											<div class="time-slot">
+												<ul class="clearfix">
+													<li>
+															<a class="timing">
+															<span><strong>Available sessions:</strong></span>
+														</a>
+														@foreach(var item in Model){
+															if(item.Time.DayOfWeek.ToString().Equals("Monday")){
+															<a class="timing" href="#">
+															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
+														</a>
+															}
+														}
+													</li>
+													<li>
+														<a class="timing">
+															<span><strong>Available sessions:</strong></span>
+														</a>
+														@foreach(var item in Model){
+															if(item.Time.DayOfWeek.ToString().Equals("Tuesday")){
+															<a class="timing" href="#">
+															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
+														</a>
+															}
+														}
+													</li>
+													<li>
+														<a class="timing">
+															<span><strong>Available sessions:</strong></span>
+														</a>
+														@foreach(var item in Model){
+															if(item.Time.DayOfWeek.ToString().Equals("Wednesday")){
+															<a class="timing" href="#">
+															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
+														</a>
+															}
+														}
+													</li>
+													<li>
+														<a class="timing">
+															<span><strong>Available sessions:</strong></span>
+														</a>
+														@foreach(var item in Model){
+															if(item.Time.DayOfWeek.ToString().Equals("Thursday")){
+															<a class="timing" href="#">
+															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
+														</a>
+															}
+														}
+													</li>
+													<li>
+														<a class="timing">
+															<span><strong>Available sessions:</strong></span>
+														</a>
+														@foreach(var item in Model){
+															if(item.Time.DayOfWeek.ToString().Equals("Friday")){
+															<a class="timing" href="#">
+															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
+														</a>
+															}
+														}
+													</li>
+													<li>
+														<a class="timing">
+															<span><strong>Available sessions:</strong></span>
+														</a>
+														@foreach(var item in Model){
+															if(item.Time.DayOfWeek.ToString().Equals("Saturday")){
+															<a class="timing" href="#">
+															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date:</strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
+														</a>
+															}
+														}
+													</li>
+													<li>
+														<a class="timing">
+															<span><strong>Available sessions:</strong></span>
+														</a>
+														@foreach(var item in Model){
+															if(item.Time.DayOfWeek.ToString().Equals("Sunday")){
+															<a class="timing" href="#">
+															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
+														</a>
+															}
+														}
+													</li>
+												</ul>
+											</div>
+											<!-- /Time Slot -->
+											
+										</div>
+									</div>
+								</div>
+								<!-- /Schedule Content -->
+								
+							</div>
+							<!-- /Schedule Widget -->
+							
+							<!-- Submit Section -->
+							<div class="submit-section proceed-btn text-right">
+								<a href="checkout.html" class="btn btn-primary submit-btn">Proceed to Pay</a>
+							</div>
+							<!-- /Submit Section -->
+							
+						</div>
+					</div>
+				</div>
