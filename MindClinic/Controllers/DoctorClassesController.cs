@@ -158,7 +158,7 @@ namespace MindClinic.Controllers
                 doctorClass.AboutMe = "";
                 doctorClass.pricePerSession = 0;
                 doctorClass.userID = userid;
-              
+
                 _context.Add(doctorClass);
                 await _context.SaveChangesAsync();
                 //

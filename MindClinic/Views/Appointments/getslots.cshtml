@@ -17,23 +17,15 @@
     <tbody>
         @foreach (var item in Model)
         {
-            @*<li>
-                <span> @Html.DisplayFor(modelItem => item.Time.DayOfWeek)</span>
-                <span class="slot-date">
-                    @Html.DisplayFor(modelItem => item.Time.Day)<small class="slot-year">/</small>
-                    @Html.DisplayFor(modelItem => item.Time.Month)<small class="slot-year">/</small>
-                    <small class="slot-year">@Html.DisplayFor(modelItem => item.Time.Year)</small>
-                </span>
-            </li>*@
-
-
-        <tr>
+            <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Time)
 
             </td>
             <td>
-                <a class="btn btn-primary" asp-route-DoctorId="@Context.Request.RouteValues["id"]" asp-route-a="@item.Time" asp-controller="Appointments" asp-action="TimeSelected">Select</a>
+                @*<a class="btn btn-primary" asp-route-DoctorId="@Context.Request.RouteValues["id"]" asp-route-a="@item.Time" asp-controller="Appointments" asp-action="TimeSelected">Select</a>*@
+                <a class="btn btn-primary"  asp-route-id="@Context.Request.RouteValues["id"]" asp-route-time="@item.Time"  asp-controller="Payment" asp-action="Index">Select</a>
+
 
             </td>
         </tr>

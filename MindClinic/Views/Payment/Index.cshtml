@@ -1,0 +1,135 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model Tuple<IEnumerable<MindClinic.Models.User>, IEnumerable<MindClinic.Models.DoctorClass>>
+@inject SignInManager<User> signInManager;
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<div class="content" style="transform: none; min-height: 621.896px;">
+    <div class="container" style="transform: none;">
+
+        <div class="row" style="transform: none;">
+            <div class="col-md-7 col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+
+                        <!-- Checkout Form -->
+                        <form asp-action="Payment" asp-route-id="@Context.Request.RouteValues["id"]" method="post">
+
+                            <div class="payment-widget">
+                                <h4 class="card-title">Payment Method</h4>
+
+                                <!-- Credit Card Payment -->
+                                <div class="payment-list">
+                                    <label class="payment-radio credit-card-option">
+                                        <input type="radio" name="radio" checked="">
+                                        <span class="checkmark"></span>
+                                        Credit card
+                                    </label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group card-label">
+                                                <label for="card_name">Name on Card</label>
+                                                <input name="Name" id="Name" class="form-control" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group card-label">
+                                                <label for="card_number">Card Number</label>
+                                                <input class="form-control" id="CardNum" name="CardNum" placeholder="1234  5678  9876  5432" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group card-label">
+                                                <label for="expiry_month">Expiry Month</label>
+                                                <input class="form-control" id="ExpMon" name="ExpMon" placeholder="MM" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group card-label">
+                                                <label for="expiry_year">Expiry Year</label>
+                                                <input class="form-control" id="ExpYear" name="ExpYear" placeholder="YY" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group card-label">
+                                                <label for="cvv">CVV</label>
+                                                <input class="form-control" id="CVV" name="CVV" type="text">
+                                            </div>
+                                        </div>
+                                        <div hidden="" class="col-md-4">
+                                            <div class="form-group card-label">
+                                                <label for="cvv">Time</label>
+                                                <input value="@ViewBag.Time" class="form-control" id="a" name="a" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Procced Pay">
+                            </div>
+                        </form>
+                        <!-- /Checkout Form -->
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-5 col-lg-4 theiaStickySidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+                <!-- Booking Summary -->
+                <!-- /Booking Summary -->
+
+                <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: relative; transform: none;">
+
+                    @foreach (var item in Model.Item1)
+                    {
+
+                        @foreach (var item2 in Model.Item2)
+                        {
+
+
+
+
+                            <div class="card booking-card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Booking Summary</h4>
+                                </div>
+                                <div class="card-body">
+
+                                    <!-- Booking Doctor Info -->
+                                    <div class="booking-doc-info">
+                                        <a href="doctor-profile.html" class="booking-doc-img">
+                                            <img src="~/Doctorsimage/@item.image" alt="User Image">
+                                        </a>
+                                        <div class="booking-info">
+                                            <h4><a href="doctor-profile.html">@item.Name</a></h4>
+                                        </div>
+                                    </div>
+                                    <!-- Booking Doctor Info -->
+
+                                    <div class="booking-summary">
+                                        <div class="booking-item-wrap">
+                                            <ul class="booking-date">
+                                                <li>Date <span>@ViewBag.Time</span></li>
+                                               
+                                            </ul>
+                                            <ul class="booking-fee">
+                                                <li>Video Call <span>$@item2.pricePerSession</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 360px; height: 486px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div>
+
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+

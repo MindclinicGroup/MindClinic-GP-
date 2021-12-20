@@ -16,5 +16,7 @@ namespace MindClinic.Models
         public User doctor { get; set; }
         public string patientId { get; set; }
         public User patient { get; set; }
+
+        public double Price { get; set; }
     }
 }

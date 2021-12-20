@@ -28,6 +28,8 @@ namespace MindClinic.Controllers
         {
             var applicationDbContext = _context.Schedules.Include(s => s.doctor).Where(s => s.doctorID == id);
             var appointments = new List<Appointment>();
+
+            var doctor = _context.Doctors.Where(x => x.userID == id).First();
             
             foreach (var item in applicationDbContext)
             {
@@ -39,6 +41,7 @@ namespace MindClinic.Controllers
                     app.doctorId = id;
                     app.patientId = null;
                     app.Time = item.startTime;
+                    app.Price = doctor.pricePerSession;
 
                     var Appointment = from contextAppointment in _context.Appointments
                         where (app.Time == contextAppointment.Time && app.doctorId==contextAppointment.doctorId) 
