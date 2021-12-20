@@ -131,7 +131,7 @@ namespace MindClinic.Controllers
         }
 
         // GET: /DoctorClasses/DoctorProfile
-         public async Task<IActionResult> DoctorProfile()
+        public async Task<IActionResult> DoctorProfile()
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
 
@@ -147,12 +147,12 @@ namespace MindClinic.Controllers
                 doctorClass.AboutMe = "";
                 doctorClass.pricePerSession = 0;
                 doctorClass.userID = userid;
-              
+
                 _context.Add(doctorClass);
                 await _context.SaveChangesAsync();
                 //
                 var doctor = _context.Doctors.Where(x => x.userID == userid).First();
-                var education = new Education { Degree="",College="",doctorId=doctor.id,yearOfCompletion=""};
+                var education = new Education { Degree = "", College = "", doctorId = doctor.id, yearOfCompletion = "" };
                 //education.Degree = "";
                 //education.College = "";
                 //education.yearOfCompletion = "";
