@@ -12,8 +12,8 @@
     }
 }
 
-
-@*<table  class="table" >
+@*
+<table  class="table" >
     <thead>
         <tr>
             <th>
@@ -33,16 +33,16 @@
                     @Html.DisplayFor(modelItem => item.Time.Month)<small class="slot-year">/</small>
                     <small class="slot-year">@Html.DisplayFor(modelItem => item.Time.Year)</small>
                 </span>
-            </li>*@
+            </li>
 
-			@*
+			
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Time)
 
             </td>
             <td>
-                @*<a class="btn btn-primary" asp-route-DoctorId="@Context.Request.RouteValues["id"]" asp-route-a="@item.Time" asp-controller="Appointments" asp-action="TimeSelected">Select</a>*@
+                <a class="btn btn-primary" asp-route-DoctorId="@Context.Request.RouteValues["id"]" asp-route-a="@item.Time" asp-controller="Appointments" asp-action="TimeSelected">Select</a>
                 <a class="btn btn-primary"  asp-route-id="@Context.Request.RouteValues["id"]" asp-route-time="@item.Time"  asp-controller="Payment" asp-action="Index">Select</a>
 
 
@@ -51,8 +51,9 @@
         }
 
  </tbody>
-</table>
+</table>*
 *@
+
 
 <div class="container">
 				
@@ -176,7 +177,7 @@
 														@foreach(var item in Model){
 															if(item.Time.DayOfWeek.ToString().Equals("Wednesday")){
 															<a class="timing" href="#">
-															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
+															<span style="padding-left:3px;padding-right:3px;" asp-route-id="@Context.Request.RouteValues["id"]" asp-route-time="@item.Time"  asp-controller="Payment" asp-action="Index"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
 														</a>
 															}
 														}
