@@ -21,7 +21,7 @@
     </div>
 </form>
 <div id="education"></div>
-
+<div id="awards"></div>
 <script>
     $(document).ready(function () {
 
@@ -30,6 +30,22 @@
             url: '/DoctorClasses/DoctorEducation',
             success: function (response) {
                 $("#education").html(response);
+                
+            }
+        });
+
+    });
+ 
+</script>
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            method: 'GET',
+            url: '/DoctorClasses/DoctorAwards',
+            success: function (response) {
+                $("#awards").html(response);
+
             }
         });
 

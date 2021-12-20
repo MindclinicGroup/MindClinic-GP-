@@ -1,17 +1,18 @@
-﻿@model IEnumerable<MindClinic.Models.Education>
+﻿@model IEnumerable<MindClinic.Models.Awards>
 
 @{
-    ViewData["Title"] = "DoctorEducation";
+    // ViewData["Title"] = "DoctorEducation";
     Layout = null;
 }
-</br>
-<div><h4 class="card-title">Education</h4></div>
+
+
+<h4 class="card-title">Awards</h4>
 <div class="card">
     <div class="card-body">
+
         @foreach (var item in Model)
         {
-            <form asp-action="DoctorEducation" method="post">
-
+            <form asp-action="DoctorAwards" method="post">
 
                 <div class="education-info">
                     <div class="row form-row education-cont">
@@ -19,32 +20,24 @@
                             <div class="row form-row">
                                 <div class="col-12 col-md-6 col-lg-4">
                                     <div class="form-group">
-                                        <label asp-for="@item.Degree" class="control-label"></label>
-                                        <input asp-for="@item.Degree" name="Degree" id="Degree" class="form-control" />
-                                        <span asp-validation-for="@item.Degree" class="text-danger"></span>
-                                    </div>
-
-                                </div>
-                                <div class="col-12 col-md-6 col-lg-4">
-                                    <div class="form-group">
-                                        <label asp-for="@item.College" class="control-label"></label>
-                                        <input asp-for="@item.College" name="College" id="College" class="form-control" />
-                                        <span asp-validation-for="@item.College" class="text-danger"></span>
+                                        <label asp-for="@item.award" class="control-label"></label>
+                                        <input asp-for="@item.award" name="award" id="award" class="form-control" />
+                                        <span asp-validation-for="@item.award" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-4">
                                     <div class="form-group">
-                                        <label asp-for="@item.yearOfCompletion" class="control-label"></label>
-                                        <input asp-for="@item.yearOfCompletion" name="yearOfCompletion" id="yearOfCompletion" class="form-control" />
-                                        <span asp-validation-for="@item.yearOfCompletion" class="text-danger"></span>
+                                        <label asp-for="@item.Year" class="control-label"></label>
+                                        <input asp-for="@item.Year" name="year" id="year" class="form-control" />
+                                        <span asp-validation-for="@item.Year" class="text-danger"></span>
                                     </div>
                                 </div>
-
                             </div>
                             <div hidden class="form-group">
                                 <label asp-for="@item.id" class="control-label"></label>
                                 <input asp-for="@item.id" name="id" id="id" class="form-control" />
                                 <span asp-validation-for="@item.id" class="text-danger"></span>
+                          
                             </div>
                             <div class="form-group">
                                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -53,10 +46,15 @@
                     </div>
                 </div>
 
-            </form>}
 
+            </form>}
     </div>
 </div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
