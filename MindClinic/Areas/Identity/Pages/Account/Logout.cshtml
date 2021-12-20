@@ -21,35 +21,33 @@
 </header>*@
 
 <header>
-    <br>
-    <br>
-    <div  align="center">
-<div class="col-12 col-md-6 col-lg-4 d-flex">
-									<div class="card flex-fill">
-										<div class="card-header">
-											<h5 class="card-title mb-0">Logout</h5>
-										</div>
-										<div class="card-body">
+    <br><br>
+<div class="card success-card">
+								<div class="card-body">
 
-                                         @{
-                                         if(User.Identity.IsAuthenticated)
+                                    @{
+                                       if(User.Identity.IsAuthenticated)
                                          {
-                                        <p style="text-align:center;"><h4>are you sure you want to log out?</h4></p>
-                                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                                        <button type="submit" class="btn btn-success btn-block btn-lg login-btn">Click to Confirm Logout</button>
-                                        </form>
+									    <div class="success-cont">
+										<i class="fa fa-question"></i>
+										<h3>Are you sure you want to log out?</h3>
+                                        <p>You can't certain features while logged out.</p>
+                                         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                                         <button  class="btn btn-success btn-block btn-lg login-btn">Click to Confirm Logout</button>
+                                        </form>      
+                                        </div>
                                         }
                                         else
                                         {
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-										<strong>You have successfully logged out of the application!</strong>
-									    </div>
-                                            }
-                                            }
-										</div>
-									</div>
-                                    </div>			
+                                        <div class="success-cont">
+										<i class="fas fa-check"></i>
+										<h3>You have successfully logged out of the application!</h3>     
+                                        </div>
+                                        }
+                                      } 
+									
+								</div>
                                 </div>
-                                    <br>
-    <br>
+                            <br><br>
+                            
 </header>
