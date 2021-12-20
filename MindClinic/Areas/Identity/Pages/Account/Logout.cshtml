@@ -21,32 +21,35 @@
 </header>*@
 
 <header>
- <div class="main-wrapper login-body">
-            <div class="login-wrapper">
-            	<div class="container">
-                	<div class="loginbox">
-                        <div class="login-right">
-							<div class="login-right-wrap">							
-                                <p style="text-align:center;"><img src="~/assets/img/favicon.png" class="img-fluid" alt="Doccure Register"></p>
-                                
-                                 @{
-                                    if (User.Identity.IsAuthenticated)
-                                    {
+    <br>
+    <br>
+    <div  align="center">
+<div class="col-12 col-md-6 col-lg-4 d-flex">
+									<div class="card flex-fill">
+										<div class="card-header">
+											<h5 class="card-title mb-0">Logout</h5>
+										</div>
+										<div class="card-body">
+
+                                         @{
+                                         if(User.Identity.IsAuthenticated)
+                                         {
                                         <p style="text-align:center;"><h4>are you sure you want to log out?</h4></p>
-                                         
                                         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
                                         <button type="submit" class="btn btn-success btn-block btn-lg login-btn">Click to Confirm Logout</button>
                                         </form>
-                                    }
-                                    else
-                                    {
-                                    <p>You have successfully logged out of the application.</p>
-                                     }
-                                   }
-							</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
- </header>
+                                        }
+                                        else
+                                        {
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+										<strong>You have successfully logged out of the application!</strong>
+									    </div>
+                                            }
+                                            }
+										</div>
+									</div>
+                                    </div>			
+                                </div>
+                                    <br>
+    <br>
+</header>
