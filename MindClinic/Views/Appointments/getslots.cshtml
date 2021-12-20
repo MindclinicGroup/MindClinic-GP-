@@ -60,7 +60,7 @@
 					<div class="row">
 						<div class="col-12">
 						
-							<div class="card">
+@*							<div class="card">
 								<div class="card-body">
 									<div class="booking-doc-info">
 										<a href="doctor-profile.html" class="booking-doc-img">
@@ -80,7 +80,7 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div>*@
 							
 							<!-- Schedule Widget -->
 
@@ -152,7 +152,7 @@
 														</a>
 														@foreach(var item in Model){
 															if(item.Time.DayOfWeek.ToString().Equals("Monday")){
-															<a class="timing" href="#">
+															<a class="timing" asp-route-id="@Context.Request.RouteValues["id"]" asp-route-time="@item.Time"  asp-controller="Payment" asp-action="Index">
 															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
 														</a>
 															}
@@ -164,7 +164,7 @@
 														</a>
 														@foreach(var item in Model){
 															if(item.Time.DayOfWeek.ToString().Equals("Tuesday")){
-															<a class="timing" href="#">
+															<a class="timing" asp-route-id="@Context.Request.RouteValues["id"]" asp-route-time="@item.Time"  asp-controller="Payment" asp-action="Index">
 															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
 														</a>
 															}
@@ -176,8 +176,8 @@
 														</a>
 														@foreach(var item in Model){
 															if(item.Time.DayOfWeek.ToString().Equals("Wednesday")){
-															<a class="timing" href="#">
-															<span style="padding-left:3px;padding-right:3px;" asp-route-id="@Context.Request.RouteValues["id"]" asp-route-time="@item.Time"  asp-controller="Payment" asp-action="Index"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
+															<a class="timing" asp-route-id="@Context.Request.RouteValues["id"]" asp-route-time="@item.Time"  asp-controller="Payment" asp-action="Index">
+															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
 														</a>
 															}
 														}
@@ -188,7 +188,7 @@
 														</a>
 														@foreach(var item in Model){
 															if(item.Time.DayOfWeek.ToString().Equals("Thursday")){
-															<a class="timing" href="#">
+															<a class="timing" asp-route-id="@Context.Request.RouteValues["id"]" asp-route-time="@item.Time"  asp-controller="Payment" asp-action="Index">
 															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
 														</a>
 															}
@@ -200,7 +200,7 @@
 														</a>
 														@foreach(var item in Model){
 															if(item.Time.DayOfWeek.ToString().Equals("Friday")){
-															<a class="timing" href="#">
+															<a class="timing" asp-route-id="@Context.Request.RouteValues["id"]" asp-route-time="@item.Time"  asp-controller="Payment" asp-action="Index">
 															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
 														</a>
 															}
@@ -212,7 +212,7 @@
 														</a>
 														@foreach(var item in Model){
 															if(item.Time.DayOfWeek.ToString().Equals("Saturday")){
-															<a class="timing" href="#">
+															<a class="timing" asp-route-id="@Context.Request.RouteValues["id"]" asp-route-time="@item.Time"  asp-controller="Payment" asp-action="Index">
 															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date:</strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
 														</a>
 															}
@@ -224,7 +224,7 @@
 														</a>
 														@foreach(var item in Model){
 															if(item.Time.DayOfWeek.ToString().Equals("Sunday")){
-															<a class="timing" href="#">
+															<a class="timing" asp-route-id="@Context.Request.RouteValues["id"]" asp-route-time="@item.Time"  asp-controller="Payment" asp-action="Index">
 															<span style="padding-left:3px;padding-right:3px;"><span> <strong>Date: </strong></span> <span>@Html.DisplayFor(modelItem => item.Time.Day)-@Html.DisplayFor(modelItem => item.Time.Month)-@Html.DisplayFor(modelItem => item.Time.Year) <br><span><strong> Time: </strong></span>@Html.DisplayFor(modelItem => item.Time.Hour):@Html.DisplayFor(modelItem => item.Time.Minute)</span></span>
 														</a>
 															}
@@ -243,9 +243,9 @@
 							<!-- /Schedule Widget -->
 							
 							<!-- Submit Section -->
-							<div class="submit-section proceed-btn text-right">
+@*							<div class="submit-section proceed-btn text-right">
 								<a href="checkout.html" class="btn btn-primary submit-btn">Proceed to Pay</a>
-							</div>
+							</div>*@
 							<!-- /Submit Section -->
 							
 						</div>
