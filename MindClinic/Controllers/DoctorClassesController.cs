@@ -71,20 +71,17 @@ namespace MindClinic.Controllers
             return View(doctorClass);
         }
         [HttpGet]
-        public async Task<IActionResult> DoctorEducation()
+        public async Task<IActionResult> DoctorEducation(string?create)
         {
+
             var userid = _usermanager.GetUserId(HttpContext.User);
+            var doctorClass = _context.Doctors.Where(x => x.userID == userid).First();
+            var educations = _context.Educations.Where(x => x.doctorId == doctorClass.id);
             try
             {
-                var doctorClass = _context.Doctors.Where(x => x.userID == userid).First();
-                var educations = _context.Educations.Where(x => x.doctorId == doctorClass.id).ToList();
-                if (educations.Any() )
+                if (create != null)
                 {
-                    return View(educations);
-                }
-                else 
-                {
-                    for(int i = 0; i < 3; i++)
+                    if (create.Equals("true"))
                     {
                         var education = new Education();
                         education.doctorId = doctorClass.id;
@@ -92,10 +89,25 @@ namespace MindClinic.Controllers
                         education.College = "";
                         education.yearOfCompletion = "";
                         _context.Add(education);
+                        await _context.SaveChangesAsync();
+                        educations = _context.Educations.Where(x => x.doctorId == doctorClass.id);
+                        return View(educations);
                     }
-                    await _context.SaveChangesAsync();
-                    educations = _context.Educations.Where(x => x.doctorId == doctorClass.id).ToList();
+                }       
+                if (educations.Any())
+                {
                     return View(educations);
+                }
+                else 
+                {
+                        var education = new Education();
+                        education.doctorId = doctorClass.id;
+                        education.Degree = "";
+                        education.College = "";
+                        education.yearOfCompletion = "";
+                        _context.Add(education);       
+                    await _context.SaveChangesAsync();
+                   
                 }
 
 
@@ -111,22 +123,38 @@ namespace MindClinic.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DoctorEducation(int id, string Degree,string College,string yearOfCompletion)
+        public async Task<IActionResult> DoctorEducation(int id, string Degree,string College,string yearOfCompletion,string? delete)
         {
-
             var userid = _usermanager.GetUserId(HttpContext.User);
             var doctor = _context.Doctors.Where(x => x.userID == userid).First();
             var education = _context.Educations.Where(x => x.doctorId == doctor.id && x.id == id).First();
-            education.Degree = Degree;
-            education.College = College;
-            education.yearOfCompletion = yearOfCompletion;
+
+            if (delete != null)
+            {
+                if (delete.Equals("true"))
+                {
+                   
+                    _context.Educations.Remove(education);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(DoctorProfile));
+                }
+            }
+            else
+            {
+
+              
+                if(Degree!=null)education.Degree = Degree;
+               if(College!=null) education.College = College;
+               if(yearOfCompletion!=null) education.yearOfCompletion = yearOfCompletion;
+                _context.Update(education);
+                await _context.SaveChangesAsync();
+            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(education);
-                    await _context.SaveChangesAsync();
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -340,28 +368,42 @@ namespace MindClinic.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DoctorAwards()
+        public async Task<IActionResult> DoctorAwards(string?create)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
+            var doctorClass = _context.Doctors.Where(x => x.userID == userid).First();
+            var awards = _context.Awards.Where(x => x.doctorId == doctorClass.id);
 
+            if (create != null)
+            {
+                if (create.Equals("true"))
+                {
+                    var award = new Awards();
+                    award.doctorId = doctorClass.id;
+                    award.award = "";
+                    award.Year = "";
+                    _context.Add(award);
+                    await _context.SaveChangesAsync();
+                    awards = _context.Awards.Where(x => x.doctorId == doctorClass.id);
+                    return View(awards);
+                }
+            }
             try
             {
-                var doctorClass = _context.Doctors.Where(x => x.userID == userid).First();
-                var awards = _context.Awards.Where(x => x.doctorId == doctorClass.id);
+               
                 if (awards.Any())
                 {
                     return View(awards);
                 }
                 else
                 {
-                    for (int i = 0; i < 3; i++) 
-                    {
+                   
                         var award = new Awards();
                         award.doctorId = doctorClass.id;
                         award.award = "";
                         award.Year = "";
                         _context.Add(award);
-                    } 
+                    
                     await _context.SaveChangesAsync();
                    
                     awards = _context.Awards.Where(x => x.doctorId == doctorClass.id);
@@ -377,22 +419,35 @@ namespace MindClinic.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DoctorAwards(int id, string award, string year)
+        public async Task<IActionResult> DoctorAwards(int id, string award, string year,string?delete)
         {
 
             var userid = _usermanager.GetUserId(HttpContext.User);
             var doctor = _context.Doctors.Where(x => x.userID == userid).First();
             var Award = _context.Awards.Where(x => x.doctorId == doctor.id && x.id == id).First();
-            Award.award = award;
-            Award.Year = year;
-           
+            if (delete != null)
+            {
+                if (delete.Equals("true"))
+                {
+
+                    _context.Awards.Remove(Award);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(DoctorProfile));
+                }
+            }
+            else
+            {
+                if (award != null) Award.award = award;
+                if (year != null) Award.Year = year;
+                _context.Update(Award);
+                await _context.SaveChangesAsync();
+            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(Award);
-                    await _context.SaveChangesAsync();
+                  
                 }
                 catch (DbUpdateConcurrencyException)
                 {
