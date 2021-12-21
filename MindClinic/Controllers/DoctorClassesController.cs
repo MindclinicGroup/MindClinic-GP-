@@ -77,8 +77,8 @@ namespace MindClinic.Controllers
             try
             {
                 var doctorClass = _context.Doctors.Where(x => x.userID == userid).First();
-                var educations = _context.Educations.Where(x => x.doctorId == doctorClass.id);
-                if (educations.Any())
+                var educations = _context.Educations.Where(x => x.doctorId == doctorClass.id).ToList();
+                if (educations.Any() )
                 {
                     return View(educations);
                 }
@@ -94,9 +94,13 @@ namespace MindClinic.Controllers
                         _context.Add(education);
                     }
                     await _context.SaveChangesAsync();
-                    educations = _context.Educations.Where(x => x.doctorId == doctorClass.id);
+                    educations = _context.Educations.Where(x => x.doctorId == doctorClass.id).ToList();
                     return View(educations);
                 }
+
+
+
+
             }
             catch
             {

@@ -137,17 +137,17 @@
 
                             }
 
-                            @if (signInManager.IsSignedIn(User))
+                            @if (signInManager.IsSignedIn(User) && User.IsInRole("PATIENT"))
                             {
                                 <li>
-                                    <a asp-action="Index" asp-controller="MyProfile" target="_blank">MyProfile</a>
+                                    <a asp-action="Index" asp-controller="MyProfile" >MyProfile</a>
                                 </li>
                             }
 
                             @if (signInManager.IsSignedIn(User) && User.IsInRole("DOCTOR"))
                             {
                                 <li>
-                                    <a asp-action="DoctorProfile" asp-controller="DoctorClasses" target="_blank">MyProfile</a>
+                                    <a asp-action="DoctorProfile" asp-controller="DoctorClasses" >MyProfile</a>
                                 </li>
                             }
                             <li class="login-link">
