@@ -41,6 +41,8 @@
                             </div>
                             <div class="form-group">
                                 <input type="submit" value="Save" class="btn btn-primary" />
+                                @if (Model.Count() > 1)
+                                {<input type="submit" value="Delete" asp-route-delete="true" class="btn btn-danger" />}
                             </div>
                         </div>
                     </div>
@@ -51,9 +53,7 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
