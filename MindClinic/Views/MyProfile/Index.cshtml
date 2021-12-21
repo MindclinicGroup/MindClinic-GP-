@@ -50,7 +50,7 @@
         border: solid 1px #b0c4de
     }
 </style>
-@*<div>
+<@*div>
 
     <hr />
     <dl class="row">
@@ -107,9 +107,10 @@
 
 
 <div class="container rounded bg-white mt-5 mb-5">
+    <form asp-action="Index" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="~/Doctorsimage/@Model.image"><span class="font-weight-bold">@Html.DisplayFor(model => model.Name)</span><span class="text-black-50">@Html.DisplayFor(model => model.Email)</span><span> </span></div>
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
@@ -117,24 +118,25 @@
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value=""></div>
-                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname"></div>
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name"disabled value="@Html.DisplayFor(model => model.Name)"></div>
+                    <div class="col-md-6"><label class="labels">Gender</label><input type="text" class="form-control"disabled value="@Html.DisplayFor(model => model.Gender)" placeholder="surname"></div>
+                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" disabled value="@Html.DisplayFor(model => model.UserName)"></div>
+
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
-                    <div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
-                    <div class="col-md-12"><label class="labels">Address Line 2</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" name="phoneNumber" id="phoneNumber"value="@Html.DisplayFor(model => model.PhoneNumber)"></div>
+                    <div class="col-md-12"><label class="labels">Age</label><input type="text" class="form-control"name="age" id="age" value="@Html.DisplayFor(model => model.Age)"></div>
+                    <div class="col-md-12"><label class="labels">Change Profile Picture</label><input type="file" class="form-control" name="Img" id="Img"value=""></div>
+                   @*<div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
                     <div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
                     <div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" value=""></div>
-                    <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div>
+                    @*<div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div>*@
                 </div>
-                <div class="row mt-3">
+                @*<div class="row mt-3">
                     <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
                     <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
-                </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                </div>*@
+                <div class="mt-5 text-center"><input class="btn btn-primary profile-button" type="submit" value="Save">Save Profile</button></div>
             </div>
         </div>
         <div class="col-md-4">
@@ -145,6 +147,8 @@
             </div>
         </div>
     </div>
+        </form>
+  
 </div>
 
 
@@ -155,7 +159,7 @@
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>
-<script>
+@*<script>
     $(document).ready(function () {
 
         $.ajax({
@@ -167,4 +171,4 @@
         });
 
     });
-</script>
+</script>*@
