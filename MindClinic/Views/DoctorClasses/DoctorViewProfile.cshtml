@@ -95,23 +95,25 @@
                 <!-- Tab Menu -->
                 <nav class="user-tabs mb-4">
                     <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#doc_overview" data-toggle="tab">Overview</a>
+                        <li  class="nav-item">
+                            <a  id="btnOverView" class="nav-link active" data-toggle="tab">Overview</a>
                         </li>
                         @*<li class="nav-item">
-                                <a class="nav-link" href="#doc_locations" data-toggle="tab">Locations</a>
-                            </li>*@
-                            <li class="nav-item">
-                                <a class="nav-link" href="#doc_reviews" data-toggle="tab">Reviews</a>
-                            </li>
-                            @*<li class="nav-item">
-                                <a class="nav-link" href="#doc_business_hours" data-toggle="tab">Business Hours</a>
-                            </li>*@
+                    <a class="nav-link" href="#doc_locations" data-toggle="tab">Locations</a>
+                </li>*@
+                        <li class="nav-item">
+                            <a id="btnReview" class="nav-link" data-toggle="tab">Reviews</a>
+                        </li>
+                        @*<li class="nav-item">
+                    <a class="nav-link" href="#doc_business_hours" data-toggle="tab">Business Hours</a>
+                </li>*@
                     </ul>
                 </nav>
                 <!-- /Tab Menu -->
+                <div id="review" class="tab-content pt-0">
+                </div>
                 <!-- Tab Content -->
-                <div class="tab-content pt-0">
+                <div id="overView" class="tab-content pt-0">
 
                     <!-- Overview Content -->
                     <div role="tabpanel" id="doc_overview" class="tab-pane fade show active">
@@ -127,131 +129,133 @@
                                 <!-- Education Details -->
                                 <div id="education" class="widget education-widget">
                                     <!--   <h4 class="widget-title">Education</h4>
-            <div class="experience-box">
-                <ul class="experience-list">
-                    <li>
-                        <div class="experience-user">
-                            <div class="before-circle"></div>
-                        </div>
-                        <div class="experience-content">
-                            <div class="timeline-content">
-                                <a href="#/" class="name">American Dental Medical University</a>
-                                <div>BDS</div>
-                                <span class="time">1998 - 2003</span>
+                            <div class="experience-box">
+                                <ul class="experience-list">
+                                    <li>
+                                        <div class="experience-user">
+                                            <div class="before-circle"></div>
+                                        </div>
+                                        <div class="experience-content">
+                                            <div class="timeline-content">
+                                                <a href="#/" class="name">American Dental Medical University</a>
+                                                <div>BDS</div>
+                                                <span class="time">1998 - 2003</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="experience-user">
+                                            <div class="before-circle"></div>
+                                        </div>
+                                        <div class="experience-content">
+                                            <div class="timeline-content">
+                                                <a href="#/" class="name">American Dental Medical University</a>
+                                                <div>MDS</div>
+                                                <span class="time">2003 - 2005</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="experience-user">
-                            <div class="before-circle"></div>
-                        </div>
-                        <div class="experience-content">
-                            <div class="timeline-content">
-                                <a href="#/" class="name">American Dental Medical University</a>
-                                <div>MDS</div>
-                                <span class="time">2003 - 2005</span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>-->
+                        </div>-->
                                 </div>
                                 <!-- /Education Details -->
                                 <!-- Experience Details -->
                                 @*<div class="widget experience-widget">
-        <h4 class="widget-title">Work & Experience</h4>
-        <div class="experience-box">
-            <ul class="experience-list">
-                <li>
-                    <div class="experience-user">
-                        <div class="before-circle"></div>
-                    </div>
-                    <div class="experience-content">
-                        <div class="timeline-content">
-                            <a href="#/" class="name">Glowing Smiles Family Dental Clinic</a>
-                            <span class="time">2010 - Present (5 years)</span>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="experience-user">
-                        <div class="before-circle"></div>
-                    </div>
-                    <div class="experience-content">
-                        <div class="timeline-content">
-                            <a href="#/" class="name">Comfort Care Dental Clinic</a>
-                            <span class="time">2007 - 2010 (3 years)</span>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="experience-user">
-                        <div class="before-circle"></div>
-                    </div>
-                    <div class="experience-content">
-                        <div class="timeline-content">
-                            <a href="#/" class="name">Dream Smile Dental Practice</a>
-                            <span class="time">2005 - 2007 (2 years)</span>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>*@
+                        <h4 class="widget-title">Work & Experience</h4>
+                        <div class="experience-box">
+                            <ul class="experience-list">
+                                <li>
+                                    <div class="experience-user">
+                                        <div class="before-circle"></div>
+                                    </div>
+                                    <div class="experience-content">
+                                        <div class="timeline-content">
+                                            <a href="#/" class="name">Glowing Smiles Family Dental Clinic</a>
+                                            <span class="time">2010 - Present (5 years)</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="experience-user">
+                                        <div class="before-circle"></div>
+                                    </div>
+                                    <div class="experience-content">
+                                        <div class="timeline-content">
+                                            <a href="#/" class="name">Comfort Care Dental Clinic</a>
+                                            <span class="time">2007 - 2010 (3 years)</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="experience-user">
+                                        <div class="before-circle"></div>
+                                    </div>
+                                    <div class="experience-content">
+                                        <div class="timeline-content">
+                                            <a href="#/" class="name">Dream Smile Dental Practice</a>
+                                            <span class="time">2005 - 2007 (2 years)</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>*@
                                 <div id="awards" class="widget awards-widget">
                                     @*<h4 class="widget-title">Awards</h4>
-            <div class="experience-box">
-                <ul class="experience-list">
-                    <li>
-                        <div class="experience-user">
-                            <div class="before-circle"></div>
-                        </div>
-                        <div class="experience-content">
-                            <div class="timeline-content">
-                                <p class="exp-year">July 2019</p>
-                                <h4 class="exp-title">Humanitarian Award</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="experience-user">
-                            <div class="before-circle"></div>
-                        </div>
-                        <div class="experience-content">
-                            <div class="timeline-content">
-                                <p class="exp-year">March 2011</p>
-                                <h4 class="exp-title">Certificate for International Volunteer Service</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="experience-user">
-                            <div class="before-circle"></div>
-                        </div>
-                        <div class="experience-content">
-                            <div class="timeline-content">
-                                <p class="exp-year">May 2008</p>
-                                <h4 class="exp-title">The Dental Professional of The Year Award</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>*@
+                            <div class="experience-box">
+                                <ul class="experience-list">
+                                    <li>
+                                        <div class="experience-user">
+                                            <div class="before-circle"></div>
+                                        </div>
+                                        <div class="experience-content">
+                                            <div class="timeline-content">
+                                                <p class="exp-year">July 2019</p>
+                                                <h4 class="exp-title">Humanitarian Award</h4>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="experience-user">
+                                            <div class="before-circle"></div>
+                                        </div>
+                                        <div class="experience-content">
+                                            <div class="timeline-content">
+                                                <p class="exp-year">March 2011</p>
+                                                <h4 class="exp-title">Certificate for International Volunteer Service</h4>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="experience-user">
+                                            <div class="before-circle"></div>
+                                        </div>
+                                        <div class="experience-content">
+                                            <div class="timeline-content">
+                                                <p class="exp-year">May 2008</p>
+                                                <h4 class="exp-title">The Dental Professional of The Year Award</h4>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>*@
                                 </div>
                             </div>
-                                <!-- /Experience Details -->
-                                <!-- Awards Details -->
-                             
-                            </div>
+                            <!-- /Experience Details -->
+                            <!-- Awards Details -->
+
                         </div>
                     </div>
                 </div>
             </div>
+            </div>
             <script>
                 $(document).ready(function () {
+                    $("review").hide();
+
                     var id = $("#doctorId").val();
                     $.ajax({
                         method: 'GET',
@@ -290,6 +294,28 @@
                     });
 
 
+                    $.ajax({
+                        method: 'GET',
+                        url: '/DoctorClasses/Reviews?id=' + id,
+                        success: function (response) {
+                            $("#review").html(response);
+
+                        }
+                    });
+
+                    $("#btnReview").click(function () {
+                        $("#overView").hide();
+                        $("#review").show();
+                    });
+                    $("#btnOverView").click(function () {
+                       $("#review").hide();
+                        $("#overView").show();
+                    });
                 });
+
+
+            
+
+             
 
             </script>
