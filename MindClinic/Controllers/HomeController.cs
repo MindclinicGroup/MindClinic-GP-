@@ -73,6 +73,13 @@ namespace MindClinic.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public IActionResult SearchForDoctors()
+        {
+            var Doctor = _context.Users.Where(x => x.RoleId == "2").ToList();
+
+            return View(Doctor);
+        }
+
 
 
     }

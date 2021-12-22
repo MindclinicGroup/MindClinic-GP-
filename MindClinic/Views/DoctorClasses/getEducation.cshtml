@@ -1,0 +1,31 @@
+﻿@model IEnumerable<MindClinic.Models.Education>
+<!-- Education Details -->
+@{
+    Layout = null;
+ }
+
+    <h4 class="widget-title">Education</h4>
+    <div class="experience-box">
+        <ul class="experience-list">
+            @foreach (var item in Model)
+            {
+
+
+                <li>
+                    <div class="experience-user">
+                        <div class="before-circle"></div>
+                    </div>
+                    <div class="experience-content">
+                        <div class="timeline-content">
+                            <a href="#/" class="name">@item.College</a>
+                            <div>@item.Degree</div>
+                            <span class="time">@item.yearOfCompletion</span>
+                        </div>
+                    </div>
+                </li>
+}
+
+        </ul>
+    </div>
+
+<!-- /Education Details -->
