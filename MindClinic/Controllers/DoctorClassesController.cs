@@ -55,6 +55,13 @@ namespace MindClinic.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        public async Task<IActionResult> DoctorViewProfile(string id)
+        {
+            var user = _usermanager.Users.Where(x => x.Id == id).First();
+            return View(user);
+        }
+
+
         // GET: DoctorClasses/Details/5
         [HttpGet]
         public async Task<IActionResult> Details()
@@ -469,6 +476,32 @@ namespace MindClinic.Controllers
         private bool DoctorClassExists(int id)
         {
             return _context.Doctors.Any(e => e.id == id);
+        }
+        [HttpGet]
+        public string getAboutMe(string id) 
+        {
+            
+            return _context.Doctors.Where(x => x.userID == id).First().AboutMe;
+        }
+        [HttpGet]
+        public string getPrice(string id)
+        {
+
+            return _context.Doctors.Where(x => x.userID == id).First().pricePerSession.ToString();
+        }
+        [HttpGet]
+        public async Task<IActionResult> getEducation(string id)
+        {
+            var doctor = _context.Doctors.Where(x => x.userID == id).First();
+            return View(_context.Educations.Where(x => x.doctorId == doctor.id).ToList()) ;
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> getAwards(string id)
+        {
+            var doctor = _context.Doctors.Where(x => x.userID == id).First();
+            return View(_context.Awards.Where(x => x.doctorId == doctor.id).ToList());
+
         }
     }
 }

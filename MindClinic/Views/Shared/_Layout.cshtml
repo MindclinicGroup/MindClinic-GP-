@@ -50,7 +50,7 @@
                         </span>
                     </a>
                     <a href="index-2.html" class="navbar-brand logo">
-                        <img src="~/assets/img/logo.png" class="img-fluid" alt="Logo">
+                        <img src="~/assets/img/Capture1.PNG" class="img-fluid" alt="Logo">
                     </a>
                 </div>
                 <div class="main-menu-wrapper">
@@ -137,19 +137,22 @@
 
                             }
 
-                            @if (signInManager.IsSignedIn(User)&& User.IsInRole("PATIENT"))
+                            @if (signInManager.IsSignedIn(User) && User.IsInRole("PATIENT"))
                             {
                                 <li>
-                                    <a asp-action="Index" asp-controller="MyProfile" >MyProfile</a>
+                                    <a asp-action="Index" asp-controller="MyProfile">MyProfile</a>
                                 </li>
                             }
 
                             @if (signInManager.IsSignedIn(User) && User.IsInRole("DOCTOR"))
                             {
                                 <li>
-                                    <a asp-action="DoctorProfile" asp-controller="DoctorClasses" >MyProfile</a>
+                                    <a asp-action="DoctorProfile" asp-controller="DoctorClasses">MyProfile</a>
                                 </li>
                             }
+                            <li>
+                                <a asp-action="SearchForDoctors" asp-controller="Home">Doctors</a>
+                            </li>
                             <li class="login-link">
                                 <a>Login / Signup</a>
                             </li>

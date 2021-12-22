@@ -148,7 +148,8 @@
                                 </ul>
                                 <div class="row row-sm">
                                     <div class="col-6">
-                                        <a href="doctor-profile.html" class="btn view-btn">View Profile</a>
+                                        
+                                        <a asp-action="DoctorViewProfile" asp-controller="DoctorClasses" asp-route-id="@item.Id" class="btn view-btn">View Profile</a>
                                     </div>
                                     <div class="col-6">
                                         <a asp-action="getslots" asp-controller="Appointments" asp-route-id="@item.Id" class="btn book-btn">Book Now</a>
