@@ -26,25 +26,7 @@ namespace MindClinic.Controllers
         }
 
 
-        //public IActionResult DoctorProfile()
-        //{
-        //    var userid = _usermanager.GetUserId(HttpContext.User);
-        //    if (userid == null)
-        //    {
-        //        return RedirectToPage("/Account/Login", new { area = "Identity" });
-        //    }
-        //    User user = _usermanager.FindByIdAsync(userid).Result;
-        //    var doctor = _context.Doctors.Where(x => x.userID == userid);
-
-        //    dynamic UUUser = new System.Dynamic.ExpandoObject(); ;
-
-        //    UUUser.Ghaith = user;
-        //    UUUser.SSS = doctor;
-
-
-
-        //    return View(UUUser);
-        //}
+       
 
 
 
@@ -502,6 +484,47 @@ namespace MindClinic.Controllers
             var doctor = _context.Doctors.Where(x => x.userID == id).First();
             return View(_context.Awards.Where(x => x.doctorId == doctor.id).ToList());
 
+        }
+
+
+        [HttpGet]
+        public IActionResult Reviews(string ?id)
+        {
+
+
+            var reviews = _context.Reviews.Where(x => x.DoctorUserId == id).First();
+
+            return View(reviews);
+        }
+
+
+        public async Task<IActionResult> CreateReview(string DoctorId, string txt)
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+            var appointment = _context.Appointments.Where(x => x.patientId == userid && x.doctorId == DoctorId);
+
+
+            if (appointment.Any())
+            {
+                var Review = new Reviews
+            {
+                WriterUserId = userid,
+                DoctorUserId = DoctorId,
+                Text = txt,
+                TimeOfReview = DateTime.Now,
+            };
+
+            _context.Add(Review);
+            await _context.SaveChangesAsync();
+
+            return View();
+            }
+
+            else
+            {
+
+                return View();
+            }
         }
     }
 }
