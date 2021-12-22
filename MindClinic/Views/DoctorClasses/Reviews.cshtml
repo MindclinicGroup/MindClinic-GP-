@@ -4,13 +4,13 @@
     Layout = null;
 }
 
-<div role="tabpanel" id="doc_reviews" class="tab-pane fade">
+<div role="tabpanel" id="doc_reviews" >
     <div class="widget review-listing">
         <ul class="comments-list">
             @foreach (var item in Model)
             {<li>
                 <div class="comment">
-                    <img class="avatar avatar-sm rounded-circle" alt="User Image" src="~/Doctorsimage/@item.DoctorUser.image">
+                    <img class="avatar avatar-sm rounded-circle" alt="User Image" src="~/Doctorsimage/@item.WriterUser.image">
                     <div class="comment-body">
                         <div class="meta-data">
                             <span class="comment-author">@item.DoctorUser.Name</span>

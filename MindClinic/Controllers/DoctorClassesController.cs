@@ -490,9 +490,8 @@ namespace MindClinic.Controllers
         [HttpGet]
         public IActionResult Reviews(string ?id)
         {
-
-
-            var reviews = _context.Reviews.Where(x => x.DoctorUserId == id).First();
+            
+            var reviews = _context.Reviews.Where(x => x.DoctorUserId == id).Include(s=>s.DoctorUser).Include(s=>s.WriterUser).ToList();
 
             return View(reviews);
         }
