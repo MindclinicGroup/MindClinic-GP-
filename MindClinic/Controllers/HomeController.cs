@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MindClinic.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MindClinic.Controllers
 {
@@ -25,6 +26,33 @@ namespace MindClinic.Controllers
             _usermanager = usermanager;
         }
 
+
+        [HttpPost]
+        public JsonResult AutoComplete(string prefix)
+        {
+            var Doctor = (from doctor in _context.Users
+                    where doctor.Name.StartsWith(prefix)
+
+                    select new 
+                    {
+                        label=doctor.Name,
+                        val =doctor.Id,
+                    }
+                ).ToList();
+
+            return Json(Doctor);
+        }
+
+        [HttpPost]
+        public IActionResult Index(string DoctorName,string DoctorId)
+        {
+            var Doctor = _context.Users.Where(x => x.RoleId == "2").ToList();
+            ViewBag.Message = "DoctorName: " + DoctorName + "DoctorId:" + DoctorId;
+
+            return View(Doctor);
+
+        }
+
         public IActionResult Index()
         {
             var Doctor = _context.Users.Where(x => x.RoleId == "2").ToList();
@@ -36,6 +64,8 @@ namespace MindClinic.Controllers
         {
             return View();
         }
+
+       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
