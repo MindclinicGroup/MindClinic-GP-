@@ -43,6 +43,8 @@ namespace MindClinic.Controllers
             return View(user);
         }
 
+       
+
 
         // GET: DoctorClasses/Details/5
         [HttpGet]

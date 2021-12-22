@@ -48,6 +48,7 @@ namespace MindClinic.Controllers
         {
             var Doctor = _context.Users.Where(x => x.RoleId == "2").ToList();
             ViewBag.Message = "DoctorName: " + DoctorName + "DoctorId:" + DoctorId;
+            ViewBag.Doctor = DoctorId;
 
             return View(Doctor);
 
@@ -71,13 +72,6 @@ namespace MindClinic.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public IActionResult SearchForDoctors()
-        {
-            var Doctor = _context.Users.Where(x => x.RoleId == "2").ToList();
-
-            return View(Doctor);
         }
 
 

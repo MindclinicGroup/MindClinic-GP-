@@ -171,53 +171,7 @@
 
 
 
-                    <script type="text/javascript">
-                        $(function () {
-                            $("#txtDoctor").autocomplete({
-                                source: function (request, response) {
-                                    $.ajax({
-                                        url: '/Home/AutoComplete/',
-                                        data: { "prefix": request.term },
-                                        type: "POST",
-                                        success: function (data) {
-                                            response($.map(data,
-                                                function (item) {
-
-                                                    return item;
-                                                }))
-                                        },
-                                        error: function (response) {
-                                            alert(response.responseText)
-                                        },
-                                        failure: function (response) {
-                                            alert(response.responseText)
-                                        }
-                                    });
-                                },
-                                select: function (e, i) {
-                                    $("#hfDoctor").val(i.item.val);
-
-                                },
-                                minLength: 1
-                            });
-                        });
-
-                    </script>
-
-                    <!-- Search -->
-                    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-                    {
-
-                        <input id="txtDoctor" name="DoctorName" type="text" class="form-control" placeholder="Search Doctors">
-                        <input id="hfDoctor" name="DoctorId" type="hidden" class="form-control" placeholder="Search Doctors">
-
-                        @*<button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> <span>Search</span></button>*@
-                        <input asp-action="Search" type="submit" id="submit" value="Submit" />
-                        <br />
-                        <br />
-                        @ViewBag.Message
-
-                    }
+                    
                     <!-- /Search -->
 
 
