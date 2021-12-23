@@ -1,0 +1,29 @@
+﻿@model  IEnumerable<MindClinic.Models.Reviews>  
+@{
+    ViewData["Title"] = "Reviews";
+    Layout = null;
+}
+
+<div role="tabpanel" id="doc_reviews" >
+    <div class="widget review-listing">
+        <ul class="comments-list">
+            @foreach (var item in Model)
+            {<li>
+                <div class="comment">
+                    <img class="avatar avatar-sm rounded-circle" alt="User Image" src="~/Doctorsimage/@item.WriterUser.image">
+                    <div class="comment-body">
+                        <div class="meta-data">
+                            <span class="comment-author">@item.DoctorUser.Name</span>
+                            <span class="comment-date">@item.TimeOfReview</span>
+                        </div>
+                        <p class="comment-content">
+                           @item.Text
+                        </p>
+                    </div>
+                </div>
+            </li>
+            }
+        </ul>
+    </div>
+</div>
+

@@ -2,6 +2,7 @@
 @{
     Layout = "_LayoutDoctotDashboard";
 }
+
 <form asp-action="DoctorProfile">
     <h4 class="card-title">About Me</h4>
     <div class="form-group mb-0">
@@ -21,6 +22,11 @@
     </div>
 </form>
 <div id="education"></div>
+<div class="text-right"><button style="padding:5px;" class="btn btn-info" id="createEdu">add more</button></div>
+<div id="awards"></div>
+<div class="text-right"><button style="padding:5px;" class="btn btn-info" id="createAwards">add more</button></div>
+
+
 
 <script>
     $(document).ready(function () {
@@ -30,7 +36,62 @@
             url: '/DoctorClasses/DoctorEducation',
             success: function (response) {
                 $("#education").html(response);
+
             }
+        });
+
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+
+        $("#createEdu").click(function () {
+            $.ajax({
+                method: 'GET',
+                url: '/DoctorClasses/DoctorEducation?create=true',
+
+                success: function (response) {
+                    $("#education").html(response);
+
+                }
+            });
+
+        });
+
+
+
+
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            method: 'GET',
+            url: '/DoctorClasses/DoctorAwards',
+            success: function (response) {
+                $("#awards").html(response);
+
+            }
+        });
+
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+
+        $("#createAwards").click(function () {
+            $.ajax({
+                method: 'GET',
+                url: '/DoctorClasses/DoctorAwards?create=true',
+                success: function (response) {
+                    $("#awards").html(response);
+
+                }
+            });
         });
 
     });

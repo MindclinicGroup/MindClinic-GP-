@@ -45,11 +45,12 @@ namespace MindClinic.Controllers
             var userid = _usermanager.GetUserId(HttpContext.User);
             var TimeSelected = new Appointment
             {
+                Price = Doctor.pricePerSession,
                 patientId = userid,
                 doctorId = id,
                 status = "True",
                 Time = (DateTime)a
-                };
+            };
 
             _context.Add(TimeSelected);
             await _context.SaveChangesAsync();

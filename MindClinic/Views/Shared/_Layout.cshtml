@@ -50,7 +50,7 @@
                         </span>
                     </a>
                     <a href="index-2.html" class="navbar-brand logo">
-                        <img src="~/assets/img/logo.png" class="img-fluid" alt="Logo">
+                        <img src="~/assets/img/Capture1.PNG" class="img-fluid" alt="Logo">
                     </a>
                 </div>
                 <div class="main-menu-wrapper">
@@ -137,60 +137,113 @@
 
                             }
 
-                            @if (signInManager.IsSignedIn(User))
+                            @if (signInManager.IsSignedIn(User) && User.IsInRole("PATIENT"))
                             {
                                 <li>
-                                    <a asp-action="Index" asp-controller="MyProfile" target="_blank">MyProfile</a>
+                                    <a asp-action="Index" asp-controller="MyProfile">MyProfile</a>
                                 </li>
                             }
 
                             @if (signInManager.IsSignedIn(User) && User.IsInRole("DOCTOR"))
                             {
                                 <li>
-                                    <a asp-action="DoctorProfile" asp-controller="DoctorClasses" target="_blank">MyProfile</a>
+                                    <a asp-action="DoctorProfile" asp-controller="DoctorClasses">MyProfile</a>
                                 </li>
                             }
+                            <li>
+                                <a asp-action="SearchForDoctors" asp-controller="Home">Doctors</a>
+                            </li>
                             <li class="login-link">
                                 <a>Login / Signup</a>
                             </li>
                         </ul>
                     </div>
-                    <ul class="nav header-navbar-rht">
-                        <li class="nav-item contact-item">
-                            <div class="header-contact-img">
-                                <i class="far fa-hospital"></i>
-                            </div>
-                            <div class="header-contact-detail">
-                                <p class="contact-header">Contact</p>
-                                <p class="contact-info-header"> +1 315 369 5943</p>
-                            </div>
+                <ul class="nav header-navbar-rht">
+                    <li class="nav-item contact-item">
+                        <div class="header-contact-img">
+                            <i class="far fa-hospital"></i>
+                        </div>
+                        <div class="header-contact-detail">
+                            <p class="contact-header">Contact</p>
+                            <p class="contact-info-header"> +1 315 369 5943</p>
+                        </div>
+                    </li>
+
+
+
+                    <script type="text/javascript">
+                        $(function () {
+                            $("#txtDoctor").autocomplete({
+                                source: function (request, response) {
+                                    $.ajax({
+                                        url: '/Home/AutoComplete/',
+                                        data: { "prefix": request.term },
+                                        type: "POST",
+                                        success: function (data) {
+                                            response($.map(data,
+                                                function (item) {
+
+                                                    return item;
+                                                }))
+                                        },
+                                        error: function (response) {
+                                            alert(response.responseText)
+                                        },
+                                        failure: function (response) {
+                                            alert(response.responseText)
+                                        }
+                                    });
+                                },
+                                select: function (e, i) {
+                                    $("#hfDoctor").val(i.item.val);
+
+                                },
+                                minLength: 1
+                            });
+                        });
+
+                    </script>
+
+                    <!-- Search -->
+                    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+                    {
+
+                        <input id="txtDoctor" name="DoctorName" type="text" class="form-control" placeholder="Search Doctors">
+                        <input id="hfDoctor" name="DoctorId" type="hidden" class="form-control" placeholder="Search Doctors">
+
+                        @*<button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> <span>Search</span></button>*@
+                        <input asp-action="Search" type="submit" id="submit" value="Submit" />
+                        <br />
+                        <br />
+                        @ViewBag.Message
+
+                    }
+                    <!-- /Search -->
+
+
+                    @if (signInManager.IsSignedIn(User))
+                    {
+
+                        <li class="nav-item">
+                            <a asp-area="Identity" asp-page="/Account/Logout" asp->Logout </a>
                         </li>
 
-
-
-                        @if (signInManager.IsSignedIn(User))
-                        {
-
-                            <li class="nav-item">
-                                <a asp-area="Identity" asp-page="/Account/Logout" asp->Logout </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a asp-area="Identity" asp-page="/Account/Logout" asp-> </a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a asp-area="Identity" asp-page="/Account/Login" asp->login / Signup </a>
-                            </li>
-                        }
+                        <li class="nav-item">
+                            <a asp-area="Identity" asp-page="/Account/Logout" asp-> </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a asp-area="Identity" asp-page="/Account/Login" asp->login / Signup </a>
+                        </li>
+                    }
 
 
 
 
 
-                    </ul>
+                </ul>
                 </nav>
             </header>
         </div>
@@ -346,6 +399,9 @@
 
         <!-- Slick JS -->
         <script src="~/assets/js/slick.js"></script>
+        @*<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js" type="text/javascript"></script>*@
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js" type="text/javascript"></script>
+      <link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css" rel="stylesheet" type="text/css" />
 
         <!-- Custom JS -->
         <script src="~/assets/js/script.js"></script>

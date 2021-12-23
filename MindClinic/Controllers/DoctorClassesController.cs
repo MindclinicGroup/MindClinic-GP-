@@ -26,25 +26,7 @@ namespace MindClinic.Controllers
         }
 
 
-        //public IActionResult DoctorProfile()
-        //{
-        //    var userid = _usermanager.GetUserId(HttpContext.User);
-        //    if (userid == null)
-        //    {
-        //        return RedirectToPage("/Account/Login", new { area = "Identity" });
-        //    }
-        //    User user = _usermanager.FindByIdAsync(userid).Result;
-        //    var doctor = _context.Doctors.Where(x => x.userID == userid);
-
-        //    dynamic UUUser = new System.Dynamic.ExpandoObject(); ;
-
-        //    UUUser.Ghaith = user;
-        //    UUUser.SSS = doctor;
-
-
-
-        //    return View(UUUser);
-        //}
+       
 
 
 
@@ -54,6 +36,13 @@ namespace MindClinic.Controllers
             var applicationDbContext = _context.Doctors.Include(d => d.User);
             return View(await applicationDbContext.ToListAsync());
         }
+
+        public async Task<IActionResult> DoctorViewProfile(string id)
+        {
+            var user = _usermanager.Users.Where(x => x.Id == id).First();
+            return View(user);
+        }
+
 
         // GET: DoctorClasses/Details/5
         [HttpGet]
@@ -71,51 +60,94 @@ namespace MindClinic.Controllers
             return View(doctorClass);
         }
         [HttpGet]
-        public async Task<IActionResult> DoctorEducation()
+        public async Task<IActionResult> DoctorEducation(string?create)
         {
+
             var userid = _usermanager.GetUserId(HttpContext.User);
-            
+            var doctorClass = _context.Doctors.Where(x => x.userID == userid).First();
+            var educations = _context.Educations.Where(x => x.doctorId == doctorClass.id);
             try
             {
-                var doctorClass = _context.Doctors.Where(x => x.userID == userid).First();
-                var education = _context.Educations.Where(x => x.doctorId == doctorClass.id);
-                return View(education);
+                if (create != null)
+                {
+                    if (create.Equals("true"))
+                    {
+                        var education = new Education();
+                        education.doctorId = doctorClass.id;
+                        education.Degree = "";
+                        education.College = "";
+                        education.yearOfCompletion = "";
+                        _context.Add(education);
+                        await _context.SaveChangesAsync();
+                        educations = _context.Educations.Where(x => x.doctorId == doctorClass.id);
+                        return View(educations);
+                    }
+                }       
+                if (educations.Any())
+                {
+                    return View(educations);
+                }
+                else 
+                {
+                        var education = new Education();
+                        education.doctorId = doctorClass.id;
+                        education.Degree = "";
+                        education.College = "";
+                        education.yearOfCompletion = "";
+                        _context.Add(education);       
+                    await _context.SaveChangesAsync();
+                   
+                }
+
+
+
+
             }
             catch
             {
-                var doctorClass = _context.Doctors.Where(x => x.userID == userid).First();
-                var education = new Education();
-                education.doctorId = doctorClass.id;
-                education.Degree = "";
-                education.College = "";
-                education.yearOfCompletion = "";
-
-                _context.Add(education);
-                await _context.SaveChangesAsync();
-                return View(education);
+              
+              
             }
+            return null;
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DoctorEducation(int id, [Bind("id,Degree,College,yearOfCompletion")] Education educationUpdate)
+        public async Task<IActionResult> DoctorEducation(int id, string Degree,string College,string yearOfCompletion,string? delete)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
             var doctor = _context.Doctors.Where(x => x.userID == userid).First();
             var education = _context.Educations.Where(x => x.doctorId == doctor.id && x.id == id).First();
-            education.Degree = educationUpdate.Degree;
-            education.College = educationUpdate.College;
-            education.yearOfCompletion = educationUpdate.yearOfCompletion;
+
+            if (delete != null)
+            {
+                if (delete.Equals("true"))
+                {
+                   
+                    _context.Educations.Remove(education);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(DoctorProfile));
+                }
+            }
+            else
+            {
+
+              
+                if(Degree!=null)education.Degree = Degree;
+               if(College!=null) education.College = College;
+               if(yearOfCompletion!=null) education.yearOfCompletion = yearOfCompletion;
+                _context.Update(education);
+                await _context.SaveChangesAsync();
+            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(education);
-                    await _context.SaveChangesAsync();
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DoctorClassExists(educationUpdate.id))
+                    if (!DoctorClassExists(education.id))
                     {
                         return NotFound();
                     }
@@ -126,12 +158,12 @@ namespace MindClinic.Controllers
                 }
                 return RedirectToAction(nameof(DoctorProfile));
             }
-      //      ViewData["userID"] = new SelectList(_context.Users, "Id", "Id", doctorClass.userID);
-            return View(educationUpdate);
+         //   ViewData["userID"] = new SelectList(_context.Users, "Id", "Id", doctorClass.userID);
+            return View();
         }
 
         // GET: /DoctorClasses/DoctorProfile
-        public async Task<IActionResult> DoctorProfile()
+         public async Task<IActionResult> DoctorProfile()
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
 
@@ -152,14 +184,14 @@ namespace MindClinic.Controllers
                 await _context.SaveChangesAsync();
                 //
                 var doctor = _context.Doctors.Where(x => x.userID == userid).First();
-                var education = new Education { Degree = "", College = "", doctorId = doctor.id, yearOfCompletion = "" };
+               // var education = new Education { Degree="",College="",doctorId=doctor.id,yearOfCompletion=""};
                 //education.Degree = "";
                 //education.College = "";
                 //education.yearOfCompletion = "";
                 //education.doctorId = doctor.id;
                 // education.doctorId = doctorClass.id;
-                _context.Add(education);
-                await _context.SaveChangesAsync();
+            //    _context.Add(education);
+            //    await _context.SaveChangesAsync();
 
                 return View(doctorClass);
             }
@@ -324,9 +356,175 @@ namespace MindClinic.Controllers
 
             return View(user);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DoctorAwards(string?create)
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+            var doctorClass = _context.Doctors.Where(x => x.userID == userid).First();
+            var awards = _context.Awards.Where(x => x.doctorId == doctorClass.id);
+
+            if (create != null)
+            {
+                if (create.Equals("true"))
+                {
+                    var award = new Awards();
+                    award.doctorId = doctorClass.id;
+                    award.award = "";
+                    award.Year = "";
+                    _context.Add(award);
+                    await _context.SaveChangesAsync();
+                    awards = _context.Awards.Where(x => x.doctorId == doctorClass.id);
+                    return View(awards);
+                }
+            }
+            try
+            {
+               
+                if (awards.Any())
+                {
+                    return View(awards);
+                }
+                else
+                {
+                   
+                        var award = new Awards();
+                        award.doctorId = doctorClass.id;
+                        award.award = "";
+                        award.Year = "";
+                        _context.Add(award);
+                    
+                    await _context.SaveChangesAsync();
+                   
+                    awards = _context.Awards.Where(x => x.doctorId == doctorClass.id);
+                    return View(awards);
+                }
+            }
+            catch(Exception e)
+            {
+
+
+            }
+            return null;
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DoctorAwards(int id, string award, string year,string?delete)
+        {
+
+            var userid = _usermanager.GetUserId(HttpContext.User);
+            var doctor = _context.Doctors.Where(x => x.userID == userid).First();
+            var Award = _context.Awards.Where(x => x.doctorId == doctor.id && x.id == id).First();
+            if (delete != null)
+            {
+                if (delete.Equals("true"))
+                {
+
+                    _context.Awards.Remove(Award);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(DoctorProfile));
+                }
+            }
+            else
+            {
+                if (award != null) Award.award = award;
+                if (year != null) Award.Year = year;
+                _context.Update(Award);
+                await _context.SaveChangesAsync();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                  
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!DoctorClassExists(Award.id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(DoctorProfile));
+            }
+            //   ViewData["userID"] = new SelectList(_context.Users, "Id", "Id", doctorClass.userID);
+            return View();
+        }
+
         private bool DoctorClassExists(int id)
         {
             return _context.Doctors.Any(e => e.id == id);
+        }
+        [HttpGet]
+        public string getAboutMe(string id) 
+        {
+            
+            return _context.Doctors.Where(x => x.userID == id).First().AboutMe;
+        }
+        [HttpGet]
+        public string getPrice(string id)
+        {
+
+            return _context.Doctors.Where(x => x.userID == id).First().pricePerSession.ToString();
+        }
+        [HttpGet]
+        public async Task<IActionResult> getEducation(string id)
+        {
+            var doctor = _context.Doctors.Where(x => x.userID == id).First();
+            return View(_context.Educations.Where(x => x.doctorId == doctor.id).ToList()) ;
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> getAwards(string id)
+        {
+            var doctor = _context.Doctors.Where(x => x.userID == id).First();
+            return View(_context.Awards.Where(x => x.doctorId == doctor.id).ToList());
+
+        }
+
+
+        [HttpGet]
+        public IActionResult Reviews(string ?id)
+        {
+            
+            var reviews = _context.Reviews.Where(x => x.DoctorUserId == id).Include(s=>s.DoctorUser).Include(s=>s.WriterUser).ToList();
+
+            return View(reviews);
+        }
+
+
+        public async Task<IActionResult> CreateReview(string DoctorId, string txt)
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+            var appointment = _context.Appointments.Where(x => x.patientId == userid && x.doctorId == DoctorId);
+
+
+            if (appointment.Any())
+            {
+                var Review = new Reviews
+            {
+                WriterUserId = userid,
+                DoctorUserId = DoctorId,
+                Text = txt,
+                TimeOfReview = DateTime.Now,
+            };
+
+            _context.Add(Review);
+            await _context.SaveChangesAsync();
+
+            return View();
+            }
+
+            else
+            {
+
+                return View();
+            }
         }
     }
 }

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<MindClinic.Models.Awards>
+
+@{ 
+    Layout = null;
+}
+    <h4 class="widget-title">Awards</h4>
+    <div class="experience-box">
+        <ul class="experience-list">
+
+            @foreach (var item in Model) { 
+            <li>
+                <div class="experience-user">
+                    <div class="before-circle"></div>
+                </div>
+                <div class="experience-content">
+                    <div class="timeline-content">
+                        <p class="exp-year">@item.Year</p>
+                        <h4 class="exp-title">@item.award</h4>
+                    </div>
+                </div>
+            </li>
+            }
+        </ul>
+    </div>
