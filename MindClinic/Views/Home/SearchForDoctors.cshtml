@@ -9,23 +9,23 @@
         <form asp-action="SearchForDoctors" method="get">
             <div class="form-actions no-color">
                 <div style="padding-top:20px" class="input-group mb-3">
-                    <input type="text"  name="SearchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search for ..">
+                    <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search for ..">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="submit">Search</button>
                     </div>
                 </div>
                 @*<p>
-                    Find by name: <input type="text" value="@ViewData["CurrentFilter"]" />
-                    <input type="submit" value="Search" class="btn btn-default" /> |
-                    <a asp-action="SearchForDoctors">Back to Full List</a>
-                </p>*@
+                        Find by name: <input type="text" value="@ViewData["CurrentFilter"]" />
+                        <input type="submit" value="Search" class="btn btn-default" /> |
+                        <a asp-action="SearchForDoctors">Back to Full List</a>
+                    </p>*@
             </div>
             <div>
                 <div class="row">
-                    <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="name"> name</a>
+                    <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="name"> Name</a>
                 </div>
                 <div class="row">
-                    <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="age"> name</a>
+                    <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="age"> Age</a>
                 </div>
                 <div class="row">
                     <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="Male"> Male Doctors</a>
@@ -34,7 +34,7 @@
                     <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="Female"> Female Doctors</a>
                 </div>
 
-                <a asp-action="SearchForDoctors">reset</a>
+                <a asp-action="SearchForDoctors">Reset</a>
             </div>
         </form>
     </div>
@@ -75,7 +75,7 @@
                         </ul>
                         <div class="row row-sm">
                             <div class="col-6">
-                                <a  asp-action="DoctorViewProfile" asp-controller="DoctorClasses" asp-route-id="@item.Id"class="btn view-btn">View Profile</a>
+                                <a asp-action="DoctorViewProfile" asp-controller="DoctorClasses" asp-route-id="@item.Id" class="btn view-btn">View Profile</a>
                             </div>
                             <div class="col-6">
                                 <a asp-action="getslots" asp-controller="Appointments" asp-route-id="@item.Id" class="btn book-btn">Book Now</a>

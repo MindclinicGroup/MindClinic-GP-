@@ -20,7 +20,8 @@ namespace MindClinic.Controllers
         private ApplicationDbContext _context;
         private readonly UserManager<User> _usermanager;
 
-        public HomeController(ILogger<HomeController> logger , ApplicationDbContext context, UserManager<User> usermanager)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context,
+            UserManager<User> usermanager)
         {
             _logger = logger;
             _context = context;
@@ -34,10 +35,10 @@ namespace MindClinic.Controllers
             var Doctor = (from doctor in _context.Users
                     where doctor.Name.StartsWith(prefix)
 
-                    select new 
+                    select new
                     {
-                        label=doctor.Name,
-                        val =doctor.Id,
+                        label = doctor.Name,
+                        val = doctor.Id,
                     }
                 ).ToList();
 
@@ -45,7 +46,7 @@ namespace MindClinic.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string DoctorName,string DoctorId)
+        public IActionResult Index(string DoctorName, string DoctorId)
         {
             var Doctor = _context.Users.Where(x => x.RoleId == "2").ToList();
             ViewBag.Message = "DoctorName: " + DoctorName + "DoctorId:" + DoctorId;
@@ -68,7 +69,7 @@ namespace MindClinic.Controllers
 
             if (userid == null)
             {
-                return RedirectToPage("/Account/Login", new { area = "Identity" });
+                return RedirectToPage("/Account/Login", new {area = "Identity"});
             }
 
             //var applicationDbContext = _context.Reviews.Include(r => r.DoctorUser).Include(r => r.WriterUser);
@@ -96,9 +97,45 @@ namespace MindClinic.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
 
+        public IActionResult SearchForDoctors(string? searchString, string? sortOrder)
+        {
+            //ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";  
+            ViewData["CurrentFilter"] = searchString;
+
+            var Doctors = _context.Users.Where(x => x.RoleId == "2");
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Doctors = Doctors.Where(s => s.Name.Contains(searchString)
+                                             || s.Email.Contains(searchString)
+                );
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    Doctors = Doctors.OrderByDescending(s => s.Name);
+                    break;
+                case "age":
+                    Doctors = Doctors.OrderBy(s => s.Age);
+                    break;
+                case "Male":
+                    Doctors = Doctors.Where(s => s.Gender == "Male");
+                    break;
+                case "Female":
+                    Doctors = Doctors.Where(s => s.Gender == "Female");
+                    break;
+                default:
+                    Doctors = Doctors.OrderBy(s => s.Name);
+                    break;
+            }
+
+
+            return View(Doctors);
+        }
 
 
     }
