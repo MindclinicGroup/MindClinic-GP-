@@ -53,6 +53,8 @@ namespace MindClinic.Controllers
             }
         }
 
+       
+
 
         // GET: DoctorClasses/Details/5
         [HttpGet]
@@ -208,6 +210,7 @@ namespace MindClinic.Controllers
 
 
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DoctorProfile(int id, [Bind("id,AboutMe,pricePerSession,userID")] DoctorClass doctorClass)

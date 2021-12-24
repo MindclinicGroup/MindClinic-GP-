@@ -53,7 +53,7 @@
                         <img src="~/assets/img/Capture1.PNG" class="img-fluid" alt="Logo">
                     </a>
                 </div>
-                <div class="main-menu-wrapper">
+                <div  class="main-menu-wrapper text-center">
                     <div class="menu-header">
                         <a href="index-2.html" class="menu-logo">
                             <img src="~/assets/img/logo.png" class="img-fluid" alt="Logo">
@@ -63,41 +63,26 @@
                         </a>
                     </div>
                     <ul class="main-nav">
-                        <li class="active">
+                        <li >
                             <a asp-action="Index" asp-controller="Home">Home</a>
                         </li>
-
+                    @if (signInManager.IsSignedIn(User) && (User.IsInRole("DOCTOR") || User.IsInRole("ADMIN")))
+                    {
                         <li class="has-submenu">
-                            <a href="#">Admin <i class="fas fa-chevron-down"></i></a>
-                            <ul class="submenu">
-                                <li><a asp-action="Index" asp-controller="AdminDashboard">AdminDashboard</a></li>
-                            </ul>
+
+                        <li class="nav-item">
+                            <a asp-action="Create" asp-controller="Schedules" asp->Shcedule </a>
                         </li>
-
-                        <li class="has-submenu">
-                            <a href="#">Pages <i class="fas fa-chevron-down"></i></a>
-                            <ul class="submenu">
-                            </ul>
-                            @if (signInManager.IsSignedIn(User) && (User.IsInRole("DOCTOR") || User.IsInRole("ADMIN")))
-                            {
-
-
-                            <li class="nav-item">
-                                <a asp-action="Create" asp-controller="Schedules" asp->Shcedule </a>
-
-                            </li>
-                          
-                        }
-
-
-
-
-                            </li>
+                        
+                        </li>
+                    }
                             @if (signInManager.IsSignedIn(User) && User.IsInRole("ADMIN"))
                             {
                                 <li>
                                     <a asp-area="Identity" asp-page="/Account/Register" asp->Create a new User </a>
+
                                 </li>
+                                <li><a asp-action="Index" asp-controller="AdminDashboard">AdminDashboard</a></li>
 
                             }
 
@@ -114,13 +99,46 @@
                                     <a asp-action="DoctorProfile" asp-controller="DoctorClasses">MyProfile</a>
                                 </li>
                             }
-                            <li>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+
+                        @*<li>
                                 <a asp-action="SearchForDoctors" asp-controller="Home">Doctors</a>
                             </li>
+                             @if (signInManager.IsSignedIn(User) && User.IsInRole("PATIENT"))
+                            {
+                                <li>
+                                    <a asp-action="PatientAppointments" asp-controller="Home">My Appointments</a>
+                                </li>
+                            }
+
                             <li class="login-link">
                                 <a>Login / Signup</a>
                             </li>
                         </ul>
+                            </li>*@
+                        
+                        
+
+                        <li class="login-link">
+                            <a>Login / Signup</a>
+                        </li>
+                    <li>
+                        <a asp-controller="Home" asp-action="ContactUs">
+                            Contact
+                        </a>
+
+                    </li>
+                    
+                   
+                    </ul>
                     </div>
                 <ul class="nav header-navbar-rht">
                     <li class="nav-item contact-item">
@@ -135,54 +153,7 @@
 
 
 
-                    <script type="text/javascript">
-                        $(function () {
-                            $("#txtDoctor").autocomplete({
-                                source: function (request, response) {
-                                    $.ajax({
-                                        url: '/Home/AutoComplete/',
-                                        data: { "prefix": request.term },
-                                        type: "POST",
-                                        success: function (data) {
-                                            response($.map(data,
-                                                function (item) {
-
-                                                    return item;
-                                                }))
-                                        },
-                                        error: function (response) {
-                                            alert(response.responseText)
-                                        },
-                                        failure: function (response) {
-                                            alert(response.responseText)
-                                        }
-                                    });
-                                },
-                                select: function (e, i) {
-                                    $("#hfDoctor").val(i.item.val);
-
-                                },
-                                minLength: 1
-                            });
-                        });
-
-                    </script>
-
-                    <!-- Search -->
-                    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-                    {
-          
-
-                    <input id="txtDoctor" name="searchString" type="text" class="form-control" placeholder="Search Doctors">
-                    <input id="hfDoctor" name="DoctorId" type="hidden" class="form-control" placeholder="Search Doctors">
-
-                    @*<button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> <span>Search</span></button>*@
-                    <input asp-action="SearchForDoctors" type="submit" id="submit" value="Submit" />
-                    <br />
-                    <br />
-                    @ViewBag.Message
-
-                    }
+                    
                     <!-- /Search -->
 
 
