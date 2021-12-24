@@ -37,10 +37,20 @@ namespace MindClinic.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        public async Task<IActionResult> DoctorViewProfile(string id)
+        public async Task<IActionResult> DoctorViewProfile(string? id)
         {
-            var user = _usermanager.Users.Where(x => x.Id == id).First();
-            return View(user);
+            // for doctor view
+            if (id == null)
+            {
+                var userid = _usermanager.GetUserId(HttpContext.User);
+                var doctor = _usermanager.Users.Where(x => x.Id == userid).First();
+                return View(doctor);
+            }
+            else
+            {
+                var user = _usermanager.Users.Where(x => x.Id == id).First();
+                return View(user);
+            }
         }
 
 

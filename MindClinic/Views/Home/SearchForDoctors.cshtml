@@ -2,50 +2,89 @@
 
 @{
 
- }
+}
 
 <div class="row">
-@foreach (var item in Model)
-{
-    <!-- Doctor Widget -->
-    
-    <div class="profile-widget col-3"width="400"height="450">
-        <div class="doc-img ">
-
-            <a href="doctor-profile.html">
-                <img  width="300" height="200" alt="User Image" src="~/Doctorsimage/@item.image">
-            </a>
-
-            <a href="javascript:void(0)" class="fav-btn">
-                <i class="far fa-bookmark"></i>
-            </a>
-        </div>
-        <div class="pro-content">
-            <h3 class="title">
-                <a href="doctor-profile.html">@item.Name</a>
-                <i class="fas fa-check-circle verified"></i>
-            </h3>
-            <p class="speciality">MDS - Periodontology and Oral Implantology, BDS</p>
-            <ul class="available-info">
-                <li>
-                    <i class="fas fa-map-marker-alt"></i> @item.Gender
-                </li>
-                <li>
-                    <i class="far fa-clock"></i> @item.Age
-                </li>
-                <li>
-                    <i class="far fa-money-bill-alt"></i> $300
-                    <i class="fas fa-info-circle" data-toggle="tooltip" title="Lorem Ipsum"></i>
-                </li>
-            </ul>
-            <div class="row row-sm">
-                <div class="col-6">
-                    <a href="doctor-profile.html" class="btn view-btn">View Profile</a>
+    <div class=" col-2">
+        <form asp-action="SearchForDoctors" method="get">
+            <div class="form-actions no-color">
+                <div style="padding-top:20px" class="input-group mb-3">
+                    <input type="text"  name="SearchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search for ..">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    </div>
                 </div>
-                <div class="col-6">
-                    <a asp-action="getslots" asp-controller="Appointments" asp-route-id="@item.Id" class="btn book-btn">Book Now</a>
-                </div>
+                @*<p>
+                    Find by name: <input type="text" value="@ViewData["CurrentFilter"]" />
+                    <input type="submit" value="Search" class="btn btn-default" /> |
+                    <a asp-action="SearchForDoctors">Back to Full List</a>
+                </p>*@
             </div>
+            <div>
+                <div class="row">
+                    <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="name"> name</a>
+                </div>
+                <div class="row">
+                    <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="age"> name</a>
+                </div>
+                <div class="row">
+                    <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="Male"> Male Doctors</a>
+                </div>
+                <div class="row">
+                    <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="Female"> Female Doctors</a>
+                </div>
+
+                <a asp-action="SearchForDoctors">reset</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-10">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <!-- Doctor Widget -->
+
+                <div class="profile-widget col-3" width="400" height="450">
+                    <div class="doc-img ">
+
+                        <a href="doctor-profile.html">
+                            <img width="300" height="200" alt="User Image" src="~/Doctorsimage/@(item.image?? "Default.jpg")">
+                        </a>
+
+                        <a href="javascript:void(0)" class="fav-btn">
+                            <i class="far fa-bookmark"></i>
+                        </a>
+                    </div>
+                    <div class="pro-content">
+                        <h3 class="title">
+                            <a href="doctor-profile.html">@item.Name</a>
+                            <i class="fas fa-check-circle verified"></i>
+                        </h3>
+                        <p class="speciality">MDS - Periodontology and Oral Implantology, BDS</p>
+                        <ul class="available-info">
+                            <li>
+                                <i class="fas fa-map-marker-alt"></i> @item.Gender
+                            </li>
+                            <li>
+                                <i class="far fa-clock"></i> @item.Age
+                            </li>
+                            <li>
+                                <i class="far fa-money-bill-alt"></i> $300
+                                <i class="fas fa-info-circle" data-toggle="tooltip" title="Lorem Ipsum"></i>
+                            </li>
+                        </ul>
+                        <div class="row row-sm">
+                            <div class="col-6">
+                                <a  asp-action="DoctorViewProfile" asp-controller="DoctorClasses" asp-route-id="@item.Id"class="btn view-btn">View Profile</a>
+                            </div>
+                            <div class="col-6">
+                                <a asp-action="getslots" asp-controller="Appointments" asp-route-id="@item.Id" class="btn book-btn">Book Now</a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>}
         </div>
-    </div>}
+    </div>
 </div>

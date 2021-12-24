@@ -120,6 +120,8 @@ namespace MindClinic.Areas.Identity.Pages.Account
                     }
                     user.image = fileName;
                 }
+            
+
 
 
 
