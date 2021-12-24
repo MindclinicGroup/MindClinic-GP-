@@ -111,6 +111,18 @@
 
                         @*<li>
                                 <a asp-action="SearchForDoctors" asp-controller="Home">Doctors</a>
+                            </li>
+                             @if (signInManager.IsSignedIn(User) && User.IsInRole("PATIENT"))
+                            {
+                                <li>
+                                    <a asp-action="PatientAppointments" asp-controller="Home">My Appointments</a>
+                                </li>
+                            }
+
+                            <li class="login-link">
+                                <a>Login / Signup</a>
+                            </li>
+                        </ul>
                             </li>*@
                         
                         

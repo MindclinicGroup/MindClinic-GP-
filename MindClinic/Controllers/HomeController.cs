@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using MindClinic.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace MindClinic.Controllers
 {
@@ -59,6 +60,24 @@ namespace MindClinic.Controllers
             var Doctor = _context.Users.Where(x => x.RoleId == "2").ToList();
 
             return View(Doctor);
+        }
+
+        public IActionResult PatientAppointments()
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+
+            if (userid == null)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+
+            //var applicationDbContext = _context.Reviews.Include(r => r.DoctorUser).Include(r => r.WriterUser);
+
+            string user = _usermanager.FindByIdAsync(userid).Result.Id;
+
+            var App = _context.Appointments.Where(x => x.patientId == user).Include(x => x.doctor).ToList();
+
+            return View(App);
         }
 
         public IActionResult Privacy()
