@@ -233,5 +233,17 @@ namespace MindClinic.Controllers
         {
             return _context.Appointments.Any(e => e.id == id);
         }
+
+        public async Task<IActionResult> Cancel(int id)
+        {
+
+            Appointment appointment = _context.Appointments.Where(x => x.id == id).FirstOrDefault();
+            appointment.status = "False";
+            _context.Update(appointment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("PatientAppointments", "Home");
+
+        }
+
     }
 }
