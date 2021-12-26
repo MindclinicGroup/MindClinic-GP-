@@ -1,13 +1,13 @@
-﻿@model IEnumerable<MindClinic.Models.Appointment>
-
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<MindClinic.Models.Appointment>
+@inject SignInManager<User> signInManager;
 
 @{
-    ViewData["Title"] = "PatientAppointments";
-    Layout = "_LayoutDoctotDashboard";
+    
     DateTime now = DateTime.Now;
 }
 
-<h3>Upcoming appointments</h3>
+<br>
 
 <div class="tab-pane show active" id="upcoming-appointments">
     <div class="card card-table mb-0">
@@ -20,7 +20,7 @@
                             <th>Appt Date</th>
                             <th>Purpose</th>
                             <th>Status</th>
-                             <th>Description</th>
+                            <th>Description</th>
                             <th class="text-center">Paid Amount</th>
                             <th></th>
                         </tr>
@@ -54,12 +54,68 @@
                                     }
                                 </td>
                                 <td>@item.Description</td>
-                                <td class="text-center">@item.Price</td>
+                                <td class="text-center">$@item.Price</td>
                                 <td class="text-right">
                                     <div class="table-action">
-                                          <a asp-controller="Appointments" asp-action="Cancel" asp-route-id="@item.id" method="post" class="btn btn-sm bg-danger-light">
+                                        @if (item.status.ToString().Equals("True") && item.Time.CompareTo(now) > 0)
+                                        {
+                                            <a class="btn btn-sm bg-danger-light" data-toggle="modal" href="#Cancel_Appointment">
                                                 <i class="fas fa-times"></i> Cancel
+
                                             </a>
+
+                                            <div class="modal fade" id="Cancel_Appointment" aria-hidden="true" role="dialog">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Cancel Appointment</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row form-row">
+                                                                <div class="col-12 col-sm-6">
+                                                                    <h5 class="card-title text-center">Are you sure you want to cancel this appointment?</h5>
+                                                                    @{
+                                                                        if (item.Time.DayOfYear - now.DayOfYear < 2 && (item.Time.Year == now.Year))
+                                                                        {
+                                                                            <p class="text-warning">Less than 48 hours remaining.</p>
+                                                                            <p class="text-warning">Please note that you will be refunded half of the payed rate.</p>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <p class="text-primary">More than 48 hours remaining.</p>
+                                                                            <p class="text-primary">Please note that you will be refunded the full payed rate.</p>
+                                                                        }
+                                                                    }
+
+                                                                </div>
+                                                            </div>
+
+                                                            <form>
+                                                                <div class="row form-row">
+                                                                   
+                                                                        <div class="form-group row">
+                                                                            <div class="col-5"><label>Reason for Cancellation</label></div>
+                                                                            <div class="col-7"> <input name="description" type="text" class="form-control"></div>
+                                                                            
+                                                                       
+                                                                        </div>
+                                                                 
+
+                                                                </div>
+                                                                <button type="submit" class="btn btn btn-danger btn-block" asp-controller="Appointments" asp-action="Cancel" asp-route-id="@item.id" method="post">Cancel Appointment</button>
+                                                            </form>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        }
                                     </div>
                                 </td>
                             </tr>

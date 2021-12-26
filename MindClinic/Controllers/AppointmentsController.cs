@@ -26,7 +26,8 @@ namespace MindClinic.Controllers
         [HttpGet]
         public async Task<IActionResult> getslots(string? id)
         {
-            var applicationDbContext = _context.Schedules.Include(s => s.doctor).Where(s => s.doctorID == id);
+            DateTime current= DateTime.Now;
+            var applicationDbContext = _context.Schedules.Include(s => s.doctor).Where(s => s.doctorID == id&& s.startTime>=current);
             var appointments = new List<Appointment>();
 
             var doctor = _context.Doctors.Where(x => x.userID == id).First();
@@ -253,7 +254,18 @@ namespace MindClinic.Controllers
 
                 _context.Update(appointment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("PatientAppointments", "Home");
+                if (userid == appointment.doctorId)
+                {
+                    return RedirectToAction("GetDoctorAppointments", "Appointments");
+                }
+                else if (userid == appointment.patientId)
+                {
+                    return RedirectToAction("PatientAppointments", "Home");
+                }
+              
+        
+
+                return RedirectToAction("index", "Home");
             }
             catch (Exception e) 
             {

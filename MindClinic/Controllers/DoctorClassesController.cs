@@ -513,13 +513,6 @@ namespace MindClinic.Controllers
         public IActionResult Reviews(string? id)
         {
             List<Reviews> reviews;
-            if (id == null) 
-            {
-                var userid = _usermanager.GetUserId(HttpContext.User);
-                reviews = _context.Reviews.Where(x => x.DoctorUserId == userid).Include(s => s.DoctorUser).Include(s => s.WriterUser).ToList();
-
-            }
-            else
             reviews = _context.Reviews.Where(x => x.DoctorUserId == id).Include(s => s.DoctorUser).Include(s => s.WriterUser).ToList();
 
 
