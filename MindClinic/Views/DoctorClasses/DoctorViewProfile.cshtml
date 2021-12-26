@@ -11,7 +11,7 @@
                 <div class="doctor-widget">
                     <div class="doc-info-left">
                         <div class="doctor-img">
-                            <img src="~/Doctorsimage/@Model.image" class="img-fluid" alt="User Image">
+                            <img src="~/Doctorsimage/@(Model.image?? "Default.jpg")" class="img-fluid" alt="User Image">
                         </div>
                         <div hidden>
                             <input id="doctorId" value="@Model.Id" />

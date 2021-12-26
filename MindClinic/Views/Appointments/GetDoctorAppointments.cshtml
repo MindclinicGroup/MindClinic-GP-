@@ -1,0 +1,70 @@
+﻿@model IEnumerable<MindClinic.Models.Appointment>
+
+
+@{
+    ViewData["Title"] = "PatientAppointments";
+    Layout = "_LayoutDoctotDashboard";
+    DateTime now = DateTime.Now;
+}
+
+<h3>Upcoming appointments</h3>
+
+<div class="tab-pane show active" id="upcoming-appointments">
+    <div class="card card-table mb-0">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-center mb-0">
+                    <thead>
+                        <tr>
+                            <th>Doctor Name</th>
+                            <th>Appt Date</th>
+                            <th>Purpose</th>
+                            <th>Status</th>
+                            <th class="text-center">Paid Amount</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <h2 class="table-avatar">
+                                        <a href="patient-profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" alt="User Image" src="~/Doctorsimage/@(item.patient.image?? "Default.jpg")"></a>
+                                        <a href="patient-profile.html">@item.patient.Name<span>Therapy Session</span></a>
+                                    </h2>
+                                </td>
+                                <td>@item.Time.ToString("MM/dd/yyyy") <span class="d-block text-info">@item.Time.ToString("HH:mm")</span></td>
+                                <td>Therapy</td>
+                                <td>
+                                    @{
+                                        if (item.status.ToString().Equals("True") && item.Time.CompareTo(now) > 0)
+                                        {
+                                            <span class="badge badge-pill bg-success-light">Ongoing</span>
+                                        }
+                                        else if (item.status.ToString().Equals("True") && item.Time.CompareTo(now) < 0)
+                                        {
+                                            <span class="badge badge-pill bg-warning-light">Ended</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-pill bg-danger-light">Cancelled</span>
+                                        }
+                                    }
+                                </td>
+                                <td class="text-center">@item.Price</td>
+                                <td class="text-right">
+                                    <div class="table-action">
+                                        <a href="javascript:void(0);" class="btn btn-sm bg-danger-light">
+                                            <i class="fas fa-times"></i> Cancel
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

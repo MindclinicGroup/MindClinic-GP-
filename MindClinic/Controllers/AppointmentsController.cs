@@ -89,15 +89,14 @@ namespace MindClinic.Controllers
 
         }
 
-
-        // GET: Appointments
+         
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Appointments.Include(a => a.doctor).Include(a => a.patient);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Appointments/Details/5
+     
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -117,17 +116,14 @@ namespace MindClinic.Controllers
             return View(appointment);
         }
 
-        // GET: Appointments/Create
+  
         public IActionResult Create()
         {
             ViewData["doctorId"] = new SelectList(_context.Users, "Id", "Name");
             ViewData["patientId"] = new SelectList(_context.Users, "Id", "Name");
             return View();
         }
-
-        // POST: Appointments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+ 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,Time,status,doctorId,patientId")] Appointment appointment)
@@ -142,8 +138,7 @@ namespace MindClinic.Controllers
             ViewData["patientId"] = new SelectList(_context.Users, "Id", "Id", appointment.patientId);
             return View(appointment);
         }
-
-        // GET: Appointments/Edit/5
+ 
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -160,10 +155,7 @@ namespace MindClinic.Controllers
             ViewData["patientId"] = new SelectList(_context.Users, "Id", "Id", appointment.patientId);
             return View(appointment);
         }
-
-        // POST: Appointments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+ 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id,Time,status,doctorId,patientId")] Appointment appointment)
@@ -232,6 +224,13 @@ namespace MindClinic.Controllers
         private bool AppointmentExists(int id)
         {
             return _context.Appointments.Any(e => e.id == id);
+        }
+        public async Task<IActionResult> GetDoctorAppointments()
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+            var appointment =  _context.Appointments.Where(x=>x.doctorId==userid).Include(x=>x.patient);
+          
+            return View(appointment);
         }
     }
 }

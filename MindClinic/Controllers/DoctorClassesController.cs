@@ -475,14 +475,26 @@ namespace MindClinic.Controllers
         [HttpGet]
         public string getAboutMe(string id) 
         {
-            
-            return _context.Doctors.Where(x => x.userID == id).First().AboutMe;
+            try
+            {
+                return _context.Doctors.Where(x => x.userID == id).First().AboutMe;
+            }
+            catch (Exception e) 
+            {
+                return " ";
+            }
         }
         [HttpGet]
         public string getPrice(string id)
         {
-
-            return _context.Doctors.Where(x => x.userID == id).First().pricePerSession.ToString();
+            try
+            {
+                return _context.Doctors.Where(x => x.userID == id).First().pricePerSession.ToString();
+            }
+            catch(Exception ex) 
+            {
+                return " ";    
+            }
         }
         [HttpGet]
         public async Task<IActionResult> getEducation(string id)
