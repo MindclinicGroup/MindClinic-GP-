@@ -25,7 +25,8 @@ namespace MindClinic.Controllers
         // GET: Schedules
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Schedules.Include(s => s.doctor);
+            var userid = _usermanager.GetUserId(HttpContext.User);
+            var applicationDbContext = _context.Schedules.Where(x=>x.doctorID==userid).Include(s => s.doctor);
             return View(await applicationDbContext.ToListAsync());
         }
 

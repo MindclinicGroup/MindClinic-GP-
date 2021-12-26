@@ -20,6 +20,7 @@
                             <th>Appt Date</th>
                             <th>Purpose</th>
                             <th>Status</th>
+                             <th>Description</th>
                             <th class="text-center">Paid Amount</th>
                             <th></th>
                         </tr>
@@ -52,12 +53,13 @@
                                         }
                                     }
                                 </td>
+                                <td>@item.Description</td>
                                 <td class="text-center">@item.Price</td>
                                 <td class="text-right">
                                     <div class="table-action">
-                                        <a href="javascript:void(0);" class="btn btn-sm bg-danger-light">
-                                            <i class="fas fa-times"></i> Cancel
-                                        </a>
+                                          <a asp-controller="Appointments" asp-action="Cancel" asp-route-id="@item.id" method="post" class="btn btn-sm bg-danger-light">
+                                                <i class="fas fa-times"></i> Cancel
+                                            </a>
                                     </div>
                                 </td>
                             </tr>

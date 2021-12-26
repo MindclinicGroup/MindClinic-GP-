@@ -12,6 +12,7 @@ namespace MindClinic.Models
         public int id { get; set; }
         public DateTime Time { get; set; }
         public string status { get; set; }
+        public string Description { get; set; }
         public string doctorId { get; set; }
         public User doctor { get; set; }
         public string patientId { get; set; }

@@ -30,7 +30,7 @@ namespace MindClinic.Controllers
             var appointments = new List<Appointment>();
 
             var doctor = _context.Doctors.Where(x => x.userID == id).First();
-            
+
             foreach (var item in applicationDbContext)
             {
 
@@ -44,20 +44,20 @@ namespace MindClinic.Controllers
                     app.Price = doctor.pricePerSession;
 
                     var Appointment = from contextAppointment in _context.Appointments
-                        where (app.Time == contextAppointment.Time && app.doctorId==contextAppointment.doctorId) 
+                                      where (app.Time == contextAppointment.Time && app.doctorId == contextAppointment.doctorId)
 
-                        select contextAppointment;
+                                      select contextAppointment;
 
                     if (Appointment.Any())
                     {
-                        
+
                     }
                     else
                     {
                         appointments.Add(app);
                     }
 
-                             
+
                     item.startTime = item.startTime.AddHours(1);
 
                 }
@@ -69,7 +69,7 @@ namespace MindClinic.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> TimeSelected(DateTime a,string DoctorId)
+        public async Task<IActionResult> TimeSelected(DateTime a, string DoctorId)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
 
@@ -83,20 +83,20 @@ namespace MindClinic.Controllers
             };
 
             _context.Add(TimeSelected);
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
 
         }
 
-         
+
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Appointments.Include(a => a.doctor).Include(a => a.patient);
             return View(await applicationDbContext.ToListAsync());
         }
 
-     
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -116,14 +116,14 @@ namespace MindClinic.Controllers
             return View(appointment);
         }
 
-  
+
         public IActionResult Create()
         {
             ViewData["doctorId"] = new SelectList(_context.Users, "Id", "Name");
             ViewData["patientId"] = new SelectList(_context.Users, "Id", "Name");
             return View();
         }
- 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,Time,status,doctorId,patientId")] Appointment appointment)
@@ -138,7 +138,7 @@ namespace MindClinic.Controllers
             ViewData["patientId"] = new SelectList(_context.Users, "Id", "Id", appointment.patientId);
             return View(appointment);
         }
- 
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -155,7 +155,7 @@ namespace MindClinic.Controllers
             ViewData["patientId"] = new SelectList(_context.Users, "Id", "Id", appointment.patientId);
             return View(appointment);
         }
- 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id,Time,status,doctorId,patientId")] Appointment appointment)
@@ -226,22 +226,47 @@ namespace MindClinic.Controllers
             return _context.Appointments.Any(e => e.id == id);
         }
 
-        public async Task<IActionResult> Cancel(int id)
+        public async Task<IActionResult> Cancel(int id, string description)
         {
+            try
+            {
+                var userid = _usermanager.GetUserId(HttpContext.User);
 
-            Appointment appointment = _context.Appointments.Where(x => x.id == id).FirstOrDefault();
-            appointment.status = "False";
-            _context.Update(appointment);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("PatientAppointments", "Home");
+                Appointment appointment = _context.Appointments.Where(x => x.id == id).FirstOrDefault();
+               
+                if (userid == appointment.doctorId)
+                {
+                    appointment.Description = "Cancelled by doctor";
+                }
+                else if (userid == appointment.patientId)
+                {
+                    appointment.Description = "Cancelled by patient";
+                }
+                else if ((_usermanager.Users.Where(x => x.Id == userid).First().RoleId) == "1") // admin 
+                    appointment.Description = "Cancelled by Admin";
+
+                if (description != null)
+                { 
+                    appointment.Description += "\nNotes: " + description;
+                }
+                appointment.status = "False";
+
+                _context.Update(appointment);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("PatientAppointments", "Home");
+            }
+            catch (Exception e) 
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
         }
 
         public async Task<IActionResult> GetDoctorAppointments()
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
-            var appointment =  _context.Appointments.Where(x=>x.doctorId==userid).Include(x=>x.patient);
-          
+            var appointment = _context.Appointments.Where(x => x.doctorId == userid).Include(x => x.patient);
+
             return View(appointment);
         }
     }
