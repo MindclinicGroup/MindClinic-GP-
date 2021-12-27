@@ -5,14 +5,14 @@
 
 @{
     ViewData["Title"] = "Create";
+      Layout = "_LayoutDoctotDashboard";
     
 }
-
-<h1>Create</h1>
-
-<h4>Schedule</h4>
+ </br>
+<h4>Create new Schedule</h4>
 <hr />
 <div class="row">
+     <div class="col-md-4"></div>
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -44,7 +44,7 @@
                     </select>
                 </div>
             }
-            <div class="form-group">
+            <div class="form-group text-center">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -52,8 +52,6 @@
 </div>
 @if (signInManager.IsSignedIn(User) && User.IsInRole("ADMIN"))
 {
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
+    
 }
 

@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Delete";
+      Layout = "_LayoutDoctotDashboard";
 }
 
 <h1>Delete</h1>
@@ -33,7 +34,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger" />  
+    
     </form>
 </div>
