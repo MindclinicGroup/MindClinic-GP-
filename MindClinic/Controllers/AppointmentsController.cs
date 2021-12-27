@@ -74,6 +74,11 @@ namespace MindClinic.Controllers
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
 
+            if (userid == null)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+
             var TimeSelected = new Appointment
             {
                 patientId = userid,
