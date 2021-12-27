@@ -23,6 +23,8 @@ namespace MindClinic.Models
         [Required] 
         public DateTime TimeOfReview { get; set; }
        
+        [Required] 
+        public string Privacy { get; set; }
 
     }
 }

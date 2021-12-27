@@ -521,33 +521,29 @@ namespace MindClinic.Controllers
         }
 
 
-        public async Task<IActionResult> CreateReview(string DoctorId, string txt)
+
+        [HttpPost]
+        public async Task<IActionResult> CreateReview(string id, string txt,string Privacy)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
-            var appointment = _context.Appointments.Where(x => x.patientId == userid && x.doctorId == DoctorId);
-
-
-            if (appointment.Any())
-            {
+            var appointment = _context.Appointments.Where(x => x.patientId == userid && x.doctorId == id);
+            
+            
                 var Review = new Reviews
                 {
                     WriterUserId = userid,
-                    DoctorUserId = DoctorId,
+                    DoctorUserId = id,
                     Text = txt,
                     TimeOfReview = DateTime.Now,
+                    Privacy = Privacy
                 };
 
-                _context.Add(Review);
-                await _context.SaveChangesAsync();
+            _context.Add(Review);
+            await _context.SaveChangesAsync();
+        
+                return RedirectToAction("DoctorViewProfile","DoctorClasses",new {id=id});
 
-                return View();
-            }
-
-            else
-            {
-
-                return View();
-            }
+           
         }
     }
 }

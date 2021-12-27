@@ -9,21 +9,41 @@
         <ul class="comments-list">
             @foreach (var item in Model)
             {<li>
-                <div class="comment">
-                    <img class="avatar avatar-sm rounded-circle" alt="User Image" src="~/Doctorsimage/@item.WriterUser.image">
-                    <div class="comment-body">
-                        <div class="meta-data">
-                            <span class="comment-author">@item.DoctorUser.Name</span>
-                            <span class="comment-date">@item.TimeOfReview</span>
-                        </div>
-                        <p class="comment-content">
-                           @item.Text
-                        </p>
-                    </div>
-                </div>
-            </li>
+                 <div class="comment">
+                     @if (@item.Privacy == "Public")
+                     {
+                         <img class="avatar avatar-sm rounded-circle" alt="User Image" src="~/Doctorsimage/@item.WriterUser.image">
+                     }
+                     @if (@item.Privacy == "Private")
+                     {
+                         <img class="avatar avatar-sm rounded-circle" alt="User Image" src="~/Doctorsimage/Default.jpg">
+                     }
+
+                     <div class="comment-body">
+                         <div class="meta-data">
+                             @if (@item.Privacy == "Public")
+                             {
+                                 <span class="comment-author">@item.WriterUser.Name</span>
+                             }
+                             @if (@item.Privacy == "Private")
+                             {
+                                 <span class="comment-author">Private</span>
+                             }
+
+                             <span class="comment-date">@item.TimeOfReview</span>
+                         </div>
+                         <p class="comment-content">
+                             @item.Text
+                         </p>
+                     </div>
+                 </div>
+             </li>
             }
         </ul>
     </div>
+    
+   
+   
+
 </div>
 

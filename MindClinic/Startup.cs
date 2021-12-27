@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification;
 using MindClinic.Models;
 
 namespace MindClinic
@@ -33,8 +34,16 @@ namespace MindClinic
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+
             //services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<
             //    ApplicationDbContext>();
+
+            services.AddNotyf(config =>
+            {
+                config.DurationInSeconds = 10;
+                config.IsDismissable = true;
+                config.Position = NotyfPosition.BottomRight;
+            });
 
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
