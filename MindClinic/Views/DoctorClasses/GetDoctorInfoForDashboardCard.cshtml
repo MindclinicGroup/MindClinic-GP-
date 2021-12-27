@@ -6,7 +6,7 @@
 
 <div class="profile-info-widget">
     <a href="#" class="booking-doc-img">
-        <img src="~/Doctorsimage/@Model.image" alt="User Image">
+        <img src="~/Doctorsimage/@(Model.image?? "Default.jpg")" alt="User Image">
     </a>
     <div class="profile-det-info">
         <h3>Dr. @Model.Name</h3>

@@ -10,6 +10,7 @@
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+
 <link rel="stylesheet" href="~/assets/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="~/assets/css/feathericon.min.css">
 
@@ -64,7 +65,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="appointments.html">
+                                        <a asp-controller="Appointments" asp-action="GetDoctorAppointments">
                                             <i class="fas fa-calendar-check"></i>
                                             <span>Appointments</span>
                                         </a>
@@ -77,13 +78,7 @@
                                         </a>
                                     </li>
                                    
-                                    <li>
-                                        <a href="reviews.html">
-                                            <i class="fas fa-star"></i>
-                                            <span>Reviews</span>
-                                        </a>
-                                    </li>
-                                   
+                            
                                     <li>
                                         <a asp-controller="DoctorClasses" asp-action="DoctorProfile">
                                             <i class="fas fa-user-cog"></i>
@@ -91,7 +86,7 @@
                                         </a>
                                     </li>
  
-                                    <li class="active">
+                                    <li>
                                         <a href="doctor-change-password.html">
                                             <i class="fas fa-lock"></i>
                                             <span>Change Password</span>

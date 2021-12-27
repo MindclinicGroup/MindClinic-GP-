@@ -26,11 +26,12 @@ namespace MindClinic.Controllers
         [HttpGet]
         public async Task<IActionResult> getslots(string? id)
         {
-            var applicationDbContext = _context.Schedules.Include(s => s.doctor).Where(s => s.doctorID == id);
+            DateTime current= DateTime.Now;
+            var applicationDbContext = _context.Schedules.Include(s => s.doctor).Where(s => s.doctorID == id&& s.startTime>=current);
             var appointments = new List<Appointment>();
 
             var doctor = _context.Doctors.Where(x => x.userID == id).First();
-            
+
             foreach (var item in applicationDbContext)
             {
 
@@ -44,20 +45,20 @@ namespace MindClinic.Controllers
                     app.Price = doctor.pricePerSession;
 
                     var Appointment = from contextAppointment in _context.Appointments
-                        where (app.Time == contextAppointment.Time && app.doctorId==contextAppointment.doctorId) 
+                                      where (app.Time == contextAppointment.Time && app.doctorId == contextAppointment.doctorId)
 
-                        select contextAppointment;
+                                      select contextAppointment;
 
                     if (Appointment.Any())
                     {
-                        
+
                     }
                     else
                     {
                         appointments.Add(app);
                     }
 
-                             
+
                     item.startTime = item.startTime.AddHours(1);
 
                 }
@@ -69,7 +70,7 @@ namespace MindClinic.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> TimeSelected(DateTime a,string DoctorId)
+        public async Task<IActionResult> TimeSelected(DateTime a, string DoctorId)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
 
@@ -88,21 +89,20 @@ namespace MindClinic.Controllers
             };
 
             _context.Add(TimeSelected);
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
 
         }
 
 
-        // GET: Appointments
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Appointments.Include(a => a.doctor).Include(a => a.patient);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Appointments/Details/5
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -122,7 +122,7 @@ namespace MindClinic.Controllers
             return View(appointment);
         }
 
-        // GET: Appointments/Create
+
         public IActionResult Create()
         {
             ViewData["doctorId"] = new SelectList(_context.Users, "Id", "Name");
@@ -130,9 +130,6 @@ namespace MindClinic.Controllers
             return View();
         }
 
-        // POST: Appointments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,Time,status,doctorId,patientId")] Appointment appointment)
@@ -148,7 +145,6 @@ namespace MindClinic.Controllers
             return View(appointment);
         }
 
-        // GET: Appointments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -166,9 +162,6 @@ namespace MindClinic.Controllers
             return View(appointment);
         }
 
-        // POST: Appointments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id,Time,status,doctorId,patientId")] Appointment appointment)
@@ -237,6 +230,61 @@ namespace MindClinic.Controllers
         private bool AppointmentExists(int id)
         {
             return _context.Appointments.Any(e => e.id == id);
+        }
+
+        public async Task<IActionResult> Cancel(int id, string description)
+        {
+            try
+            {
+                var userid = _usermanager.GetUserId(HttpContext.User);
+
+                Appointment appointment = _context.Appointments.Where(x => x.id == id).FirstOrDefault();
+               
+                if (userid == appointment.doctorId)
+                {
+                    appointment.Description = "Cancelled by doctor";
+                }
+                else if (userid == appointment.patientId)
+                {
+                    appointment.Description = "Cancelled by patient";
+                }
+                else if ((_usermanager.Users.Where(x => x.Id == userid).First().RoleId) == "1") // admin 
+                    appointment.Description = "Cancelled by Admin";
+
+                if (description != null)
+                { 
+                    appointment.Description += "\nNotes: " + description;
+                }
+                appointment.status = "False";
+
+                _context.Update(appointment);
+                await _context.SaveChangesAsync();
+                if (userid == appointment.doctorId)
+                {
+                    return RedirectToAction("GetDoctorAppointments", "Appointments");
+                }
+                else if (userid == appointment.patientId)
+                {
+                    return RedirectToAction("PatientAppointments", "Home");
+                }
+              
+        
+
+                return RedirectToAction("index", "Home");
+            }
+            catch (Exception e) 
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+        }
+
+        public async Task<IActionResult> GetDoctorAppointments()
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+            var appointment = _context.Appointments.Where(x => x.doctorId == userid).Include(x => x.patient);
+
+            return View(appointment);
         }
     }
 }

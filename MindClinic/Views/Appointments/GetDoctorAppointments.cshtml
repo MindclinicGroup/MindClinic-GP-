@@ -3,7 +3,7 @@
 @inject SignInManager<User> signInManager;
 
 @{
-    ViewData["Title"] = "PatientAppointments";
+    
     DateTime now = DateTime.Now;
 }
 
@@ -31,8 +31,8 @@
                             <tr>
                                 <td>
                                     <h2 class="table-avatar">
-                                        <a href="patient-profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" alt="User Image" src="~/Doctorsimage/@(item.doctor.image?? "Default.jpg")"></a>
-                                        <a href="patient-profile.html">@item.doctor.Name<span>Therapy Session</span></a>
+                                        <a href="patient-profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" alt="User Image" src="~/Doctorsimage/@(item.patient.image?? "Default.jpg")"></a>
+                                        <a href="patient-profile.html">@item.patient.Name<span>Therapy Session</span></a>
                                     </h2>
                                 </td>
                                 <td>@item.Time.ToString("MM/dd/yyyy") <span class="d-block text-info">@item.Time.ToString("HH:mm")</span></td>
