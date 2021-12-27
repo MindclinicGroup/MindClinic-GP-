@@ -276,10 +276,13 @@ namespace MindClinic.Controllers
 
         public async Task<IActionResult> GetDoctorAppointments()
         {
-            var userid = _usermanager.GetUserId(HttpContext.User);
-            var appointment = _context.Appointments.Where(x => x.doctorId == userid).Include(x => x.patient);
-
-            return View(appointment);
+         
+                var userid = _usermanager.GetUserId(HttpContext.User);
+                ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId == userid).Count();
+                ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == userid).Sum(x=>x.Price);
+                var appointment = _context.Appointments.Where(x => x.doctorId == userid).Include(x => x.patient);
+                return View(appointment);
+           
         }
     }
 }
