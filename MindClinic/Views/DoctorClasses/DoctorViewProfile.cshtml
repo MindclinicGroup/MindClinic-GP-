@@ -108,6 +108,8 @@
                         <li class="nav-item">
                             <a id="btnReview" class="nav-link" data-toggle="tab">Reviews</a>
                         </li>
+                        
+
                         @*<li class="nav-item">
                             <a class="nav-link" href="#doc_business_hours" data-toggle="tab">Business Hours</a>
                             </li>*@
@@ -115,6 +117,62 @@
                 </nav>
                 <!-- /Tab Menu -->
                 <div id="review" class="tab-content pt-0">
+
+                    <div class="table-action">
+                        
+                        <div class="text-right">
+                            <a class="btn btn-sm bg-success-light " data-toggle="modal" href="#Cancel_Appointment">
+                                <i class="fas fa-plus"></i>Comment
+
+                            </a>
+
+                        </div>
+                        <div class="modal fade" id="Cancel_Appointment" aria-hidden="true" role="dialog">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Reviews</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row form-row">
+                                        </div>
+
+                                        <form method="post">
+                                            <div style="padding-left: 10px;" class="row form-row">
+
+                                                <div class="form-group row">
+                                                    <div class="form-group">
+                                                        <label for="exampleFormControlTextarea1"></label>
+                                                        <textarea placeholder="Write Your Comment Here:" class="form-control" id="txt" name="txt" rows="10" cols="60"></textarea>
+                                                    </div>
+                                                </div>
+                                                
+
+                                                <div class="form-group">
+                                                    <label  >Private</label>
+                                                    <input required type="radio" id="Private" name="Privacy" value="Private" />
+                                                    <label >Public</label>
+                                                    <input required type="radio" id="Public" name="Privacy" value="Public" />
+                                                </div>
+
+
+                                            </div>
+                                            <button type="submit" class="btn btn btn-success btn-block" asp-controller="DoctorClasses" asp-action="CreateReview" asp-route-id="@Model.Id" method="post">Done</button>
+                                        </form>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
                 </div>
                 <!-- Tab Content -->
                 <div id="overView" class="tab-content pt-0">
@@ -302,7 +360,7 @@
                     method: 'GET',
                     url: '/DoctorClasses/Reviews?id=' + id,
                     success: function (response) {
-                        $("#review").html(response);
+                        $("#review").append(response);
 
                     }
                 });

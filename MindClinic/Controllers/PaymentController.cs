@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace MindClinic.Controllers
 {
@@ -19,10 +20,12 @@ namespace MindClinic.Controllers
         private readonly ILogger<PaymentController> _logger;
         private ApplicationDbContext _context;
         private readonly UserManager<User> _usermanager;
-        public PaymentController(ApplicationDbContext context, UserManager<User> usermanager, ILogger<PaymentController> logger )
+        private readonly INotyfService _notyf;
+        public PaymentController(ApplicationDbContext context, UserManager<User> usermanager, ILogger<PaymentController> logger, INotyfService notyf)
         {   _logger = logger;
             _context = context;
             _usermanager = usermanager;
+            _notyf = notyf;
         }
         public async Task<IActionResult> Index(string id , DateTime time)
         {
@@ -52,9 +55,10 @@ namespace MindClinic.Controllers
                 Time = (DateTime)a
             };
 
+            _notyf.Success("Appointment is booked successfully");
             _context.Add(TimeSelected);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("PatientAppointments", "Home");
 
         }
     }

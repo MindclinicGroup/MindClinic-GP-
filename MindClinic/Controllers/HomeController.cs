@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using MindClinic.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -19,13 +20,15 @@ namespace MindClinic.Controllers
         private readonly ILogger<HomeController> _logger;
         private ApplicationDbContext _context;
         private readonly UserManager<User> _usermanager;
+        private readonly INotyfService _notyf;
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context,
-            UserManager<User> usermanager)
+            UserManager<User> usermanager, INotyfService notyf)
         {
             _logger = logger;
             _context = context;
             _usermanager = usermanager;
+            _notyf = notyf;
         }
 
 
@@ -86,10 +89,53 @@ namespace MindClinic.Controllers
             return View();
         }
 
-
-        public IActionResult ContactUs()
+        [HttpGet]
+        public async Task<IActionResult> ContactUs()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ContactUs(string name,string email,string subject,string msg)
+        {
+
+            var userid = _usermanager.GetUserId(HttpContext.User);
+           
+
+            if (userid != null)
+            {
+                var User = _context.Users.Where(x => x.Id == userid).First();
+                var Contact = new ContactUs
+                {
+                    Name = User.Name,
+                    Email = User.Email,
+                    Subject = subject,
+                    Message = msg
+
+                };
+                _notyf.Success("Thanks for Contacting Us");
+                _context.Add(Contact);
+                await _context.SaveChangesAsync();
+               
+            }
+            else
+            {
+                var Contact = new ContactUs
+                {
+                    Name = name,
+                    Email = email,
+                    Subject = subject,
+                    Message = msg
+
+                };
+                _notyf.Success("Thanks for Contacting Us");
+                _context.Add(Contact);
+                await _context.SaveChangesAsync();
+                
+            }
+
+
+            return RedirectToAction("Index","Home");
         }
 
 
@@ -136,6 +182,9 @@ namespace MindClinic.Controllers
 
             return View(Doctors);
         }
+
+
+
 
 
     }

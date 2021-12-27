@@ -313,8 +313,9 @@
     <link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css" rel="stylesheet" type="text/css" />
 
     <!-- Custom JS -->
-    <script src="~/assets/js/script.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<script src="~/assets/js/script.js"></script>
+@await Component.InvokeAsync("Notyf")
+@await RenderSectionAsync("Scripts", required: false)
 
 
 </body>
