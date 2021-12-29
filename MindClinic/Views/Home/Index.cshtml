@@ -49,12 +49,12 @@
 
             @using (Html.BeginForm("Index", "Home", FormMethod.Post))
             {
-
+                
                 <input id="txtDoctor" name="searchString" type="text" class="form-control" placeholder="Search Doctors">
                 <input id="hfDoctor" name="DoctorId" type="hidden" class="form-control" placeholder="Search Doctors">
 
                 @*<button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> <span>Search</span></button>*@
-                <input asp-action="SearchForDoctors" type="submit" id="submit" value="Submit" />
+                <input class="btn btn-success" asp-action="SearchForDoctors" type="submit" id="submit" value="Submit" />
                   <br/><br/>                                                                                                                                        
               
 
@@ -126,7 +126,7 @@
                             </div>
                             <div class="pro-content">
                                 <h3 class="title">
-                                    <a href="doctor-profile.html">@item.Name</a>
+                                    <a asp-action="DoctorViewProfile" asp-controller="DoctorClasses" asp-route-id="@item.Id">@item.Name</a>
                                     <i class="fas fa-check-circle verified"></i>
                                 </h3>
                                 <p class="speciality">MDS - Periodontology and Oral Implantology, BDS</p>

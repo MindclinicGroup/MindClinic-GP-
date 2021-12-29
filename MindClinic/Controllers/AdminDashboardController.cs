@@ -53,5 +53,18 @@ namespace MindClinic.Controllers
             var model1 = Tuple.Create<IEnumerable<MindClinic.Models.User>, IEnumerable<MindClinic.Models.Appointment>, IEnumerable<MindClinic.Models.User>>(Doctors, Appointments, Patients);
             return View(model1);
         }
+
+        public IActionResult Reviews()
+        {
+            var reviews = _context.Reviews.ToList();
+            return View(reviews);
+
+        }
+
+        public IActionResult ContactUs()
+        {
+            var contact = _context.ContactUs.ToList();
+            return View(contact);
+        }
     }
 }

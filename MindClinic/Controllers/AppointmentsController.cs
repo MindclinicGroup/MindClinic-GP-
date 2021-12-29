@@ -60,6 +60,9 @@ namespace MindClinic.Controllers
 
 
                     item.startTime = item.startTime.AddHours(1);
+                    item.startTime = item.startTime.AddMinutes(15);
+
+
 
                 }
             }
