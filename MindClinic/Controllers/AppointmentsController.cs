@@ -26,8 +26,8 @@ namespace MindClinic.Controllers
         [HttpGet]
         public async Task<IActionResult> getslots(string? id)
         {
-            DateTime current= DateTime.Now;
-            var applicationDbContext = _context.Schedules.Include(s => s.doctor).Where(s => s.doctorID == id&& s.startTime>=current);
+            DateTime current = DateTime.Now;
+            var applicationDbContext = _context.Schedules.Include(s => s.doctor).Where(s => s.doctorID == id && s.startTime >= current);
             var appointments = new List<Appointment>();
 
             var doctor = _context.Doctors.Where(x => x.userID == id).First();
@@ -242,7 +242,7 @@ namespace MindClinic.Controllers
                 var userid = _usermanager.GetUserId(HttpContext.User);
 
                 Appointment appointment = _context.Appointments.Where(x => x.id == id).FirstOrDefault();
-               
+
                 if (userid == appointment.doctorId)
                 {
                     appointment.Description = "Cancelled by doctor";
@@ -255,7 +255,7 @@ namespace MindClinic.Controllers
                     appointment.Description = "Cancelled by Admin";
 
                 if (description != null)
-                { 
+                {
                     appointment.Description += "\nNotes: " + description;
                 }
                 appointment.status = "False";
@@ -270,12 +270,12 @@ namespace MindClinic.Controllers
                 {
                     return RedirectToAction("PatientAppointments", "Home");
                 }
-              
-        
+
+
 
                 return RedirectToAction("index", "Home");
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -284,13 +284,14 @@ namespace MindClinic.Controllers
 
         public async Task<IActionResult> GetDoctorAppointments()
         {
-         
-                var userid = _usermanager.GetUserId(HttpContext.User);
-                ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId == userid).Count();
-                ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == userid).Sum(x=>x.Price);
-                var appointment = _context.Appointments.Where(x => x.doctorId == userid).Include(x => x.patient);
-                return View(appointment);
-           
+
+            var userid = _usermanager.GetUserId(HttpContext.User);
+            ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId == userid).Count();
+            ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == userid).Sum(x => x.Price);
+            var appointment = _context.Appointments.Where(x => x.doctorId == userid).Include(x => x.patient);
+            appointment = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Appointment, User>)appointment.OrderByDescending(x => x.Time);
+            return View(appointment);
+
         }
     }
 }

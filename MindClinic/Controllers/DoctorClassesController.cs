@@ -523,7 +523,7 @@ namespace MindClinic.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateReview(string id, string txt,string Privacy)
+        public async Task<IActionResult> CreateReview(string id, string txt,string rate,string Privacy)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
             var appointment = _context.Appointments.Where(x => x.patientId == userid && x.doctorId == id);
@@ -537,8 +537,18 @@ namespace MindClinic.Controllers
                     TimeOfReview = DateTime.Now,
                     Privacy = Privacy
                 };
+            var rating = new Rating
+            {
+                rating = int.Parse(rate),
+                doctorId = id,
+                patientId = userid,
 
+            };
+            var doctor = _context.Doctors.Where(x => x.userID == id).First();
+            doctor.AvgRating = ((doctor.RatingsCount * doctor.AvgRating) + rating.rating) / ++doctor.RatingsCount;
+            _context.Update(doctor);
             _context.Add(Review);
+            _context.Add(rating);
             await _context.SaveChangesAsync();
         
                 return RedirectToAction("DoctorViewProfile","DoctorClasses",new {id=id});
