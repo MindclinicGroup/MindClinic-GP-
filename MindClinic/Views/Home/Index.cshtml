@@ -138,7 +138,7 @@
                             </div>
                             <div class="pro-content">
                                 <h3 class="title">
-                                    <a href="doctor-profile.html">@item.Name</a>
+                                    <a asp-action="DoctorViewProfile" asp-controller="DoctorClasses" asp-route-id="@item.Id">@item.Name</a>
                                     <i class="fas fa-check-circle verified"></i>
                                 </h3>
                                 <p class="speciality">MDS - Periodontology and Oral Implantology, BDS</p>
