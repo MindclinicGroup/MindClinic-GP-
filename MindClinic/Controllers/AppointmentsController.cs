@@ -282,6 +282,31 @@ namespace MindClinic.Controllers
 
         }
 
+       public async Task<IActionResult> ChangeLink(int id, string link)
+        {
+            try
+            {
+                var userid = _usermanager.GetUserId(HttpContext.User);
+
+                Appointment appointment = _context.Appointments.Where(x => x.id == id).FirstOrDefault();
+
+
+                appointment.MeetingLink = link;
+
+                _context.Update(appointment);
+                await _context.SaveChangesAsync();
+
+
+                return RedirectToAction("GetDoctorAppointments", "Appointments");
+
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+        }
+       
         public async Task<IActionResult> GetDoctorAppointments()
         {
 
@@ -289,7 +314,6 @@ namespace MindClinic.Controllers
             ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId == userid).Count();
             ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == userid).Sum(x => x.Price);
             var appointment = _context.Appointments.Where(x => x.doctorId == userid).Include(x => x.patient);
-            appointment = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Appointment, User>)appointment.OrderByDescending(x => x.Time);
             return View(appointment);
 
         }

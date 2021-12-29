@@ -53,7 +53,7 @@ namespace MindClinic.Controllers
                 doctorId = id,
                 status = "True",
                 Time = (DateTime)a,
-                //MeetingLink = Doctor.DefaultMeetingLink
+                MeetingLink = Doctor.DefaultMeetingLink
             };
 
             _notyf.Success("Appointment is booked successfully");
