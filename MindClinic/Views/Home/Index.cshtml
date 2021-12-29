@@ -12,6 +12,22 @@
                 <p>Discover the best doctors, clinic & hospital the city nearest to you.</p>
             </div>
 
+
+            <!-- Search -->
+
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+            {
+
+                <input id="txtDoctor" name="searchString" type="text" class="form-control" placeholder="Search Doctors">
+                <input id="hfDoctor" name="DoctorId" type="hidden" class="form-control" placeholder="Search Doctors">
+                <div id="hello"></div>
+                @*<button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> <span>Search</span></button>*@
+                <input asp-action="SearchForDoctors" type="submit" id="submit" value="Submit" />
+                  <br/><br/>                                                                                                                                        
+              
+
+            }
+            
             <script type="text/javascript">
                         $(function () {
                             $("#txtDoctor").autocomplete({
@@ -44,21 +60,6 @@
                         });
 
             </script>
-
-            <!-- Search -->
-
-            @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-            {
-
-                <input id="txtDoctor" name="searchString" type="text" class="form-control" placeholder="Search Doctors">
-                <input id="hfDoctor" name="DoctorId" type="hidden" class="form-control" placeholder="Search Doctors">
-
-                @*<button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> <span>Search</span></button>*@
-                <input asp-action="SearchForDoctors" type="submit" id="submit" value="Submit" />
-                  <br/><br/>                                                                                                                                        
-              
-
-            }
 
         </div>
     </div>
