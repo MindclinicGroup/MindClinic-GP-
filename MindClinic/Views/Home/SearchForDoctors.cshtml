@@ -1,54 +1,55 @@
-﻿@model IEnumerable<MindClinic.Models.User>
+﻿@model PaginatedList<MindClinic.Models.User>
 
 @{
 
 }
 
 <div class="row">
-    <div class=" col-2">
-        <form asp-action="SearchForDoctors" method="get">
-            <div class="form-actions no-color">
-                <div style="padding-top:20px" class="input-group mb-3">
-                    <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search for ..">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit">Search</button>
-                    </div>
-                </div>
-                @*<p>
-                        Find by name: <input type="text" value="@ViewData["CurrentFilter"]" />
-                        <input type="submit" value="Search" class="btn btn-default" /> |
-                        <a asp-action="SearchForDoctors">Back to Full List</a>
-                    </p>*@
-            </div>
-            <div>
-                <div class="row">
-                    <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="name"> Name</a>
-                </div>
-                <div class="row">
-                    <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="age"> Age</a>
-                </div>
-                <div class="row">
-                    <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="Male"> Male Doctors</a>
-                </div>
-                <div class="row">
-                    <a asp-action="SearchForDoctors" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="Female"> Female Doctors</a>
-                </div>
 
-                <a asp-action="SearchForDoctors">Reset</a>
+
+
+    <div class="card-body text-center">
+
+        <form method="get" class="row">
+
+            <div class="col-5">
+                <input class="form-control" name="search" id="search" value="@ViewData["search"]"placeholder="Search for doctor's name, email.." />
             </div>
+            <div class="col-4">
+                <select class="form-control" id="orderby" name="orderby">
+                    <option value="@ViewData["orderBy"]" hidden selected> @ViewData["orderBy"]</option>
+                    <option value="Name">Name</option>
+                    <option value="Age">Age</option>
+                    <option value="Male Dcotors">Male Dcotors</option>
+                    <option value="Female Doctors">Female Doctors</option>
+             
+                     
+                </select>
+            </div>
+                
+       
+           
+                <button class="btn btn-outline-primary col-2" asp-route-pageNumber="@Model.PageIndex" asp-action="SearchForDoctors" asp-controller="Home">Filter</button>&nbsp;&nbsp;
+          
+              <a class="btn btn-outline-info" style="padding:10px;" asp-action="SearchForDoctors">Reset</a>
+
+
         </form>
+         
+          
     </div>
-    <div class="col-10">
+
+    <div class="col-12">
         <div class="row">
             @foreach (var item in Model)
             {
                 <!-- Doctor Widget -->
 
-                <div class="profile-widget col-3" width="400" height="450">
+                <div class="profile-widget col-lg-3 col-xl-2 col-md-4" width="400" height="400">
                     <div class="doc-img ">
 
                         <a href="doctor-profile.html">
-                            <img width="300" height="200" alt="User Image" src="~/Doctorsimage/@(item.image?? "Default.jpg")">
+                            <img width="250" height="150" alt="User Image" src="~/Doctorsimage/@(item.image?? "Default.jpg")">
                         </a>
 
                         <a href="javascript:void(0)" class="fav-btn">
@@ -83,8 +84,31 @@
 
                         </div>
                     </div>
-
-                </div>}
+                    
+                </div>  
+           }
         </div>
     </div>
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+
+</div>
+<div class="text-cinter">
+    <a asp-action="SearchForDoctors"
+       asp-route-orderby="@ViewData["orderBy"]"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       asp-route-search="@ViewData["search"]"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="SearchForDoctors"
+       asp-route-orderby="@ViewData["orderBy"]"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       asp-route-search="@ViewData["search"]"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
 </div>

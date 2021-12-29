@@ -15,52 +15,64 @@
 
             <!-- Search -->
 
-            @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+            <form>
+                <div style="padding-top:20px" class="input-group mb-3">
+                    <input type="text" name="search" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search for doctor's name, email ..">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" asp-controller="Home" asp-action="SearchForDoctors" type="submit" id="submit" value="Submit"> <i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+
+
+   @*         @using (Html.BeginForm("Index", "Home", FormMethod.Post))
             {
 
-                <input id="txtDoctor" name="searchString" type="text" class="form-control" placeholder="Search Doctors">
+                <input id="txtDoctor" name="search" type="text" class="form-control" placeholder="Search Doctors">
                 <input id="hfDoctor" name="DoctorId" type="hidden" class="form-control" placeholder="Search Doctors">
                 <div id="hello"></div>
-                @*<button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> <span>Search</span></button>*@
+               <button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> <span>Search</span></button>
                 <input asp-action="SearchForDoctors" type="submit" id="submit" value="Submit" />
-                  <br/><br/>                                                                                                                                        
-              
+                <br />
+
+                <br />
+
 
             }
-            
+
             <script type="text/javascript">
-                        $(function () {
-                            $("#txtDoctor").autocomplete({
-                                source: function (request, response) {
-                                    $.ajax({
-                                        url: '/Home/AutoComplete/',
-                                        data: { "prefix": request.term },
-                                        type: "POST",
-                                        success: function (data) {
-                                            response($.map(data,
-                                                function (item) {
+                $(function () {
+                    $("#txtDoctor").autocomplete({
+                        source: function (request, response) {
+                            $.ajax({
+                                url: '/Home/AutoComplete/',
+                                data: { "prefix": request.term },
+                                type: "POST",
+                                success: function (data) {
+                                    response($.map(data,
+                                        function (item) {
 
-                                                    return item;
-                                                }))
-                                        },
-                                        error: function (response) {
-                                            alert(response.responseText)
-                                        },
-                                        failure: function (response) {
-                                            alert(response.responseText)
-                                        }
-                                    });
+                                            return item;
+                                        }))
                                 },
-                                select: function (e, i) {
-                                    $("#hfDoctor").val(i.item.val);
-
+                                error: function (response) {
+                                    alert(response.responseText)
                                 },
-                                minLength: 1
+                                failure: function (response) {
+                                    alert(response.responseText)
+                                }
                             });
-                        });
+                        },
+                        select: function (e, i) {
+                            $("#hfDoctor").val(i.item.val);
+
+                        },
+                        minLength: 1
+                    });
+                });
 
             </script>
-
+*@
         </div>
     </div>
 </section>
@@ -76,7 +88,6 @@
             <div class="col-md-9">
                 <!-- Slider -->
                 <div class="specialities-slider slider">
-
                     <div class="speicality-item text-center">
                         <div class="speicality-img">
                             <img src="~/assets/img/specialities/specialities-02.png" class="img-fluid" alt="Speciality">
@@ -84,7 +95,7 @@
                         </div>
                         <p>Neurology</p>
                     </div>
-                   
+
 
                 </div>
                 <!-- /Slider -->
@@ -145,7 +156,7 @@
                                 </ul>
                                 <div class="row row-sm">
                                     <div class="col-6">
-                                        
+
                                         <a asp-action="DoctorViewProfile" asp-controller="DoctorClasses" asp-route-id="@item.Id" class="btn view-btn">View Profile</a>
                                     </div>
                                     <div class="col-6">
@@ -155,7 +166,6 @@
                             </div>
                         </div>
                         <!-- /Doctor Widget -->
-
                     }
 
 
@@ -220,6 +230,6 @@
             </div>
         </div>
     </div>
-</section>	
+</section>
 
 
