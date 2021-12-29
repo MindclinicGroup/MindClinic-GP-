@@ -5,7 +5,15 @@
 
 @{
     ViewData["Title"] = "Create";
-      Layout = "_LayoutDoctotDashboard";
+    @if (signInManager.IsSignedIn(User) && User.IsInRole("ADMIN"))
+    {
+
+    }
+    else
+    {
+        Layout = "_LayoutDoctotDashboard";
+    }
+
     
 }
  </br>

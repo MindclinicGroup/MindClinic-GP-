@@ -17,6 +17,7 @@ namespace MindClinic.Data
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<Reviews> Reviews { get; set; }
         public  DbSet<ContactUs> ContactUs { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
 
 
 

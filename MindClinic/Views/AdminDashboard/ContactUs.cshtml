@@ -1,13 +1,13 @@
-﻿@model IEnumerable<MindClinic.Models.User>
+﻿@model IEnumerable<MindClinic.Models.ContactUs>
+
 @{
-    ViewData["Title"] = "DoctorsList";
+    ViewData["Title"] = "ContactUs";
     Layout = "_LayoutAdminDashboard";
 }
 
 <div class="main-wrapper">
 
     <!-- Header -->
-   
     <!-- /Sidebar -->
     <!-- Page Wrapper -->
     <div class="page-wrapper">
@@ -17,10 +17,10 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h3 class="page-title">Doctor List</h3>
+                        <h3 class="page-title">ContactUs</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a asp-controller="AdminDashboard" asp-action="Index">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Doctor List</li>
+                            <li class="breadcrumb-item active">Contact US</li>
                         </ul>
                     </div>
                 </div>
@@ -36,35 +36,27 @@
                                 <table class="datatable table table-hover table-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th>Doctor Name</th>
-                                            <th>Age</th>
-                                            <th>Gender</th>
+                                            <th>Name</th>
                                             <th>Email</th>
-                                            <th>Doctor Photo</th>
-                                            
+                                            <th>Subject</th>
+                                            <th>Message</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach (var item in Model)
-                                    {
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
 
+                                                <td>@item.Name</td>
 
-                                    <tr>
+                                                <td>@item.Email</td>
 
-                                        <td>@item.Name</td>
-
-                                        <td>@item.Age</td>
-                                       
-                                        <td>@item.Gender</td>
-                                        <td>@item.Email</td>
-                                        <td>
-                                            
-                                            <span class="avatar avatar-sm">
-                                                <img class="avatar-img rounded-circle" alt="No Photo" src="~/Doctorsimage/@item.image">
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    }
+                                                <td>@item.Subject</td>
+                                                <td>@item.Message</td>
+                                                <td><a asp-controller="ContactUs" asp-action="Delete" asp-route-id="@item.Id">Delete</a> </td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -79,4 +71,3 @@
     <!-- /Page Wrapper -->
 
 </div>
-

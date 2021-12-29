@@ -19,5 +19,6 @@ namespace MindClinic.Models
         public User patient { get; set; }
 
         public double Price { get; set; }
+        public string MeetingLink { get; set; }
     }
 }
