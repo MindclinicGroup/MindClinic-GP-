@@ -282,6 +282,31 @@ namespace MindClinic.Controllers
 
         }
 
+       public async Task<IActionResult> ChangeLink(int id, string link)
+        {
+            try
+            {
+                var userid = _usermanager.GetUserId(HttpContext.User);
+
+                Appointment appointment = _context.Appointments.Where(x => x.id == id).FirstOrDefault();
+
+
+                appointment.MeetingLink = link;
+
+                _context.Update(appointment);
+                await _context.SaveChangesAsync();
+
+
+                return RedirectToAction("GetDoctorAppointments", "Appointments");
+
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+        }
+       
         public async Task<IActionResult> GetDoctorAppointments()
         {
 

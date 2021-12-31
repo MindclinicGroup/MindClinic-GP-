@@ -166,6 +166,53 @@
 
 
                                         }
+
+
+                                        @if (item.status.ToString().Equals("True") && item.Time.CompareTo(now) > 0)
+                                        {
+                                            <a class="btn btn-sm bg-info-light" data-toggle="modal" href="#Change_Link">
+                                                <i class="fas fa-gear"></i> Change Meeting Link
+                                            </a>
+
+                                            <div class="modal fade" id="Change_Link" aria-hidden="true" role="dialog">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Change Meeting Link</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row form-row">
+                                                                <div class="col-12 col-sm-6">
+                                                                    <h5 class="card-title text-left">Change patient meeting access link.</h5>
+                                                                    <br>
+                                                                            <p class="text-left">Current Meeting Link:</p>
+                                                                            <p href="@item.MeetingLink" class="text-info text-left">@item.MeetingLink</p>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <form>
+                                                                <div class="row form-row">
+
+                                                                    <div class="form-group row">
+                                                                        <div class="col-5"><label>New Meeting Link:</label></div>
+                                                                        <div class="col-7"> <input name="link" type="text" class="form-control"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <button type="submit" class="btn btn btn-info btn-block" asp-controller="Appointments" asp-action="ChangeLink" asp-route-id="@item.id" method="post">Change Meeting Link</button>
+                                                            </form>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        }
                                     </div>
                                 </td>
                             </tr>
