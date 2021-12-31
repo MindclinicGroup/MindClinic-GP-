@@ -289,7 +289,6 @@ namespace MindClinic.Controllers
             ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId == userid).Count();
             ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == userid).Sum(x => x.Price);
             var appointment = _context.Appointments.Where(x => x.doctorId == userid).Include(x => x.patient);
-            appointment = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Appointment, User>)appointment.OrderByDescending(x => x.Time);
             return View(appointment);
 
         }

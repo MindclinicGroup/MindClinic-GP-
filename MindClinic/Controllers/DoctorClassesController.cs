@@ -43,12 +43,12 @@ namespace MindClinic.Controllers
             if (id == null)
             {
                 var userid = _usermanager.GetUserId(HttpContext.User);
-                var doctor = _usermanager.Users.Where(x => x.Id == userid).First();
+                var doctor = _context.Doctors.Where(x => x.userID == userid).Include(s => s.User).First();
                 return View(doctor);
             }
             else
             {
-                var user = _usermanager.Users.Where(x => x.Id == id).First();
+                var user = _context.Doctors.Where(x => x.userID == id).Include(s => s.User).First();
                 return View(user);
             }
         }
@@ -213,12 +213,17 @@ namespace MindClinic.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DoctorProfile(int id, [Bind("id,AboutMe,pricePerSession,userID")] DoctorClass doctorClass)
+        public async Task<IActionResult> DoctorProfile(int id, [Bind("id,AboutMe,pricePerSession,userID,FacebookURL,InstagramURL,TwitterURL,LinkedinURL,YoutubeURL")] DoctorClass doctorClass)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
             var doctor = _context.Doctors.Where(x => x.userID == userid).First();
             doctor.AboutMe = doctorClass.AboutMe;
             doctor.pricePerSession = doctorClass.pricePerSession;
+            doctor.FacebookURL = doctorClass.FacebookURL;
+            doctor.InstagramURL = doctorClass.InstagramURL;
+            doctor.TwitterURL = doctorClass.TwitterURL;
+            doctor.LinkedinURL = doctorClass.LinkedinURL;
+            doctor.YoutubeURL = doctorClass.YoutubeURL;
 
             if (ModelState.IsValid)
             {
@@ -523,20 +528,20 @@ namespace MindClinic.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateReview(string id, string txt,string rate,string Privacy)
+        public async Task<IActionResult> CreateReview(string id, string txt, string rate, string Privacy)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
             var appointment = _context.Appointments.Where(x => x.patientId == userid && x.doctorId == id);
-            
-            
-                var Review = new Reviews
-                {
-                    WriterUserId = userid,
-                    DoctorUserId = id,
-                    Text = txt,
-                    TimeOfReview = DateTime.Now,
-                    Privacy = Privacy
-                };
+
+
+            var Review = new Reviews
+            {
+                WriterUserId = userid,
+                DoctorUserId = id,
+                Text = txt,
+                TimeOfReview = DateTime.Now,
+                Privacy = Privacy
+            };
             var rating = new Rating
             {
                 rating = int.Parse(rate),
@@ -550,10 +555,45 @@ namespace MindClinic.Controllers
             _context.Add(Review);
             _context.Add(rating);
             await _context.SaveChangesAsync();
-        
-                return RedirectToAction("DoctorViewProfile","DoctorClasses",new {id=id});
 
-           
+            return RedirectToAction("DoctorViewProfile", "DoctorClasses", new { id = id });
+
+
         }
+        public string getDoctorRatingAgePrice(string id)
+        {
+            try
+            {
+                var doctor = _context.Doctors.Where(x => x.userID == id).Include(x => x.User).First();
+
+                string html = " <div class=\"rating\">";
+                for (int i = 0; i < 5; i++)
+                {
+                    if (i < doctor.AvgRating)
+                    {
+                        html += "<i class=\"fas fa-star filled\"></i>";
+                    }
+                    else
+                    {
+                        html += "<i class=\"fas fa-star\"></i>";
+                    }
+                }
+
+                html += "<span class=\"d-inline-block average-rating\">(" + doctor.RatingsCount + ") </span>";
+
+                html += "</div><div> <ul> <li> <i class=\"fas fa-map-marker-alt\"></i> " + doctor.User.Gender;
+                html += " </li><li><i class=\"far fa-clock\"></i> "+doctor.User.Age+"</li><li>";
+                html += "    <i class=\"far fa-money-bill-alt\"></i> $" +doctor.pricePerSession;
+                html += "<i class=\"fas fa-info-circle\" data-toggle=\"tooltip\" title=\"Lorem Ipsum\"></i>";
+                html += "  </li>";
+                html += "  </ul></div>";
+                return html;
+            }
+            catch (Exception Ex)
+            {
+                return "";
+            }
+        }
+
     }
 }

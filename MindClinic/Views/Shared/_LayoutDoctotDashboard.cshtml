@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> signInManager;
 @{
-    // Layout = "_Layout";
+  //  Layout = "_Layout";
 }
 <!DOCTYPE html>
 
@@ -30,6 +30,7 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
+
     <div class="breadcrumb-bar">
         <div class="container-fluid">
             <div class="row align-items-center">
@@ -37,10 +38,10 @@
                     <nav aria-label="breadcrumb" class="page-breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">  <a asp-action="Index" asp-controller="Home">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Profile Settings</li>
+                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                         </ol>
                     </nav>
-                    <h2 class="breadcrumb-title">Profile Settings</h2>
+                    <h2 class="breadcrumb-title">Dashboard</h2>
                 </div>
             </div>
         </div>
@@ -123,7 +124,7 @@
 
     </div>
     <!-- /Page Content -->
-
+ 
 </body>
 
 </html>
