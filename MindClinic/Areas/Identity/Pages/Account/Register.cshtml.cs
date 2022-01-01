@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using MindClinic.Data;
 using MindClinic.Models;
 
 namespace MindClinic.Areas.Identity.Pages.Account
@@ -28,12 +29,14 @@ namespace MindClinic.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly IWebHostEnvironment _Host;
+        private readonly ApplicationDbContext _context;
 
 
         public RegisterModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             IWebHostEnvironment Host,
+             ApplicationDbContext context,
 
 
             ILogger<RegisterModel> logger,
@@ -44,6 +47,7 @@ namespace MindClinic.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _Host = Host;
+            _context = context;
 
         }
 
@@ -105,7 +109,7 @@ namespace MindClinic.Areas.Identity.Pages.Account
 
                 var user = new User { UserName = Input.Email, Email = Input.Email, Age = Input.Age, Gender = Input.Gender, Name = Input.Name, ImageFile = Input.Imagefile, RoleId = RoleRole,EmailConfirmed=true };
 
-
+              
 
 
                 if (user.ImageFile != null)
@@ -127,6 +131,16 @@ namespace MindClinic.Areas.Identity.Pages.Account
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
+                if (Input.role == "DOCTOR")
+                {
+                    var doctorClass = new DoctorClass();
+                    doctorClass.AboutMe = "";
+                    doctorClass.pricePerSession = 0;
+                    doctorClass.userID = user.Id;
+
+                    _context.Add(doctorClass);
+                    await _context.SaveChangesAsync();
+                }
 
                 var result2 = await _userManager.AddToRoleAsync(user, Input.role);
 

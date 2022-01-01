@@ -18,12 +18,64 @@
             <span asp-validation-for="pricePerSession" class="text-danger"></span>
         </div>
         <div class="col-6"></div>
-        <div class="col-2 text-right"> <input type="submit" value="Save" class="btn btn-primary" /></div>
+
+      @*  <div class="col-2 text-right"> <input type="submit" value="Save" class="btn btn-primary" /></div>*@
     </div>
+        <br />
+    <h4 class="card-title">Social Media URLs</h4>
+    <div class=" custom_price_cont" id="custom_price_cont" style="">
+        
+        <div class="col-md-12 row">
+
+            <div class="col-6 row">
+                <a class="btn btn-primary col-2" style="background-color: #3b5998;padding: 10px;" href="#!" role="button">
+                    <i class="fab fa-facebook-f"></i>
+                </a>&nbsp;
+                <input asp-for="FacebookURL" class="form-control col-9" />
+                <span asp-validation-for="FacebookURL" class="text-danger"></span>
+            </div>&nbsp;
+            <div class="col-6 row">
+                <a class="btn btn-primary col-2" style="background-color: #ac2bac; padding: 10px;" href="#!" role="button">
+                    <i class="fab fa-instagram"></i>
+                </a>&nbsp;
+                <input asp-for="InstagramURL" class="form-control col-9" />
+                <span asp-validation-for="InstagramURL" class="text-danger"></span>
+            </div> <br/>
+            <div class="col-6 row">
+                <a class="btn btn-primary col-2" style="background-color: #55acee; padding: 10px;" href="#!" role="button">
+                    <i class="fab fa-twitter"></i>
+                </a>&nbsp;
+                <input asp-for="TwitterURL" class="form-control col-9" />
+                <span asp-validation-for="TwitterURL" class="text-danger"></span>
+            </div>&nbsp;
+
+            <div class="col-6 row">
+                <a class="btn btn-primary col-2" style="background-color: #0082ca; padding: 10px;" href="#!" role="button">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>&nbsp;
+                <input asp-for="LinkedinURL" class="form-control col-9" />
+                <span asp-validation-for="LinkedinURL" class="text-danger"></span>
+            </div>&nbsp;<br/>
+
+            <div class="col-6 row">
+                <a class="btn btn-primary col-2" style="background-color: #ed302f; padding: 10px;" href="#!" role="button">
+                    <i class="fab fa-youtube"></i>
+                </a>&nbsp;
+                <input asp-for="YoutubeURL" class="form-control col-9" />
+                <span asp-validation-for="YoutubeURL" class="text-danger "></span>
+            </div>&nbsp;
+
+        </div>
+                   
+    </div>
+
+         <div class=" text-right"> <input type="submit" value="Save" class="btn btn-primary" /></div>
+         <hr style="height:1px;border-width:0;color:black;background-color:gray">
 </form>
-<br/>
+<br />
 <div id="education"></div>
 <div class="text-right"><button style="padding:5px;" class="btn btn-info" id="createEdu">add more</button></div>
+<hr style="height:1px;border-width:0;color:black;background-color:gray">
 <div id="awards"></div>
 <div class="text-right"><button style="padding:5px;" class="btn btn-info" id="createAwards">add more</button></div>
 

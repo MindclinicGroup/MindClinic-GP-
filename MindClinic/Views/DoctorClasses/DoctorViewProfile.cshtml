@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@model MindClinic.Models.User
+@model MindClinic.Models.DoctorClass
 @inject SignInManager<User> signInManager;
 
 
@@ -12,19 +12,19 @@
                 <div class="doctor-widget">
                     <div class="doc-info-left">
                         <div class="doctor-img">
-                            <img src="~/Doctorsimage/@(Model.image?? "Default.jpg")" class="img-fluid" alt="User Image">
+                            <img src="~/Doctorsimage/@(Model.User.image?? "Default.jpg")" class="img-fluid" alt="User Image">
                         </div>
                         <div hidden>
-                            <input id="doctorId" value="@Model.Id" />
+                            <input id="doctorId" value="@Model.User.Id" />
                         </div>
                         <div class="doc-info-cont">
-                            <h4 class="doc-name">@Model.Name</h4>
+                            <h4 class="doc-name">@Model.User.Name </h4>
                             <p class="doc-speciality">BDS, MDS - Oral & Maxillofacial Surgery</p>
 
                             <div class="rating">
                                 @for (int i = 0; i < 5; i++)
                                 {
-                                    if (i < 4)
+                                    if (i < @Model.AvgRating)
                                     {
                                         <i class="fas fa-star filled"></i>
                                     }
@@ -33,12 +33,8 @@
                                         <i class="fas fa-star"></i>
                                     }
                                 }
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star"></i>
-                                <span class="d-inline-block average-rating">(35)</span>
+                            
+                                <span class="d-inline-block average-rating">(@Model.RatingsCount)</span>
                             </div>
                             @*<div class="clinic-details">
                                 <p class="doc-location"><i class="fas fa-map-marker-alt"></i> Newyork, USA - <a href="javascript:void(0);">Get Directions</a></p>
@@ -67,22 +63,25 @@
                                 </div>*@
                             <div>
                                 <!-- Facebook -->
-                                <a class="btn btn-primary" style="background-color: #3b5998;" href="https://www.facebook.com/" target="_blank" role="button">
+                                <a class="btn btn-primary" style="background-color: #3b5998;" href="@Model.FacebookURL" target="_blank" role="button">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
 
                                 <!-- Twitter -->
-                                <a class="btn btn-primary" style="background-color: #55acee;" href="#!" role="button">
+                                <a class="btn btn-primary" style="background-color: #55acee;" href="@Model.TwitterURL" target="_blank" role="button">
                                     <i class="fab fa-twitter"></i>
                                 </a>
 
                                 <!-- Instagram -->
-                                <a class="btn btn-primary" style="background-color: #ac2bac;" href="#!" role="button">
+                                <a class="btn btn-primary" style="background-color: #ac2bac;" href="@Model.InstagramURL" target="_blank" role="button">
                                     <i class="fab fa-instagram"></i>
                                 </a>
                                 <!-- Youtube -->
-                                <a class="btn btn-primary" style="background-color: #ed302f;" href="#!" role="button">
+                                <a class="btn btn-primary" style="background-color: #ed302f;" href="@Model.YoutubeURL" target="_blank" role="button">
                                     <i class="fab fa-youtube"></i>
+                                </a>
+                                <a class="btn btn-primary" style="background-color: #0082ca;" href="@Model.LinkedinURL" target="_blank" role="button">
+                                    <i class="fab fa-linkedin-in"></i>
                                 </a>
 
                             </div>
@@ -112,7 +111,7 @@
                         @if (!User.IsInRole("DOCTOR"))
                         {
                             <div class="clinic-booking">
-                                <a class="apt-btn" asp-action="getslots" asp-controller="Appointments" asp-route-id="@Model.Id">Book Appointment</a>
+                                <a class="apt-btn" asp-action="getslots" asp-controller="Appointments" asp-route-id="@Model.User.Id">Book Appointment</a>
                             </div>
                         }
                     </div>
@@ -199,7 +198,7 @@
 
 
                                             </div>
-                                            <button type="submit" class="btn btn btn-success btn-block" asp-controller="DoctorClasses" asp-action="CreateReview" asp-route-id="@Model.Id" method="post">Done</button>
+                                            <button type="submit" class="btn btn btn-success btn-block" asp-controller="DoctorClasses" asp-action="CreateReview" asp-route-id="@Model.User.Id" method="post">Done</button>
                                         </form>
 
 

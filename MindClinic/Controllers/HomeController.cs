@@ -51,7 +51,7 @@ namespace MindClinic.Controllers
         [HttpPost]
         public IActionResult Index(string DoctorName, string DoctorId)
         {
-            var Doctor = _context.Users.Where(x => x.RoleId == "2").ToList();
+            var Doctor = _context.Doctors.Include(x => x.User).ToList();
             ViewBag.Message = "DoctorName: " + DoctorName + "DoctorId:" + DoctorId;
             ViewBag.Doctor = DoctorId;
 
@@ -61,7 +61,7 @@ namespace MindClinic.Controllers
 
         public IActionResult Index()
         {
-            var Doctor = _context.Users.Where(x => x.RoleId == "2").ToList();
+            var Doctor = _context.Doctors.Include(x=>x.User).ToList();
 
             return View(Doctor);
         }
@@ -185,7 +185,7 @@ namespace MindClinic.Controllers
                 }
             }
 
-            int pageSize = 10;
+            int pageSize = 8;
 
             return View(await PaginatedList<User>.CreateAsync(Doctors.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
