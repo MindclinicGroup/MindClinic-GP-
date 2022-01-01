@@ -98,8 +98,28 @@
                             <li>
                                 <a asp-action="DoctorProfile" asp-controller="DoctorClasses">MyProfile</a>
                             </li>
+
+                            <li>
+                                <a asp-action="SearchForSecretary" asp-controller="Home">Secretary</a>
+                            </li>
                         }
 
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Secretary"))
+                        {
+                            <li>
+                                <a asp-controller="Appointments" asp-action="GetDoctorAppointmentsSecretary">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>My Doctor Appointments</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a asp-controller="Home" asp-action="SecretaryRequests">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>Requests</span>
+                                </a>
+                            </li>
+                        }
                         <li>
                             <a asp-action="SearchForDoctors" asp-controller="Home">Doctors</a>
                         </li>

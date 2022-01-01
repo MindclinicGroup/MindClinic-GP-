@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MindClinic.Data;
 
 namespace MindClinic.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211229165916_SecretaryClassAdded")]
+    partial class SecretaryClassAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,9 +165,6 @@ namespace MindClinic.Data.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
@@ -403,9 +402,6 @@ namespace MindClinic.Data.Migrations
                     b.Property<string>("SecretaryId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("Work")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
@@ -413,36 +409,6 @@ namespace MindClinic.Data.Migrations
                     b.HasIndex("SecretaryId");
 
                     b.ToTable("Secretary");
-                });
-
-            modelBuilder.Entity("MindClinic.Models.SecretaryRequests", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("DoctorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Salary")
-                        .HasColumnType("float");
-
-                    b.Property<string>("SecretaryID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("SecretaryID");
-
-                    b.ToTable("SecretaryRequests");
                 });
 
             modelBuilder.Entity("MindClinic.Models.User", b =>
@@ -661,25 +627,6 @@ namespace MindClinic.Data.Migrations
                     b.HasOne("MindClinic.Models.User", "Secretary")
                         .WithMany()
                         .HasForeignKey("SecretaryId");
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Secretary");
-                });
-
-            modelBuilder.Entity("MindClinic.Models.SecretaryRequests", b =>
-                {
-                    b.HasOne("MindClinic.Models.User", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MindClinic.Models.User", "Secretary")
-                        .WithMany()
-                        .HasForeignKey("SecretaryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Doctor");
 

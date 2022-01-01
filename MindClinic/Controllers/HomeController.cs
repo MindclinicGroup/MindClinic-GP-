@@ -186,6 +186,146 @@ namespace MindClinic.Controllers
 
 
 
+        public IActionResult SearchForSecretary(string? searchString, string? sortOrder)
+        {
+            //ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";  
+            ViewData["CurrentFilter"] = searchString;
+
+            var Secretary = _context.Users.Where(x => x.RoleId == "4");
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Secretary = Secretary.Where(s => s.Name.Contains(searchString)
+                                                 || s.Email.Contains(searchString)
+                );
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    Secretary = Secretary.OrderByDescending(s => s.Name);
+                    break;
+                case "age":
+                    Secretary = Secretary.OrderBy(s => s.Age);
+                    break;
+                case "Male":
+                    Secretary = Secretary.Where(s => s.Gender == "Male");
+                    break;
+                case "Female":
+                    Secretary = Secretary.Where(s => s.Gender == "Female");
+                    break;
+                default:
+                    Secretary = Secretary.OrderBy(s => s.Name);
+                    break;
+            }
+
+
+            return View(Secretary);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> WorkWithMe()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult>  WorkWithMe(string id,string Msg,double salary)
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+
+            var Request = new SecretaryRequests
+            {
+                SecretaryID = id,
+                DoctorId = userid,
+                Message = Msg,
+                Salary = salary,
+            };
+
+            _notyf.Success("Request Sent");
+            _context.Add(Request);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index","Home");
+
+        }
+
+
+        public async Task<IActionResult> SecretaryViewProfile(string? id)
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+
+
+
+
+            if (id == null)
+            {
+                var Sacertary = _usermanager.Users.Where(x => x.Id == userid).First();
+                return View(Sacertary);
+            }
+            else
+            {
+                var Sacertary = _usermanager.Users.Where(x => x.Id == id).First();
+                return View(Sacertary);
+            }
+        }
+
+
+        public IActionResult SecretaryRequests()
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+            var Secretary = _context.SecretaryRequests.Where(x => x.SecretaryID == userid).Include(s=>s.Doctor).Include(y=>y.Secretary).ToList();
+
+            return View(Secretary);
+
+        }
+
+
+       
+
+        public async Task<IActionResult> AcceptRequest(string id,double salary,string status,int ReqId)
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+            var requset = _context.SecretaryRequests.Where(x => x.SecretaryID == userid).First();
+            var Secretary = _context.Secretary.Where(x => x.DoctorId == id).Count();
+
+            
+
+            
+            if (status == "Yes")
+            {
+
+                var req = _context.SecretaryRequests.Where(x => x.Id == ReqId).First();
+                var secretary = new SecretaryClass
+                {
+                    SecretaryId = userid,
+                    DoctorId = id,
+                    Salary = salary,
+                };
+                _notyf.Success("Request Accepted");
+                _context.Add(secretary);
+                _context.Remove(req);
+                await _context.SaveChangesAsync();
+
+            }
+            else
+            {
+                var Request = _context.SecretaryRequests.Where(x => x.Id == ReqId).First();
+                _notyf.Error("Request Rejected");
+                _context.Remove(Request);
+                await _context.SaveChangesAsync();
+
+            }
+
+            
+
+            return RedirectToAction("SecretaryRequests");
+
+        }
 
     }
+
+
 }
+
+

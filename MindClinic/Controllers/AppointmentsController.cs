@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,11 +16,13 @@ namespace MindClinic.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _usermanager;
+        private readonly INotyfService _notyf;
 
-        public AppointmentsController(ApplicationDbContext context, UserManager<User> usermanager)
+        public AppointmentsController(ApplicationDbContext context, UserManager<User> usermanager, INotyfService notyf)
         {
             _context = context;
             _usermanager = usermanager;
+            _notyf = notyf;
         }
 
 
@@ -240,6 +243,7 @@ namespace MindClinic.Controllers
             try
             {
                 var userid = _usermanager.GetUserId(HttpContext.User);
+                var user = _context.Users.Where(x => x.Id == userid).First();
 
                 Appointment appointment = _context.Appointments.Where(x => x.id == id).FirstOrDefault();
                
@@ -253,6 +257,11 @@ namespace MindClinic.Controllers
                 }
                 else if ((_usermanager.Users.Where(x => x.Id == userid).First().RoleId) == "1") // admin 
                     appointment.Description = "Cancelled by Admin";
+
+                else if ((_usermanager.Users.Where(x => x.Id == userid).First().RoleId) == "4")//Secretary
+                {
+                    appointment.Description = "Cancelled by Secretary";
+                }
 
                 if (description != null)
                 { 
@@ -269,6 +278,11 @@ namespace MindClinic.Controllers
                 else if (userid == appointment.patientId)
                 {
                     return RedirectToAction("PatientAppointments", "Home");
+                }
+               else if (user.RoleId=="4")
+
+                {
+                    return RedirectToAction("GetDoctorAppointmentsSecretary", "Appointments");
                 }
               
         
@@ -292,5 +306,56 @@ namespace MindClinic.Controllers
                 return View(appointment);
            
         }
+
+        public async Task<IActionResult> GetDoctorAppointmentsSecretary(string id)
+        {
+
+            var userid = _usermanager.GetUserId(HttpContext.User);
+            var secretary = _context.Secretary.Where(x => x.SecretaryId == userid).First();
+
+            ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId ==id ).Count();
+            ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == id).Sum(x => x.Price);
+            var appointment = _context.Appointments.Where(x => x.doctorId == id).Include(x => x.patient);
+            var Secretary = _context.Secretary.Where(x=>x.SecretaryId==userid).Include(s=>s.Doctor).ToList();
+
+
+
+            var model1 = Tuple.Create<IEnumerable<MindClinic.Models.SecretaryClass>, IEnumerable<MindClinic.Models.Appointment>>(Secretary, appointment);
+
+            return View(model1);
+
+        }
+
+        [HttpGet]
+        public IActionResult SecretaryAppointemnt()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SecretaryAppointemnt(DateTime time,string id,string status,double price,int duration)
+        {
+            var userid = _usermanager.GetUserId(HttpContext.User);
+
+            var secretary = _context.Secretary.Where(x => x.SecretaryId == userid).First();
+
+            var appointemt = new Appointment
+            {
+                Time = time,
+                doctorId = secretary.DoctorId,
+                patientId = id,
+                Price = price,
+                status = "True",
+                Duration = duration,
+               
+                
+            };
+            _notyf.Success("Appointment Created");
+            _context.Add(appointemt);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("GetDoctorAppointmentsSecretary");
+        }
+
     }
 }

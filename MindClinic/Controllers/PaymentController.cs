@@ -52,7 +52,12 @@ namespace MindClinic.Controllers
                 patientId = userid,
                 doctorId = id,
                 status = "True",
-                Time = (DateTime)a
+                Time = (DateTime)a,
+                Duration = 60,
+                
+              
+                
+                
             };
 
             _notyf.Success("Appointment is booked successfully");

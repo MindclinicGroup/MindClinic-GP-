@@ -78,10 +78,12 @@
             @if (signInManager.IsSignedIn(User) && User.IsInRole("ADMIN"))
             {
                 <div class="form-group">
-                    <label for="PATIENT">PATIENT</label>
-                    <input asp-for="Input.role" type="radio" id="PATIENT" value="PATIENT" />
                     <label for="DOCTOR">DOCTOR</label>
                     <input asp-for="Input.role" type="radio" id="DOCTOR" value="DOCTOR" />
+                    <label for="DOCTOR">Secretary</label>
+                    <input asp-for="Input.role" type="radio" id="Secretary" value="Secretary" />
+                    <label for="PATIENT">PATIENT</label>
+                    <input asp-for="Input.role" type="radio" id="PATIENT" value="PATIENT" />
                 </div>
             }
 

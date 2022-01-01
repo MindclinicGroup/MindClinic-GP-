@@ -100,7 +100,10 @@ namespace MindClinic.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
 
-                if (Input.role == "ADMIN"){RoleRole = "1";}else if (Input.role == "DOCTOR"){ RoleRole = "2";}else if (Input.role == "PATIENT") { RoleRole = "3";}
+                if (Input.role == "ADMIN"){RoleRole = "1";}else if (Input.role == "DOCTOR"){ RoleRole = "2";}else if (Input.role == "PATIENT") { RoleRole = "3";} else if
+                    (Input.role == "Secretary")
+                {
+                    RoleRole = "4";}
 
 
                 var user = new User { UserName = Input.Email, Email = Input.Email, Age = Input.Age, Gender = Input.Gender, Name = Input.Name, ImageFile = Input.Imagefile, RoleId = RoleRole,EmailConfirmed=true };

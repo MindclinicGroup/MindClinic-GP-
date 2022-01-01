@@ -116,34 +116,36 @@ namespace MindClinic.Controllers
             return View(contactUs);
         }
 
-        // GET: ContactUs/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var contactUs = await _context.ContactUs
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (contactUs == null)
-            {
-                return NotFound();
-            }
-
-            return View(contactUs);
-        }
-
-        // POST: ContactUs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var contactUs = await _context.ContactUs.FindAsync(id);
             _context.ContactUs.Remove(contactUs);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index","AdminDashboard");
         }
+
+        // GET: ContactUs/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var contactUs = await _context.ContactUs
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (contactUs == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(contactUs);
+        //}
+
+        // POST: ContactUs/Delete/5
+       
 
         private bool ContactUsExists(int id)
         {

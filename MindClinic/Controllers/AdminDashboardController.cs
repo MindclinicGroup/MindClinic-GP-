@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.Extensions.Logging;
 using MindClinic.Data;
 
@@ -12,10 +13,13 @@ namespace MindClinic.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly INotyfService _notyf;
 
-        public AdminDashboardController(ApplicationDbContext context)
+        public AdminDashboardController(ApplicationDbContext context, INotyfService notyf, ILogger<HomeController> logger)
         {
             _context = context;
+            _notyf = notyf;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -61,10 +65,25 @@ namespace MindClinic.Controllers
 
         }
 
+        
+
         public IActionResult ContactUs()
         {
             var contact = _context.ContactUs.ToList();
             return View(contact);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteContactUs(int id)
+        {
+            var Contact = _context.ContactUs.Where(x => x.Id == id).First();
+
+            _notyf.Error("Deleted");
+            _context.ContactUs.Remove(Contact);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("ContactUs");
+
         }
     }
 }

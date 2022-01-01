@@ -76,7 +76,7 @@
                 <!-- User Menu -->
                 <li class="nav-item dropdown has-arrow">
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                        <span >@User.Identity.Name</span>
+                        <span>@User.Identity.Name</span>
                     </a>
                     <div class="dropdown-menu">
                         <a asp-area="Identity" asp-page="/Account/Logout" asp->Logout </a>
@@ -101,17 +101,17 @@
                         <li>
                             <a asp-controller="AdminDashboard" asp-action="Index"><i class="fe fe-home"></i> <span>Dashboard</span></a>
                         </li>
-                        <li >
+                        <li>
                             <a asp-controller="AdminDashboard" asp-action="Appointment"><i class="fe fe-user-plus"></i> <span>Appointments</span></a>
                         </li>
 
-                        <li >
+                        <li>
                             <a asp-controller="AdminDashboard" asp-action="DoctorsList"><i class="fe fe-user-plus"></i> <span>Doctors</span></a>
                         </li>
                         <li>
                             <a asp-controller="AdminDashboard" asp-action="PatientList"><i class="fe fe-user"></i> <span>Patients</span></a>
                         </li>
-                        
+
                         <li>
                             <a asp-controller="AdminDashboard" asp-action="ContactUs"><i class="fe fe-user"></i> <span>Contacts</span></a>
                         </li>
@@ -123,7 +123,7 @@
                         </li>
 
                     </ul>
-                    
+
                 </div>
             </div>
         </div>
@@ -135,14 +135,14 @@
 
     </div>
 
-<script>
-    $(document).ready(function() {
-        $("li").on('click',
-            function() {
-                $(this).addClass("active");
-            });
-    });
-</script>
+    <script>
+        $(document).ready(function () {
+            $("li").on('click',
+                function () {
+                    $(this).addClass("active");
+                });
+        });
+    </script>
 
     <script src="~/Admin/assets/js/jquery-3.2.1.min.js"></script>
 
@@ -156,9 +156,11 @@
     <!-- Datatables JS -->
     <script src="~/Admin/assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="~/Admin/assets/plugins/datatables/datatables.min.js"></script>
+    @await Component.InvokeAsync("Notyf")
+    @await RenderSectionAsync("Scripts", required: false)
 
     <!-- Custom JS -->
-<script src="~/Admin/assets/js/script.js"></script>
+    <script src="~/Admin/assets/js/script.js"></script>
 
 
 </body>
