@@ -193,41 +193,48 @@ namespace MindClinic.Controllers
 
 
 
-        public IActionResult SearchForSecretary(string? searchString, string? sortOrder)
+        public async Task<IActionResult> SearchForSecretary(string? search, string? orderby, int? pageNumber)
         {
             //ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";  
-            ViewData["CurrentFilter"] = searchString;
+            ViewData["search"] = search;
 
-            var Secretary = _context.Users.Where(x => x.RoleId == "4");
-            if (!String.IsNullOrEmpty(searchString))
+            var secretary = _context.Users.Where(x => x.RoleId == "4");
+            if (!String.IsNullOrEmpty(search))
             {
-                Secretary = Secretary.Where(s => s.Name.Contains(searchString)
-                                                 || s.Email.Contains(searchString)
+                secretary = secretary.Where(s => s.Name.Contains(search)
+                                             || s.Email.Contains(search)
                 );
+                ViewData["search"] = search;
             }
-
-            switch (sortOrder)
+            if (orderby != null)
             {
-                case "name_desc":
-                    Secretary = Secretary.OrderByDescending(s => s.Name);
-                    break;
-                case "age":
-                    Secretary = Secretary.OrderBy(s => s.Age);
-                    break;
-                case "Male":
-                    Secretary = Secretary.Where(s => s.Gender == "Male");
-                    break;
-                case "Female":
-                    Secretary = Secretary.Where(s => s.Gender == "Female");
-                    break;
-                default:
-                    Secretary = Secretary.OrderBy(s => s.Name);
-                    break;
+                ViewData["orderBy"] = orderby;
+                switch (orderby)
+                {
+
+                    case "Name_desc":
+                        secretary = secretary.OrderByDescending(s => s.Name);
+                        break;
+                    case "Age":
+                        secretary = secretary.OrderBy(s => s.Age);
+                        break;
+                    case "Male Secretary":
+                        secretary = secretary.Where(s => s.Gender == "Male");
+                        break;
+                    case "Female Secretary":
+                        secretary = secretary.Where(s => s.Gender == "Female");
+                        break;
+                    default:
+                        secretary = secretary.OrderBy(s => s.Name);
+                        break;
+
+                }
             }
 
+            int pageSize = 8;
 
-            return View(Secretary);
+            return View(await PaginatedList<User>.CreateAsync(secretary.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         [HttpGet]
