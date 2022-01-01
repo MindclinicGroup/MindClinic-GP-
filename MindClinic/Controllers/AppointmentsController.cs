@@ -250,24 +250,29 @@ namespace MindClinic.Controllers
                 if (userid == appointment.doctorId)
                 {
                     appointment.Description = "Cancelled by doctor";
+                    
                 }
                 else if (userid == appointment.patientId)
                 {
                     appointment.Description = "Cancelled by patient";
+                    
+
                 }
                 else if ((_usermanager.Users.Where(x => x.Id == userid).First().RoleId) == "1") // admin 
                     appointment.Description = "Cancelled by Admin";
+                
 
                 else if ((_usermanager.Users.Where(x => x.Id == userid).First().RoleId) == "4")//Secretary
                 {
                     appointment.Description = "Cancelled by Secretary";
+                   
                 }
 
                 if (description != null)
                 {
                     appointment.Description += "\nNotes: " + description;
                 }
-                appointment.status = "False";
+                appointment.status = "Canceled";
 
                 _context.Update(appointment);
                 await _context.SaveChangesAsync();
@@ -328,8 +333,8 @@ namespace MindClinic.Controllers
         {
 
             var userid = _usermanager.GetUserId(HttpContext.User);
-            ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId == userid).Count();
-            ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == userid).Sum(x => x.Price);
+            ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId == userid && x.status!="Canceled").Count();
+            ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == userid && x.status!="Canceled").Sum(x => x.Price);
             var appointment = _context.Appointments.Where(x => x.doctorId == userid).Include(x => x.patient);
             return View(appointment);
 
@@ -337,12 +342,16 @@ namespace MindClinic.Controllers
 
         public async Task<IActionResult> GetDoctorAppointmentsSecretary(string id)
         {
+            if (id != null)
+            {
+                ViewBag.Name = _context.Users.Where(x => x.Id == id).First().Name;
+            }
 
             var userid = _usermanager.GetUserId(HttpContext.User);
             var secretary = _context.Secretary.Where(x => x.SecretaryId == userid).First();
 
-            ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId ==id ).Count();
-            ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == id).Sum(x => x.Price);
+            ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId ==id && x.status!= "Canceled").Count();
+            ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == id && x.status!= "Canceled").Sum(x => x.Price);
             var appointment = _context.Appointments.Where(x => x.doctorId == id).Include(x => x.patient);
             var Secretary = _context.Secretary.Where(x=>x.SecretaryId==userid).Include(s=>s.Doctor).ToList();
 
