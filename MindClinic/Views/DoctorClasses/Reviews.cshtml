@@ -12,7 +12,7 @@
                  <div class="comment">
                      @if (@item.Privacy == "Public")
                      {
-                         <img class="avatar avatar-sm rounded-circle" alt="User Image" src="~/Doctorsimage/@item.WriterUser.image">
+                         <img class="avatar avatar-sm rounded-circle" alt="User Image" src="~/Doctorsimage/@(item.WriterUser.image?? "Default.jpg")">
                      }
                      @if (@item.Privacy == "Private")
                      {

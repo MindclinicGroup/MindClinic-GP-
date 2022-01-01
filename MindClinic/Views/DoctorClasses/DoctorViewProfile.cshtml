@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@model MindClinic.Models.User
+@model MindClinic.Models.DoctorClass
 @inject SignInManager<User> signInManager;
 
 
@@ -12,22 +12,29 @@
                 <div class="doctor-widget">
                     <div class="doc-info-left">
                         <div class="doctor-img">
-                            <img src="~/Doctorsimage/@(Model.image?? "Default.jpg")" class="img-fluid" alt="User Image">
+                            <img src="~/Doctorsimage/@(Model.User.image?? "Default.jpg")" class="img-fluid" alt="User Image">
                         </div>
                         <div hidden>
-                            <input id="doctorId" value="@Model.Id" />
+                            <input id="doctorId" value="@Model.User.Id" />
                         </div>
                         <div class="doc-info-cont">
-                            <h4 class="doc-name">@Model.Name</h4>
+                            <h4 class="doc-name">@Model.User.Name </h4>
                             <p class="doc-speciality">BDS, MDS - Oral & Maxillofacial Surgery</p>
-                            @*<p class="doc-department"><img src="assets/img/specialities/specialities-05.png" class="img-fluid" alt="Speciality">Dentist</p>*@
+
                             <div class="rating">
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star filled"></i>
-                                <i class="fas fa-star"></i>
-                                <span class="d-inline-block average-rating">(35)</span>
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    if (i < @Model.AvgRating)
+                                    {
+                                        <i class="fas fa-star filled"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-star"></i>
+                                    }
+                                }
+                            
+                                <span class="d-inline-block average-rating">(@Model.RatingsCount)</span>
                             </div>
                             @*<div class="clinic-details">
                                 <p class="doc-location"><i class="fas fa-map-marker-alt"></i> Newyork, USA - <a href="javascript:void(0);">Get Directions</a></p>
@@ -54,9 +61,29 @@
                                 </li>
                                 </ul>
                                 </div>*@
-                            <div class="clinic-services">
-                                <span>Dental Fillings</span>
-                                <span>Teeth Whitneing</span>
+                            <div>
+                                <!-- Facebook -->
+                                <a class="btn btn-primary" style="background-color: #3b5998;" href="@Model.FacebookURL" target="_blank" role="button">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+
+                                <!-- Twitter -->
+                                <a class="btn btn-primary" style="background-color: #55acee;" href="@Model.TwitterURL" target="_blank" role="button">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+
+                                <!-- Instagram -->
+                                <a class="btn btn-primary" style="background-color: #ac2bac;" href="@Model.InstagramURL" target="_blank" role="button">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <!-- Youtube -->
+                                <a class="btn btn-primary" style="background-color: #ed302f;" href="@Model.YoutubeURL" target="_blank" role="button">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                                <a class="btn btn-primary" style="background-color: #0082ca;" href="@Model.LinkedinURL" target="_blank" role="button">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+
                             </div>
                         </div>
                     </div>
@@ -84,7 +111,7 @@
                         @if (!User.IsInRole("DOCTOR"))
                         {
                             <div class="clinic-booking">
-                                <a class="apt-btn" asp-action="getslots" asp-controller="Appointments" asp-route-id="@Model.Id">Book Appointment</a>
+                                <a class="apt-btn" asp-action="getslots" asp-controller="Appointments" asp-route-id="@Model.User.Id">Book Appointment</a>
                             </div>
                         }
                     </div>
@@ -108,7 +135,7 @@
                         <li class="nav-item">
                             <a id="btnReview" class="nav-link" data-toggle="tab">Reviews</a>
                         </li>
-                        
+
 
                         @*<li class="nav-item">
                             <a class="nav-link" href="#doc_business_hours" data-toggle="tab">Business Hours</a>
@@ -119,7 +146,7 @@
                 <div id="review" class="tab-content pt-0">
 
                     <div class="table-action">
-                        
+
                         <div class="text-right">
                             <a class="btn btn-sm bg-success-light " data-toggle="modal" href="#Cancel_Appointment">
                                 <i class="fas fa-plus"></i>Comment
@@ -142,25 +169,36 @@
 
                                         <form method="post">
                                             <div style="padding-left: 10px;" class="row form-row">
+                                                <div class="form-group">
+                                                    <select class="form-control" id="rate" name="rate">
 
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+
+
+                                                    </select>
+                                                </div>
                                                 <div class="form-group row">
                                                     <div class="form-group">
                                                         <label for="exampleFormControlTextarea1"></label>
                                                         <textarea placeholder="Write Your Comment Here:" class="form-control" id="txt" name="txt" rows="10" cols="60"></textarea>
                                                     </div>
                                                 </div>
-                                                
+
 
                                                 <div class="form-group">
-                                                    <label  >Private</label>
+                                                    <label>Private</label>
                                                     <input required type="radio" id="Private" name="Privacy" value="Private" />
-                                                    <label >Public</label>
+                                                    <label>Public</label>
                                                     <input required type="radio" id="Public" name="Privacy" value="Public" />
                                                 </div>
 
 
                                             </div>
-                                            <button type="submit" class="btn btn btn-success btn-block" asp-controller="DoctorClasses" asp-action="CreateReview" asp-route-id="@Model.Id" method="post">Done</button>
+                                            <button type="submit" class="btn btn btn-success btn-block" asp-controller="DoctorClasses" asp-action="CreateReview" asp-route-id="@Model.User.Id" method="post">Done</button>
                                         </form>
 
 
@@ -315,8 +353,9 @@
             </div>
         </div>
         <script>
+
             $(document).ready(function () {
-                $("review").hide();
+                $("#review").hide();
 
                 var id = $("#doctorId").val();
                 $.ajax({

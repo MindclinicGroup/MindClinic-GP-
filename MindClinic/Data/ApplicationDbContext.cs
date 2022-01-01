@@ -19,6 +19,7 @@ namespace MindClinic.Data
         public  DbSet<ContactUs> ContactUs { get; set; }
         public DbSet<SecretaryClass> Secretary { get; set; }
         public DbSet<SecretaryRequests> SecretaryRequests { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
 
 
 

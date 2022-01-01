@@ -51,7 +51,7 @@ namespace MindClinic.Controllers
         [HttpPost]
         public IActionResult Index(string DoctorName, string DoctorId)
         {
-            var Doctor = _context.Users.Where(x => x.RoleId == "2").ToList();
+            var Doctor = _context.Doctors.Include(x => x.User).ToList();
             ViewBag.Message = "DoctorName: " + DoctorName + "DoctorId:" + DoctorId;
             ViewBag.Doctor = DoctorId;
 
@@ -61,7 +61,7 @@ namespace MindClinic.Controllers
 
         public IActionResult Index()
         {
-            var Doctor = _context.Users.Where(x => x.RoleId == "2").ToList();
+            var Doctor = _context.Doctors.Include(x=>x.User).ToList();
 
             return View(Doctor);
         }
@@ -146,41 +146,48 @@ namespace MindClinic.Controllers
             return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
 
-        public IActionResult SearchForDoctors(string? searchString, string? sortOrder)
+        public async Task<IActionResult> SearchForDoctors(string? search, string? orderby, int? pageNumber)
         {
             //ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";  
-            ViewData["CurrentFilter"] = searchString;
+            ViewData["search"] = search;
 
             var Doctors = _context.Users.Where(x => x.RoleId == "2");
-            if (!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(search))
             {
-                Doctors = Doctors.Where(s => s.Name.Contains(searchString)
-                                             || s.Email.Contains(searchString)
+                Doctors = Doctors.Where(s => s.Name.Contains(search)
+                                             || s.Email.Contains(search)
                 );
+                ViewData["search"] = search;
             }
-
-            switch (sortOrder)
+            if (orderby != null)
             {
-                case "name_desc":
-                    Doctors = Doctors.OrderByDescending(s => s.Name);
-                    break;
-                case "age":
-                    Doctors = Doctors.OrderBy(s => s.Age);
-                    break;
-                case "Male":
-                    Doctors = Doctors.Where(s => s.Gender == "Male");
-                    break;
-                case "Female":
-                    Doctors = Doctors.Where(s => s.Gender == "Female");
-                    break;
-                default:
-                    Doctors = Doctors.OrderBy(s => s.Name);
-                    break;
+                ViewData["orderBy"] = orderby;
+                switch (orderby)
+                {
+
+                    case "Name_desc":
+                        Doctors = Doctors.OrderByDescending(s => s.Name);
+                        break;
+                    case "Age":
+                        Doctors = Doctors.OrderBy(s => s.Age);
+                        break;
+                    case "Male Dcotors":
+                        Doctors = Doctors.Where(s => s.Gender == "Male");
+                        break;
+                    case "Female Doctors":
+                        Doctors = Doctors.Where(s => s.Gender == "Female");
+                        break;
+                    default:
+                        Doctors = Doctors.OrderBy(s => s.Name);
+                        break;
+
+                }
             }
 
+            int pageSize = 8;
 
-            return View(Doctors);
+            return View(await PaginatedList<User>.CreateAsync(Doctors.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
 

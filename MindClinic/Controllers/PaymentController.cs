@@ -53,6 +53,7 @@ namespace MindClinic.Controllers
                 doctorId = id,
                 status = "True",
                 Time = (DateTime)a,
+                MeetingLink = Doctor.DefaultMeetingLink,
                 Duration = 60,
                 
               
