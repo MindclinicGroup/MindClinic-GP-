@@ -280,14 +280,19 @@ namespace MindClinic.Controllers
 
                 if (appointment.Time.DayOfYear - now.DayOfYear < 2 && (appointment.Time.Year == now.Year))
                 {
+                    if (appointment.Price != 0) { 
                     payment.Amount += appointment.Price / 2;
+                    appointment.Price = appointment.Price / 2; 
+                    }
                     _notyf.Information("Appointment was cancelled! Refunded half of paid price.");
                 }
-                else { payment.Amount += appointment.Price;
+                else { 
+                    payment.Amount += appointment.Price;
+                    appointment.Price = 0;
                     _notyf.Information("Appointment was cancelled! Refunded full paid price.");
                 }
 
-
+                _context.Update(payment);
                 _context.Update(appointment);
                 await _context.SaveChangesAsync();
 
