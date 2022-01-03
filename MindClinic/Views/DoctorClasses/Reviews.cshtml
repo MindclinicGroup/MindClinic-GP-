@@ -25,11 +25,26 @@
                              {
                                  <span class="comment-author">@item.WriterUser.Name</span>
                              }
+                         
                              @if (@item.Privacy == "Private")
                              {
                                  <span class="comment-author">Private</span>
                              }
-
+                                  <div class="rating">
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    if (i < @item.Rating)
+                                    {
+                                        <i class="fas fa-star filled"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-star"></i>
+                                    }
+                                }
+                            
+                              
+                            </div>
                              <span class="comment-date">@item.TimeOfReview</span>
                          </div>
                          <p class="comment-content">

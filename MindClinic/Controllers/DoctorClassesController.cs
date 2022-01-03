@@ -553,20 +553,14 @@ namespace MindClinic.Controllers
                 DoctorUserId = id,
                 Text = txt,
                 TimeOfReview = DateTime.Now,
-                Privacy = Privacy
+                Privacy = Privacy,
+                Rating = int.Parse(rate)
             };
-            var rating = new Rating
-            {
-                rating = int.Parse(rate),
-                doctorId = id,
-                patientId = userid,
-
-            };
+        
             var doctor = _context.Doctors.Where(x => x.userID == id).First();
-            doctor.AvgRating = ((doctor.RatingsCount * doctor.AvgRating) + rating.rating) / ++doctor.RatingsCount;
+            doctor.AvgRating = ((doctor.RatingsCount * doctor.AvgRating) + Review.Rating) / ++doctor.RatingsCount;
             _context.Update(doctor);
             _context.Add(Review);
-            _context.Add(rating);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("DoctorViewProfile", "DoctorClasses", new { id = id });

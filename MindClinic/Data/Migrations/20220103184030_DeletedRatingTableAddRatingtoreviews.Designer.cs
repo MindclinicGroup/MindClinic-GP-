@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MindClinic.Data;
 
 namespace MindClinic.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220103184030_DeletedRatingTableAddRatingtoreviews")]
+    partial class DeletedRatingTableAddRatingtoreviews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,9 +172,6 @@ namespace MindClinic.Data.Migrations
                     b.Property<string>("MeetingLink")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PaymentId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
@@ -189,8 +188,6 @@ namespace MindClinic.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("PaymentId");
 
                     b.HasIndex("doctorId");
 
@@ -615,12 +612,6 @@ namespace MindClinic.Data.Migrations
 
             modelBuilder.Entity("MindClinic.Models.Appointment", b =>
                 {
-                    b.HasOne("MindClinic.Models.PaymentMethod", "Payment")
-                        .WithMany()
-                        .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MindClinic.Models.User", "doctor")
                         .WithMany()
                         .HasForeignKey("doctorId");
@@ -632,8 +623,6 @@ namespace MindClinic.Data.Migrations
                     b.Navigation("doctor");
 
                     b.Navigation("patient");
-
-                    b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("MindClinic.Models.Awards", b =>
