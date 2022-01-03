@@ -167,9 +167,6 @@ namespace MindClinic.Data.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<string>("MeetingLink")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
@@ -258,30 +255,6 @@ namespace MindClinic.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("AvgRating")
-                        .HasColumnType("float");
-
-                    b.Property<string>("DefaultMeetingLink")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FacebookURL")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InstagramURL")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LinkedinURL")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RatingsCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TwitterURL")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("YoutubeURL")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("pricePerSession")
                         .HasColumnType("int");
 
@@ -354,31 +327,6 @@ namespace MindClinic.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PaymentMethods");
-                });
-
-            modelBuilder.Entity("MindClinic.Models.Rating", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("doctorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("patientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("rating")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("doctorId");
-
-                    b.HasIndex("patientId");
-
-                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("MindClinic.Models.Reviews", b =>
@@ -674,21 +622,6 @@ namespace MindClinic.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("doctor");
-                });
-
-            modelBuilder.Entity("MindClinic.Models.Rating", b =>
-                {
-                    b.HasOne("MindClinic.Models.User", "doctor")
-                        .WithMany()
-                        .HasForeignKey("doctorId");
-
-                    b.HasOne("MindClinic.Models.User", "patient")
-                        .WithMany()
-                        .HasForeignKey("patientId");
-
-                    b.Navigation("doctor");
-
-                    b.Navigation("patient");
                 });
 
             modelBuilder.Entity("MindClinic.Models.Reviews", b =>

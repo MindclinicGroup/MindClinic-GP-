@@ -23,5 +23,6 @@ namespace MindClinic.Models
         public int Duration { get; set; }
 
         public string MeetingLink { get; set; }
+
     }
 }

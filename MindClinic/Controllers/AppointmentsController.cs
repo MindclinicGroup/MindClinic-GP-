@@ -244,8 +244,10 @@ namespace MindClinic.Controllers
             {
                 var userid = _usermanager.GetUserId(HttpContext.User);
                 var user = _context.Users.Where(x => x.Id == userid).First();
-
+               
                 Appointment appointment = _context.Appointments.Where(x => x.id == id).FirstOrDefault();
+
+                PaymentMethod payment = _context.PaymentMethods.Where(x => x.Id == appointment.id).FirstOrDefault();
 
                 if (userid == appointment.doctorId)
                 {
@@ -274,8 +276,19 @@ namespace MindClinic.Controllers
                 }
                 appointment.status = "Canceled";
 
+                DateTime now = DateTime.Now;
+
+                /*if (appointment.Time.DayOfYear - now.DayOfYear < 2 && (appointment.Time.Year == now.Year)) {
+                    payment.Amount += appointment.Price / 2;
+                }
+                else payment.Amount += appointment.Price;*/
+
+
                 _context.Update(appointment);
                 await _context.SaveChangesAsync();
+
+                _notyf.Information("Appointment was cancelled!");
+
                 if (userid == appointment.doctorId)
                 {
                     return RedirectToAction("GetDoctorAppointments", "Appointments");
@@ -289,10 +302,6 @@ namespace MindClinic.Controllers
                 {
                     return RedirectToAction("GetDoctorAppointmentsSecretary", "Appointments");
                 }
-              
-        
-
-
 
 
                 return RedirectToAction("index", "Home");
