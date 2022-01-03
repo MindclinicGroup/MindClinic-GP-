@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -37,6 +38,7 @@ namespace MindClinic.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> DoctorViewProfile(string? id)
         {
             // for doctor view
@@ -58,6 +60,7 @@ namespace MindClinic.Controllers
 
         // GET: DoctorClasses/Details/5
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Details()
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
@@ -72,6 +75,7 @@ namespace MindClinic.Controllers
             return View(doctorClass);
         }
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> DoctorEducation(string? create)
         {
 
@@ -356,6 +360,7 @@ namespace MindClinic.Controllers
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetDoctorInfoForDashboardCard()
         {
 
@@ -372,6 +377,7 @@ namespace MindClinic.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> DoctorAwards(string? create)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
@@ -475,6 +481,7 @@ namespace MindClinic.Controllers
             return _context.Doctors.Any(e => e.id == id);
         }
         [HttpGet]
+        [AllowAnonymous]
         public string getAboutMe(string id)
         {
             try
@@ -487,6 +494,7 @@ namespace MindClinic.Controllers
             }
         }
         [HttpGet]
+        [AllowAnonymous]
         public string getPrice(string id)
         {
             try
@@ -499,6 +507,7 @@ namespace MindClinic.Controllers
             }
         }
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> getEducation(string id)
         {
             var doctor = _context.Doctors.Where(x => x.userID == id).First();
@@ -506,6 +515,7 @@ namespace MindClinic.Controllers
 
         }
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> getAwards(string id)
         {
             var doctor = _context.Doctors.Where(x => x.userID == id).First();
@@ -515,10 +525,12 @@ namespace MindClinic.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Reviews(string? id)
         {
             List<Reviews> reviews;
             reviews = _context.Reviews.Where(x => x.DoctorUserId == id).Include(s => s.DoctorUser).Include(s => s.WriterUser).ToList();
+            
 
 
 
@@ -528,6 +540,7 @@ namespace MindClinic.Controllers
 
 
         [HttpPost]
+
         public async Task<IActionResult> CreateReview(string id, string txt, string rate, string Privacy)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
@@ -560,6 +573,7 @@ namespace MindClinic.Controllers
 
 
         }
+        [AllowAnonymous]
         public string getDoctorRatingAgePrice(string id)
         {
             try

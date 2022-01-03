@@ -66,16 +66,7 @@
                         <li>
                             <a asp-action="Index" asp-controller="Home">Home</a>
                         </li>
-                        @if (signInManager.IsSignedIn(User) && (User.IsInRole("DOCTOR") || User.IsInRole("ADMIN")))
-                        {
-                            <li class="has-submenu">
-
-                            <li class="nav-item">
-                                <a asp-action="Create" asp-controller="Schedules" asp->Shcedule </a>
-                            </li>
-
-                            </li>
-                        }
+                   
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("ADMIN"))
                         {
                             <li>
@@ -83,13 +74,20 @@
 
                             </li>
                             <li><a asp-action="Index" asp-controller="AdminDashboard">AdminDashboard</a></li>
+                            <li class="nav-item">
+                                <a asp-action="Create" asp-controller="Schedules" asp->Shcedule </a>
+                            </li>
 
                         }
+                      
 
                         @if (signInManager.IsSignedIn(User) && User.IsInRole("PATIENT"))
                         {
                             <li>
                                 <a asp-action="Index" asp-controller="MyProfile">MyProfile</a>
+                            </li>
+                            <li>
+                                <a asp-action="PatientAppointments" asp-controller="Home">My Appointments</a>
                             </li>
                         }
 
@@ -101,6 +99,9 @@
 
                             <li>
                                 <a asp-action="SearchForSecretary" asp-controller="Home">Secretary</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Create" asp-controller="Schedules" asp->Shcedule </a>
                             </li>
                         }
 
@@ -124,12 +125,7 @@
                             <a asp-action="SearchForDoctors" asp-controller="Home">Doctors</a>
                         </li>
 
-                        @if (signInManager.IsSignedIn(User) && User.IsInRole("PATIENT"))
-                        {
-                            <li>
-                                <a asp-action="PatientAppointments" asp-controller="Home">My Appointments</a>
-                            </li>
-                        }
+                      
 
                         <li class="login-link">
                             <a>Login / Signup</a>
