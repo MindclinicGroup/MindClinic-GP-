@@ -55,7 +55,7 @@ namespace MindClinic.Controllers
                 Time = (DateTime)a,
                 MeetingLink = Doctor.DefaultMeetingLink,
                 Duration = 60,
-               // PaymentId = Payment.Id
+                PaymentId = Payment.Id
             };
 
             _notyf.Success("Appointment is booked successfully");

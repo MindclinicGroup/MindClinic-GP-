@@ -247,7 +247,7 @@ namespace MindClinic.Controllers
                
                 Appointment appointment = _context.Appointments.Where(x => x.id == id).FirstOrDefault();
 
-                PaymentMethod payment = _context.PaymentMethods.Where(x => x.Id == appointment.id).FirstOrDefault();
+                PaymentMethod payment = _context.PaymentMethods.Where(x => x.Id == appointment.PaymentId).FirstOrDefault();
 
                 if (userid == appointment.doctorId)
                 {
@@ -278,16 +278,20 @@ namespace MindClinic.Controllers
 
                 DateTime now = DateTime.Now;
 
-                /*if (appointment.Time.DayOfYear - now.DayOfYear < 2 && (appointment.Time.Year == now.Year)) {
+                if (appointment.Time.DayOfYear - now.DayOfYear < 2 && (appointment.Time.Year == now.Year))
+                {
                     payment.Amount += appointment.Price / 2;
+                    _notyf.Information("Appointment was cancelled! Refunded half of paid price.");
                 }
-                else payment.Amount += appointment.Price;*/
+                else { payment.Amount += appointment.Price;
+                    _notyf.Information("Appointment was cancelled! Refunded full paid price.");
+                }
 
 
                 _context.Update(appointment);
                 await _context.SaveChangesAsync();
 
-                _notyf.Information("Appointment was cancelled!");
+                
 
                 if (userid == appointment.doctorId)
                 {
