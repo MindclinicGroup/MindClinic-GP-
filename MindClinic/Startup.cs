@@ -11,8 +11,12 @@ using MindClinic.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using MindClinic.Models;
 
 namespace MindClinic
@@ -35,6 +39,8 @@ namespace MindClinic
             services.AddDatabaseDeveloperPageExceptionFilter();
 
 
+
+
             //services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<
             //    ApplicationDbContext>();
 
@@ -47,6 +53,12 @@ namespace MindClinic
 
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddMvc(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            }).AddXmlDataContractSerializerFormatters();
 
 
 

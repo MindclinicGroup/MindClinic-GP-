@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MindClinic.Data;
 
 namespace MindClinic.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220103194837_AddedPaymentMethod")]
+    partial class AddedPaymentMethod
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -261,6 +263,30 @@ namespace MindClinic.Data.Migrations
 
                     b.Property<string>("AboutMe")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("AvgRating")
+                        .HasColumnType("float");
+
+                    b.Property<string>("DefaultMeetingLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FacebookURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InstagramURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LinkedinURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RatingsCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TwitterURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("YoutubeURL")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("pricePerSession")
@@ -641,21 +667,6 @@ namespace MindClinic.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("doctor");
-                });
-
-            modelBuilder.Entity("MindClinic.Models.Rating", b =>
-                {
-                    b.HasOne("MindClinic.Models.User", "doctor")
-                        .WithMany()
-                        .HasForeignKey("doctorId");
-
-                    b.HasOne("MindClinic.Models.User", "patient")
-                        .WithMany()
-                        .HasForeignKey("patientId");
-
-                    b.Navigation("doctor");
-
-                    b.Navigation("patient");
                 });
 
             modelBuilder.Entity("MindClinic.Models.Reviews", b =>

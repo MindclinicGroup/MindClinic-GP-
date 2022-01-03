@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using MindClinic.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,6 +16,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MindClinic.Controllers
 {
+    [AllowAnonymous]
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

@@ -23,6 +23,7 @@ namespace MindClinic.Models
         public int Duration { get; set; }
 
         public string MeetingLink { get; set; }
-
+        public int PaymentId { get; set; }
+        public PaymentMethod Payment { get; set; }
     }
 }

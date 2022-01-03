@@ -18,6 +18,8 @@ namespace MindClinic.Models
         public string DoctorUserId { get; set; }
         public User DoctorUser { get; set; }
         [Required]
+        public int Rating { get; set; }
+        [Required]
         public string Text { get; set; }
 
         [Required] 
@@ -25,6 +27,7 @@ namespace MindClinic.Models
        
         [Required] 
         public string Privacy { get; set; }
+
 
     }
 }
