@@ -130,20 +130,17 @@
                             <div class="profile-widget">
                                 <div class="doc-img ">
 
-                                    <a href="doctor-profile.html">
+                                    <a asp-action="DoctorViewProfile" asp-controller="DoctorClasses" asp-route-id="@item.User.Id">
                                         <img width="300" height="200" alt="User Image" src="~/Doctorsimage/@(item.User.image?? "Default.jpg")">
                                     </a>
 
-                                    <a href="javascript:void(0)" class="fav-btn">
-                                        <i class="far fa-bookmark"></i>
-                                    </a>
                                 </div>
                                 <div class="pro-content">
                                     <h3 class="title">
                                         <a asp-action="DoctorViewProfile" asp-controller="DoctorClasses" asp-route-id="@item.User.Id">@item.User.Name</a>
                                         <i class="fas fa-check-circle verified"></i>
                                     </h3>
-                                    <p class="speciality">MDS - Periodontology and Oral Implantology, BDS</p>
+                                    <p class="speciality">Therapist</p>
                                     <ul class="available-info">
                                         <li>
                                             <div class="rating">
@@ -197,6 +194,88 @@
     </div>
 </section>
 <!-- /Popular Section -->
+
+
+<section class="page-section" id="Faqs">
+<div class="container-fluid">
+<div class="row wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+<div class="col-md-12 text-center">
+<h1 class="font-weight-bold">Frequently Asked Questions</h1>
+</div>
+</div>
+<br>
+
+<div style="visibility: visible; animation-name: fadeInUp;">
+<div id="Faq">
+<div class="card mb-0">
+
+<div class="card-header w-100 collapsed" data-toggle="collapse" href="#collapseOne">
+<a class="card-title text-primary">
+Can I cancel an appointment I have already booked and paid for?
+</a>
+</div>
+
+<div id="collapseOne" class="card-body collapse" data-parent="#Faq">
+<p>Yes, you can also receive a full refund if you cancel within two days of the appointment, otherwise, you get a refund of half of the amount you paid.
+</p>
+</div>
+
+<div class="card-header w-100 collapsed" data-toggle="collapse" data-parent="#Faq" href="#collapseTwo">
+<a class="card-title text-primary">
+Can other users see my information?
+</a>
+</div>
+
+<div id="collapseTwo" class="card-body collapse" data-parent="#Faq">
+<p>No, your name and information will only be shared with doctors whom you have booked an appointment with.
+</p>
+</div>
+
+<div class="card-header  w-100 collapsed" data-toggle="collapse" data-parent="#Faq" href="#collapseThree">
+<a class="card-title text-primary">
+How do I access the live video call with the therapist?
+</a>
+</div>
+<div id="collapseThree" class="collapse" data-parent="#accordion">
+<div class="card-body">
+<p>You can access the meeting link that your doctor has provided in the "My Appointments" tab next to the meeting information.</p>
+<p>(Note: you can only access the meeting link 10 minutes before the appointment starts.)</p>
+</div>
+</div>
+<div class="card-header  w-100 collapsed" data-toggle="collapse" data-parent="#Faq" href="#collapseFour">
+<a class="card-title text-primary">
+How can I communicate with my therapist?
+</a>
+</div>
+<div id="collapseFour" class="collapse" data-parent="#accordion">
+<div class="card-body">
+<p>You can message him directly through our website or call the phone number listed on their profile page.</p>
+</div>
+</div>
+<div class="card-header  w-100 collapsed" data-toggle="collapse" data-parent="#Faq" href="#collapseFive">
+<a class="card-title text-primary">
+How can I file an inquiry, complaint, report, or suggestion?
+</a>
+</div>
+<div id="collapseFive" class="collapse" data-parent="#accordion">
+<div class="card-body">
+<p>You can email or call us using the provided contact information on the "Contact" page.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+
+
+
+
+
+
+
 <!-- Availabe Features -->
 <section class="section section-features">
     <div class="container-fluid">
@@ -251,5 +330,4 @@
         </div>
     </div>
 </section>
-
 
