@@ -69,7 +69,7 @@ namespace MindClinic.Controllers
             return View(Doctor);
         }
 
-        public IActionResult PatientAppointments()
+        public IActionResult PatientAppointments(string? orderby)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
 
@@ -78,13 +78,32 @@ namespace MindClinic.Controllers
                 return RedirectToPage("/Account/Login", new {area = "Identity"});
             }
 
+
             //var applicationDbContext = _context.Reviews.Include(r => r.DoctorUser).Include(r => r.WriterUser);
 
             string user = _usermanager.FindByIdAsync(userid).Result.Id;
 
-            var App = _context.Appointments.Where(x => x.patientId == user).Include(x => x.doctor).ToList();
+            var appointment = _context.Appointments.Where(x => x.patientId == user).Include(x => x.doctor).OrderBy(x => x.Time);
+            if (orderby != null)
+            {
+                ViewData["orderBy"] = orderby;
+                switch (orderby)
+                {
 
-            return View(App);
+                    case "On going":
+                        appointment = _context.Appointments.Where(x => x.patientId == userid && x.status == "True").Include(x => x.doctor).OrderBy(x => x.Time);
+
+                        break;
+                    case "Cancelled":
+                        appointment = _context.Appointments.Where(x => x.patientId == userid && x.status == "Canceled").Include(x => x.doctor).OrderBy(x => x.Time);
+                        break;
+                    case "Ended":
+                        appointment = _context.Appointments.Where(x => x.patientId == userid && x.status == "False").Include(x => x.doctor).OrderBy(x => x.Time);
+                        break;
+
+                }
+            }
+            return View(appointment);
         }
 
         public IActionResult Privacy()

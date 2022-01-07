@@ -37,32 +37,52 @@ namespace MindClinic.Controllers
             return View(model1);
         }
         [HttpPost]
-        public async Task<IActionResult> Payment(string Name, string CardNum, int ExpMon, int ExpYear, int CVV, string id , DateTime a)
+        public async Task<IActionResult> Payment(string Name, string CardNum, int ExpMon, int ExpYear, int CVV, string id, DateTime a)
         {
             var Doctor = _context.Doctors.Where(x => x.userID == id).FirstOrDefault();
             var Payment = _context.PaymentMethods.Where(x =>
                 x.NameOnCard == Name && x.CCV == CVV && x.CardNumber == CardNum && x.ExpiryMonth == ExpMon &&
-                x.ExpiryYear == ExpYear).SingleOrDefault();
-            Payment.Amount = Payment.Amount - Doctor.pricePerSession;
-            _context.Update(Payment);
-            var userid = _usermanager.GetUserId(HttpContext.User);
-            var TimeSelected = new Appointment
+                x.ExpiryYear == ExpYear).FirstOrDefault();
+            if (Payment != null)
             {
-                Price = Doctor.pricePerSession,
-                patientId = userid,
-                doctorId = id,
-                status = "True",
-                Time = (DateTime)a,
-                MeetingLink = Doctor.DefaultMeetingLink,
-                Duration = 60,
-                PaymentId = Payment.Id
-            };
+                if (Payment.Amount >= Doctor.pricePerSession)
+                {
+                    Payment.Amount = Payment.Amount - Doctor.pricePerSession;
+                    _context.Update(Payment);
+                }
+                else
+                {
+                    _notyf.Error("insufficient Funds");
+                    return RedirectToAction("Index", "Home");
+                }
+                var userid = _usermanager.GetUserId(HttpContext.User);
+                var TimeSelected = new Appointment
+                {
+                    Price = Doctor.pricePerSession,
+                    patientId = userid,
+                    doctorId = id,
+                    status = "True",
+                    Time = (DateTime)a,
+                    MeetingLink = Doctor.DefaultMeetingLink,
+                    Duration = 60,
+                    PaymentId = Payment.Id
 
-            _notyf.Success("Appointment is booked successfully");
-            _context.Add(TimeSelected);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("PatientAppointments", "Home");
+
+
+
+                };
+
+                _notyf.Success("Appointment is booked successfully");
+                _context.Add(TimeSelected);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("PatientAppointments", "Home");
+            }
+            else
+                _notyf.Error("Unable to validate card.");
+
+            return RedirectToAction("Index", "Home");
 
         }
+
     }
 }

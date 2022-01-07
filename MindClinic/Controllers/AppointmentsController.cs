@@ -347,13 +347,32 @@ namespace MindClinic.Controllers
 
         }
        
-        public async Task<IActionResult> GetDoctorAppointments()
+        public async Task<IActionResult> GetDoctorAppointments(string? orderby)
         {
-
             var userid = _usermanager.GetUserId(HttpContext.User);
-            ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId == userid && x.status!="Canceled").Count();
-            ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == userid && x.status!="Canceled").Sum(x => x.Price);
-            var appointment = _context.Appointments.Where(x => x.doctorId == userid).Include(x => x.patient);
+            ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId == userid && x.status != "Canceled").Count();
+            ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == userid && x.status != "Canceled").Sum(x => x.Price);
+            var appointment = _context.Appointments.Where(x => x.doctorId == userid).Include(x => x.patient).OrderBy(x => x.Time);
+            if (orderby != null)
+            {
+                ViewData["orderBy"] = orderby;
+                switch (orderby)
+                {
+
+                    case "On going":
+                        appointment = _context.Appointments.Where(x => x.doctorId == userid && x.status == "True").Include(x => x.patient).OrderBy(x => x.Time);
+                       
+                        break;
+                    case "Cancelled":
+                        appointment = _context.Appointments.Where(x => x.doctorId == userid && x.status == "Canceled").Include(x => x.patient).OrderBy(x => x.Time);
+                        break;
+                    case "Ended":
+                        appointment = _context.Appointments.Where(x => x.doctorId == userid && x.status == "False").Include(x => x.patient).OrderBy(x => x.Time);
+                        break;
+
+                }
+            }
+          
             return View(appointment);
 
         }
