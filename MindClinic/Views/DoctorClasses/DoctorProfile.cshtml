@@ -9,7 +9,17 @@
         <textarea class="form-control" asp-for="AboutMe" rows="5"> </textarea>
         <span asp-validation-for="AboutMe" class="text-danger"></span>
     </div>
+
     <br />
+
+    <h4 class="card-title">Default Appointment Link</h4>
+    <p class="text-info">This link will be set for any new appointments.</p>
+    <div class="form-group mb-0">
+        <input class="form-control" asp-for="DefaultMeetingLink"> </input>
+        <span asp-validation-for="DefaultMeetingLink" class="text-danger"></span>
+    </div>
+    <br />
+
     <h4 class="card-title">Pricing</h4>
     <div class="row custom_price_cont" id="custom_price_cont" style="">
         <div class="col-md-4">
@@ -26,7 +36,7 @@
     <div class=" custom_price_cont" id="custom_price_cont" style="">
         
         <div class="col-md-12 row">
-
+            
             <div class="col-6 row">
                 <a class="btn btn-primary col-2" style="background-color: #3b5998;padding: 10px;" href="#!" role="button">
                     <i class="fab fa-facebook-f"></i>
@@ -73,6 +83,10 @@
          <hr style="height:1px;border-width:0;color:black;background-color:gray">
 </form>
 <br />
+
+
+
+
 <div id="education"></div>
 <div class="text-right"><button style="padding:5px;" class="btn btn-info" id="createEdu">add more</button></div>
 <hr style="height:1px;border-width:0;color:black;background-color:gray">

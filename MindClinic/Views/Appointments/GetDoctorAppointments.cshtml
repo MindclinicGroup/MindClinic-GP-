@@ -241,6 +241,57 @@
 
 
                                         }
+
+                                                                               @if (item.status.ToString().Equals("True") && item.Time.CompareTo(now) > 0)
+                                        {
+                                            <a class="btn btn-sm bg-info-light" data-toggle="modal" href="#Meeting_Link">
+                                                <i class="fa fa-video-camera"></i>  Join Meeting
+
+                                            </a>
+
+                                            <div class="modal fade" id="Meeting_Link" aria-hidden="true" role="dialog">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Meeting Link</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row form-row">
+                                                                <div class="col-12 col-sm-6">
+                                                                    <h5 class="card-title text-left">Appointment link</h5>
+                                                             
+
+                                                                    @{
+                                                                        if (item.Time > now.AddMinutes(10))
+                                                                        {
+                                                                            <p class="text-warning">More than 10 minutes remaining.</p>
+                                                                            <p class="text-info">Make sure to have your mic and camera ready before joining.</p>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <p class="text-primary">Less than 10 minutes remaining.</p>
+                                                                            <p class="text-info">Make sure to have your mic and camera ready before joining.</p>
+                                                                        }
+                                                                    }
+
+                                                                </div>
+                                                            </div>
+
+                                                                        <a href="@item.MeetingLink" class="btn btn btn-info btn-block">Join Appointment</a>
+                                                                       
+                                                            
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        }
                                     </div>
                                 </td>
                             </tr>

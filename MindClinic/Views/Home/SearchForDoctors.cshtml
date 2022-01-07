@@ -48,17 +48,14 @@
                 <div class="profile-widget col-lg-3 col-xl-2 col-md-4" width="400" height="400">
                     <div class="doc-img ">
 
-                        <a href="doctor-profile.html">
+                        <a asp-action="DoctorViewProfile" asp-controller="DoctorClasses" asp-route-id="@item.Id">
                             <img width="250" height="150" alt="User Image" src="~/Doctorsimage/@(item.image?? "Default.jpg")">
                         </a>
 
-                        <a href="javascript:void(0)" class="fav-btn">
-                            <i class="far fa-bookmark"></i>
-                        </a>
                     </div>
                     <div class="pro-content">
                         <h3 class="title">
-                            <a href="doctor-profile.html">@item.Name</a>
+                            <a asp-action="DoctorViewProfile" asp-controller="DoctorClasses" asp-route-id="@item.Id">@item.Name</a>
                             <i class="fas fa-check-circle verified"></i>
                         </h3>
                         <p class="speciality">MDS - Periodontology and Oral Implantology, BDS</p>
