@@ -19,8 +19,7 @@
                 <option value="On going">On going</option>
                 <option value="Ended">Ended</option>
                 <option value="Cancelled">Cancelled</option>
-
-
+                <option value="Unpaid">Unpaid</option>
 
             </select>
         </div>
@@ -72,6 +71,10 @@
                                         {
                                             <span class="badge badge-pill bg-warning-light">Ended</span>
                                         }
+                                        else if (item.status.ToString().Equals("Unpaid") && item.Time.CompareTo(now) > 0)
+                                        {
+                                            <span class="badge badge-pill bg-primary-light">Unpaid</span>
+                                        }
                                         else
                                         {
                                             <span class="badge badge-pill bg-danger-light">Cancelled</span>
@@ -79,10 +82,10 @@
                                     }
                                 </td>
                                 <td>@item.Description</td>
-                                <td class="text-center">$@item.Price</td>
+                                <td class="text-center">@if(item.status.ToString().Equals("Unpaid")){<h1 class="text-sm text-info">-Unpaid- </h1>}$@item.Price</td>
                                 <td class="text-right">
                                     <div class="table-action">
-                                        @if (item.status.ToString().Equals("True") && item.Time.CompareTo(now) > 0)
+                                        @if ((item.status.ToString().Equals("Unpaid") || item.status.ToString().Equals("True")) && item.Time.CompareTo(now) > 0)
                                         {
                                             <a class="btn btn-sm bg-danger-light" data-toggle="modal" href="#Cancel_Appointment">
                                                 <i class="fas fa-times"></i> Cancel
@@ -103,15 +106,20 @@
                                                                 <div class="col-12 col-sm-6">
                                                                     <h5 class="card-title text-center">Are you sure you want to cancel this appointment?</h5>
                                                                     @{
-                                                                        if (item.Time.DayOfYear - now.DayOfYear < 2 && (item.Time.Year == now.Year))
+                                                                        if (!item.status.Equals("Unpaid") && item.Time.DayOfYear - now.DayOfYear < 2 && (item.Time.Year == now.Year))
                                                                         {
                                                                             <p class="text-warning">Less than 48 hours remaining.</p>
                                                                             <p class="text-warning">Please note that you will be refunded half of the payed rate.</p>
                                                                         }
-                                                                        else
+
+                                                                        else if(!item.status.Equals("Unpaid"))
                                                                         {
                                                                             <p class="text-primary">More than 48 hours remaining.</p>
                                                                             <p class="text-primary">Please note that you will be refunded the full payed rate.</p>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <p class="text-info">This appointment is unpaid and will only be unscheduled.</p>
                                                                         }
                                                                     }
 
@@ -142,6 +150,82 @@
 
                                         }
 
+                                        @if (item.status.ToString().Equals("Unpaid") && item.Time.CompareTo(now) > 0)
+                                        {
+                                            <a class="btn btn-sm bg-primary-light" data-toggle="modal" href="#InsertCard">
+                                                <i class="fa fa-dollar-sign"></i>  Pay
+                                            </a>
+                                            
+                                            <div class="modal fade" id="InsertCard" aria-hidden="true" role="dialog">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Pay for Appointment</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row form-row">
+                                                                <div class="col-12 col-sm-6">
+                                                                    <h5 class="card-title text-left">Please enter your credit card information.</h5>
+                                                                     <p class="text-info">Appointment rate of $@item.Price will be deducted from card.</p>
+
+                                                                </div>
+
+                                
+                                <div class="payment-widget">
+                                <!-- Credit Card Payment -->
+                                <form>
+                                <div class="payment-list">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group card-label">
+                                                <label for="card_name">Name on Card</label>
+                                                <input required="" name="Name" id="Name" class="form-control" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group card-label">
+                                                <label for="card_number">Card Number</label>
+                                                <input required="" class="form-control" id="CardNum" name="CardNum" placeholder="1234  5678  9876  5432" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group card-label">
+                                                <label for="expiry_month">Expiry Month</label>
+                                                <input required="" class="form-control" id="ExpMon" name="ExpMon" placeholder="MM" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group card-label">
+                                                <label for="expiry_year">Expiry Year</label>
+                                                <input required="" class="form-control" id="ExpYear" name="ExpYear" placeholder="YY" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group card-label">
+                                                <label for="cvv">CVV</label>
+                                                <input required="" class="form-control" id="CVV" name="CVV" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<input type="submit" name="submit" class="btn btn-info btn-md" value="Procced Pay">*@
+                                <button type="submit" name="submit" class="btn btn btn-info btn-block" asp-controller="Appointments" asp-action="Pay" asp-route-id="@item.id" method="post">Pay and Confirm</button>
+                            </form>
+                            </div>
+                            
+                                                            </div>
+                                                            
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        }
 
                                        @if (item.status.ToString().Equals("True") && item.Time.CompareTo(now) > 0)
                                         {
