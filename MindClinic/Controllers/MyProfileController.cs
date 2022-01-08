@@ -11,18 +11,19 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-
+using AspNetCoreHero.ToastNotification.Abstractions;
 namespace MindClinic.Controllers
 {
     public class MyProfileController : Controller
     {
         private readonly UserManager<User> _usermanager;
         private readonly IWebHostEnvironment _Host;
-
-        public MyProfileController(UserManager<User> usermanager, IWebHostEnvironment Host)
+        private readonly INotyfService _notyf;
+        public MyProfileController(UserManager<User> usermanager, IWebHostEnvironment Host, INotyfService notyf)
         {
             _usermanager = usermanager;
             _Host = Host;
+            _notyf = notyf;
         }
         public IActionResult Index()
         {
@@ -86,6 +87,55 @@ namespace MindClinic.Controllers
 
             }
              return View(user);
+
+        }
+         [HttpGet]
+        public async Task<IActionResult> ChangePassword()
+        {
+
+            return View();
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(string? oldPassword, string? confirm, string? newPassword)
+        {
+
+            if (!newPassword.Equals(confirm) || newPassword == null || newPassword == null || oldPassword == null)
+            {
+                _notyf.Error("Passwords does not match!");
+                return RedirectToAction("ChangePassword", "MyProfile");
+            }
+            else
+            {
+
+                var userid = _usermanager.GetUserId(HttpContext.User);
+                if (userid == null)
+                {
+                    return RedirectToAction("Index", "Home");
+
+                }
+                else
+                {
+                    var user = await _usermanager.FindByIdAsync(userid);
+
+                    var result = _usermanager.ChangePasswordAsync(user, oldPassword, newPassword);
+                    if (result.Result.Succeeded)
+                    {
+                        _notyf.Success("Password changed.");
+                        
+                    }
+                    else
+                    {
+                        _notyf.Error("Old Password is wrong");
+                       
+                    }
+                  
+                }
+              
+
+            }
+            return RedirectToAction("ChangePassword", "MyProfile");
+
 
         }
     }

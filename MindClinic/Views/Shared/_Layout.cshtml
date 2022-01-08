@@ -81,11 +81,16 @@
                         }
                       
 
-                        @if (signInManager.IsSignedIn(User) && User.IsInRole("PATIENT"))
+                        @if (signInManager.IsSignedIn(User) && (User.IsInRole("PATIENT")|| User.IsInRole("Secretary")))
                         {
                             <li>
                                 <a asp-action="Index" asp-controller="MyProfile">MyProfile</a>
                             </li>
+                         
+                        } 
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("PATIENT"))
+                        {
+                           
                             <li>
                                 <a asp-action="PatientAppointments" asp-controller="Home">My Appointments</a>
                             </li>

@@ -389,18 +389,22 @@ namespace MindClinic.Controllers
             }
 
             var userid = _usermanager.GetUserId(HttpContext.User);
-            var secretary = _context.Secretary.Where(x => x.SecretaryId == userid).First();
+            var secretary = _context.Secretary.Where(x => x.SecretaryId == userid).FirstOrDefault();
+            if (secretary != null) 
+            {
+                ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId == id && x.status != "Canceled").Count();
+                ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == id && x.status != "Canceled").Sum(x => x.Price);
+                var appointment = _context.Appointments.Where(x => x.doctorId == id).Include(x => x.patient);
+                var Secretary = _context.Secretary.Where(x => x.SecretaryId == userid).Include(s => s.Doctor).ToList();
 
-            ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId ==id && x.status!= "Canceled").Count();
-            ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == id && x.status!= "Canceled").Sum(x => x.Price);
-            var appointment = _context.Appointments.Where(x => x.doctorId == id).Include(x => x.patient);
-            var Secretary = _context.Secretary.Where(x=>x.SecretaryId==userid).Include(s=>s.Doctor).ToList();
 
 
+                var model1 = Tuple.Create<IEnumerable<MindClinic.Models.SecretaryClass>, IEnumerable<MindClinic.Models.Appointment>>(Secretary, appointment);
 
-            var model1 = Tuple.Create<IEnumerable<MindClinic.Models.SecretaryClass>, IEnumerable<MindClinic.Models.Appointment>>(Secretary, appointment);
-
-            return View(model1);
+                return View(model1);
+            }
+            _notyf.Error("You are not assignd to any doctor yet!");
+            return RedirectToAction("Index", "Home");
 
         }
 

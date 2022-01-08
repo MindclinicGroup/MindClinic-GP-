@@ -88,7 +88,7 @@
                                     </li>
  
                                     <li>
-                                        <a href="doctor-change-password.html">
+                                        <a asp-controller="MyProfile" asp-action="ChangePassword">
                                             <i class="fas fa-lock"></i>
                                             <span>Change Password</span>
                                         </a>
@@ -146,3 +146,4 @@
     });
 </script>
 }
+@await Component.InvokeAsync("Notyf")

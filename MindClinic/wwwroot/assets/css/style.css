@@ -2243,8 +2243,8 @@ html.menu-opened body {
 -----------------------*/
 
 .section-search { 
-	background: #f9f9f9 url(../img/search-bg.png) no-repeat bottom center;
-    min-height: 450px;
+	background: #f9f9f9 url(../img/online1.jpg) no-repeat bottom center;
+    min-height: 450px; 
     background-size: 100% auto;
     position: relative;
     background-blend-mode: Darken;
