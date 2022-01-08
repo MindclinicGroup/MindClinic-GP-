@@ -12,9 +12,9 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace MindClinic.Controllers
 {
-   
 
-    
+
+
     public class PaymentController : Controller
     {
         private readonly ILogger<PaymentController> _logger;
@@ -22,13 +22,20 @@ namespace MindClinic.Controllers
         private readonly UserManager<User> _usermanager;
         private readonly INotyfService _notyf;
         public PaymentController(ApplicationDbContext context, UserManager<User> usermanager, ILogger<PaymentController> logger, INotyfService notyf)
-        {   _logger = logger;
+        {
+            _logger = logger;
             _context = context;
             _usermanager = usermanager;
             _notyf = notyf;
         }
-        public async Task<IActionResult> Index(string id , DateTime time)
+        public async Task<IActionResult> Index(string id, DateTime time)
         {
+            if (HttpContext.User.IsInRole("DOCTOR"))
+            {
+                _notyf.Error("Doctors can not book appointments");
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.Time = time;
             var userid = _usermanager.GetUserId(HttpContext.User);
             var doctor = _context.Doctors.Where(x => x.userID == id).ToList();
@@ -40,49 +47,61 @@ namespace MindClinic.Controllers
         public async Task<IActionResult> Payment(string Name, string CardNum, int ExpMon, int ExpYear, int CVV, string id, DateTime a)
         {
             var Doctor = _context.Doctors.Where(x => x.userID == id).FirstOrDefault();
-            var Payment = _context.PaymentMethods.Where(x =>
-                x.NameOnCard == Name && x.CCV == CVV && x.CardNumber == CardNum && x.ExpiryMonth == ExpMon &&
-                x.ExpiryYear == ExpYear).FirstOrDefault();
-            if (Payment != null)
+            if (Doctor != null)
             {
-                if (Payment.Amount >= Doctor.pricePerSession)
+                
+                var schedule = _context.Schedules.Where(x => x.startTime.Date == a.Date && x.doctorID == Doctor.userID).FirstOrDefault();
+                var booked = _context.Appointments.Where(x => x.doctorId == Doctor.userID && x.Time == a).FirstOrDefault();
+                if (schedule == null || booked != null || a.Minute!=schedule.startTime.Minute)
                 {
-                    Payment.Amount = Payment.Amount - Doctor.pricePerSession;
-                    _context.Update(Payment);
+                    _notyf.Error("Bad Request!");
+                    return RedirectToAction("Index", "Home");
+                } 
+                var Payment = _context.PaymentMethods.Where(x =>
+                    x.NameOnCard == Name && x.CCV == CVV && x.CardNumber == CardNum && x.ExpiryMonth == ExpMon &&
+                    x.ExpiryYear == ExpYear).FirstOrDefault();
+                if (Payment != null)
+                {
+                    if (Payment.Amount >= Doctor.pricePerSession)
+                    {
+                        Payment.Amount = Payment.Amount - Doctor.pricePerSession;
+                        _context.Update(Payment);
+                    }
+                    else
+                    {
+                        _notyf.Error("insufficient Funds");
+                        return RedirectToAction("Index", "Home");
+                    }
+                    var userid = _usermanager.GetUserId(HttpContext.User);
+                    var TimeSelected = new Appointment
+                    {
+                        Price = Doctor.pricePerSession,
+                        patientId = userid,
+                        doctorId = id,
+                        status = "True",
+                        Time = (DateTime)a,
+                        MeetingLink = Doctor.DefaultMeetingLink,
+                        Duration = 60,
+                        PaymentId = Payment.Id  
+                    }; 
+                    _notyf.Success("Appointment is booked successfully");
+                    _context.Add(TimeSelected);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("PatientAppointments", "Home");
                 }
                 else
-                {
-                    _notyf.Error("insufficient Funds");
-                    return RedirectToAction("Index", "Home");
-                }
-                var userid = _usermanager.GetUserId(HttpContext.User);
-                var TimeSelected = new Appointment
-                {
-                    Price = Doctor.pricePerSession,
-                    patientId = userid,
-                    doctorId = id,
-                    status = "True",
-                    Time = (DateTime)a,
-                    MeetingLink = Doctor.DefaultMeetingLink,
-                    Duration = 60,
-                    PaymentId = Payment.Id
-
-
-
-
-                };
-
-                _notyf.Success("Appointment is booked successfully");
-                _context.Add(TimeSelected);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("PatientAppointments", "Home");
-            }
+                    _notyf.Error("Unable to validate card."); 
+                return RedirectToAction("Index", "Home"); 
+            } 
             else
-                _notyf.Error("Unable to validate card.");
-
-            return RedirectToAction("Index", "Home");
-
+            { 
+                _notyf.Error("Bad Request!");
+                return RedirectToAction("Index", "Home");
+            }
         }
+
+
+
 
     }
 }
