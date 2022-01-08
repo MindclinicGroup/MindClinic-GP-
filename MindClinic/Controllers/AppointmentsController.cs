@@ -274,11 +274,11 @@ namespace MindClinic.Controllers
                 {
                     appointment.Description += "\nNotes: " + description;
                 }
-                appointment.status = "Canceled";
+                
 
                 DateTime now = DateTime.Now;
 
-                if (appointment.Time.DayOfYear - now.DayOfYear < 2 && (appointment.Time.Year == now.Year))
+                if (!appointment.status.Equals("Unpaid") && appointment.Time.DayOfYear - now.DayOfYear < 2 && (appointment.Time.Year == now.Year))
                 {
                     if (appointment.Price != 0) { 
                     payment.Amount += appointment.Price / 2;
@@ -286,12 +286,17 @@ namespace MindClinic.Controllers
                     }
                     _notyf.Information("Appointment was cancelled! Refunded half of paid price.");
                 }
-                else { 
+                else if(!appointment.status.Equals("Unpaid")){ 
                     payment.Amount += appointment.Price;
                     appointment.Price = 0;
                     _notyf.Information("Appointment was cancelled! Refunded full paid price.");
                 }
+                else
+                {
+                    _notyf.Information("Appointment was unscheduled!");
+                }
 
+                appointment.status = "Canceled";
                 _context.Update(payment);
                 _context.Update(appointment);
                 await _context.SaveChangesAsync();
@@ -322,7 +327,72 @@ namespace MindClinic.Controllers
 
         }
 
-       public async Task<IActionResult> ChangeLink(int id, string link)
+
+        public async Task<IActionResult> Pay(int id, string Name, string CardNum, int ExpMon, int ExpYear, int CVV)
+        {
+            if (CVV != null && ExpYear != null && ExpMon != null && Name!= null)
+            {
+                try
+                {
+
+                    var userid = _usermanager.GetUserId(HttpContext.User);
+                    var user = _context.Users.Where(x => x.Id == userid).First();
+
+                    Appointment appointment = _context.Appointments.Where(x => x.id == id).FirstOrDefault();
+
+                    PaymentMethod payment = _context.PaymentMethods.Where(x => x.CardNumber == CardNum).FirstOrDefault();
+
+                    if (payment != null)
+                    {
+
+
+                        if (payment.CCV != CVV || payment.ExpiryYear != ExpYear || payment.ExpiryMonth != ExpMon || payment.NameOnCard != Name)
+                        {
+                            _notyf.Error("Incorrect payment information entered!");
+
+                        }
+
+                        else if (appointment.Price > payment.Amount)
+                        {
+                            _notyf.Warning("Insufficient balance in card!");
+
+                        }
+                        else
+                        {
+                            appointment.status = "True";
+                            appointment.PaymentId = payment.Id;
+                            payment.Amount -= appointment.Price;
+                            _notyf.Success("Appointemnt confirmed and payed for!");
+                        }
+
+                        _context.Update(payment);
+                        _context.Update(appointment);
+                        await _context.SaveChangesAsync();
+
+                        return RedirectToAction("PatientAppointments", "Home");
+                    }
+
+                    else {
+                        _notyf.Error("Incorrect payment information entered!");
+                        return RedirectToAction("PatientAppointments", "Home");
+                    }
+                }
+                catch (Exception e)
+                {
+                    _notyf.Error("Incorrect payment information entered!");
+                    return RedirectToAction("PatientAppointments", "Home");
+                }
+            }
+            else
+            {
+                _notyf.Error("Incorrect payment information entered!");
+                return RedirectToAction("PatientAppointments", "Home");
+            }
+
+        }
+
+
+        public async Task<IActionResult> ChangeLink(int id, string link)
         {
             try
             {
@@ -353,7 +423,7 @@ namespace MindClinic.Controllers
             {
                 var userid = _usermanager.GetUserId(HttpContext.User);
                 ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId == userid && x.status != "Canceled").Count();
-                ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == userid && x.status != "Canceled").Sum(x => x.Price);
+                ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == userid && x.status != "Canceled" && x.status != "Unpaid").Sum(x => x.Price);
                 var appointment = _context.Appointments.Where(x => x.doctorId == userid).Include(x => x.patient).OrderBy(x => x.Time);
                 if (orderby != null)
                 {
@@ -371,6 +441,9 @@ namespace MindClinic.Controllers
                         case "Ended":
                             appointment = _context.Appointments.Where(x => x.doctorId == userid && x.status == "False").Include(x => x.patient).OrderBy(x => x.Time);
                             break;
+                        case "Unpaid":
+                            appointment = _context.Appointments.Where(x => x.doctorId == userid && x.status == "Unpaid").Include(x => x.patient).OrderBy(x => x.Time);
+                            break;
 
                     }
                 }
@@ -381,10 +454,11 @@ namespace MindClinic.Controllers
 
         }
 
-        public async Task<IActionResult> GetDoctorAppointmentsSecretary(string id)
+        public async Task<IActionResult> GetDoctorAppointmentsSecretary(string ?id)
         {
             if (id != null)
             {
+                ViewBag.id = id;
                 ViewBag.Name = _context.Users.Where(x => x.Id == id).First().Name;
             }
 
@@ -415,7 +489,7 @@ namespace MindClinic.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SecretaryAppointemnt(DateTime time,string id,string status,double price,int duration)
+        public async Task<IActionResult> SecretaryAppointemnt(string doctorid, int paymentid, DateTime time,string id,string status,double price,int duration)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
 
@@ -424,13 +498,12 @@ namespace MindClinic.Controllers
             var appointemt = new Appointment
             {
                 Time = time,
-                doctorId = secretary.DoctorId,
+                doctorId = doctorid,
                 patientId = id,
                 Price = price,
-                status = "True",
+                status = "Unpaid",
                 Duration = duration,
-               
-                
+                PaymentId = paymentid,
             };
             _notyf.Success("Appointment Created");
             _context.Add(appointemt);

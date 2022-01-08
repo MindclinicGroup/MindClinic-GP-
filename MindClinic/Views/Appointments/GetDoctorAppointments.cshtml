@@ -70,7 +70,7 @@
                 <option value="On going">On going</option>
                 <option value="Ended">Ended</option>
                 <option value="Cancelled">Cancelled</option>
-
+                <option value="Unpaid">Unpaid</option>
 
 
             </select>
@@ -125,6 +125,10 @@
                                         {
                                             <span class="badge badge-pill bg-warning-light">Ended</span>
                                         }
+                                        else if (item.status.ToString().Equals("Unpaid") && item.Time.CompareTo(now) > 0)
+                                        {
+                                            <span class="badge badge-pill bg-primary-light">Unpaid</span>
+                                        }
                                         else
                                         {
                                             <span class="badge badge-pill bg-danger-light">Cancelled</span>
@@ -132,10 +136,10 @@
                                     }
                                 </td>
                                 <td>@item.Description</td>
-                                <td class="text-center">$@item.Price</td>
+                                <td class="text-center">@if(item.status.ToString().Equals("Unpaid")){<h1 class="text-sm text-info">-Unpaid- </h1>}$@item.Price</td>
                                 <td class="text-right">
                                     <div class="table-action">
-                                        @if (item.status.ToString().Equals("True") && item.Time.CompareTo(now) > 0)
+                                        @if ((item.status.ToString().Equals("Unpaid") || item.status.ToString().Equals("True")) && item.Time.CompareTo(now) > 0)
                                         {
                                             <a class="btn btn-sm bg-danger-light" data-toggle="modal" href="#Cancel_Appointment">
                                                 <i class="fas fa-times"></i> Cancel
@@ -156,15 +160,20 @@
                                                                 <div class="col-12 col-sm-6">
                                                                     <h5 class="card-title text-center">Are you sure you want to cancel this appointment?</h5>
                                                                     @{
-                                                                        if (item.Time.DayOfYear - now.DayOfYear < 2 && (item.Time.Year == now.Year))
+                                                                        if (!item.status.Equals("Unpaid") && item.Time.DayOfYear - now.DayOfYear < 2 && (item.Time.Year == now.Year))
                                                                         {
                                                                             <p class="text-warning">Less than 48 hours remaining.</p>
-                                                                            <p class="text-warning">Please note that you will be refunded half of the payed rate.</p>
+                                                                            <p class="text-warning">Please note that you will refund half of the payed rate.</p>
+                                                                        }
+
+                                                                        else if(!item.status.Equals("Unpaid"))
+                                                                        {
+                                                                            <p class="text-primary">More than 48 hours remaining.</p>
+                                                                            <p class="text-primary">Please note that you will refund the full payed rate.</p>
                                                                         }
                                                                         else
                                                                         {
-                                                                            <p class="text-primary">More than 48 hours remaining.</p>
-                                                                            <p class="text-primary">Please note that you will be refunded the full payed rate.</p>
+                                                                            <p class="text-info">This appointment is unpaid and will only be unscheduled.</p>
                                                                         }
                                                                     }
 

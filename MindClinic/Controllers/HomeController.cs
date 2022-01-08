@@ -100,6 +100,9 @@ namespace MindClinic.Controllers
                     case "Ended":
                         appointment = _context.Appointments.Where(x => x.patientId == userid && x.status == "False").Include(x => x.doctor).OrderBy(x => x.Time);
                         break;
+                    case "Unpaid":
+                        appointment = _context.Appointments.Where(x => x.patientId == userid && x.status == "Unpaid").Include(x => x.doctor).OrderBy(x => x.Time);
+                        break;
 
                 }
             }
