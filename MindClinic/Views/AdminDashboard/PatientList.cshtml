@@ -39,26 +39,40 @@
                                             <th>Gender</th>
                                             <th>Email</th>
                                             <th>Doctor Photo</th>
-
+                                            <th>Edit</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var item in Model)
-                                        {<tr>
+                                        {
+                                                <tr>
 
-                                                <td>@item.Name</td>
+                                                    <td>@item.Name</td>
 
-                                                <td>@item.Age</td>
+                                                    <td>@item.Age</td>
 
-                                                <td>@item.Gender</td>
-                                                <td>@item.Email</td>
-                                                <td>
+                                                    <td>@item.Gender</td>
+                                                    <td>@item.Email</td>
+                                                    <td>
 
-                                                    <span class="avatar avatar-sm">
-                                                        <img class="avatar-img rounded-circle" alt="No Photo" src="~/Doctorsimage/@item.image">
-                                                    </span>
-                                                </td>
-                                            </tr>
+                                                        <span class="avatar avatar-sm">
+                                                            <img class="avatar-img rounded-circle" alt="No Photo" src="~/Doctorsimage/@item.image">
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                    @if (!item.LockoutEnabled || item.LockoutEnd == null)
+                                                    {
+                                                                <a asp-controller="AdminDashboard" asp-action="LockUser" asp-route-email="@item.Email">Lock</a>
+
+                                                    }
+
+
+                                                    else
+                                                    {
+                                                                <a asp-controller="AdminDashboard" asp-action="UnlockUser" asp-route-email="@item.Email" style="color:red;">UnLock</a>
+                                                    }
+                                                    </td>
+                                                </tr>
                                         }
                                     </tbody>
                                 </table>

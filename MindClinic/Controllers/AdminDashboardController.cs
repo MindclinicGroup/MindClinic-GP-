@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.Extensions.Logging;
 using MindClinic.Data;
+using Microsoft.AspNetCore.Identity;
+using MindClinic.Models;
 
 namespace MindClinic.Controllers
 {
@@ -14,12 +16,14 @@ namespace MindClinic.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly INotyfService _notyf;
+        private readonly UserManager<User> _usermanager;
 
-        public AdminDashboardController(ApplicationDbContext context, INotyfService notyf, ILogger<HomeController> logger)
+        public AdminDashboardController(ApplicationDbContext context, INotyfService notyf, ILogger<HomeController> logger, UserManager<User> usermanager)
         {
             _context = context;
             _notyf = notyf;
             _logger = logger;
+            _usermanager = usermanager;
         }
 
         public IActionResult Index()
@@ -84,6 +88,53 @@ namespace MindClinic.Controllers
 
             return RedirectToAction("ContactUs");
 
+        }
+        [HttpGet]
+        public async Task<IActionResult> LockUser(string email, DateTime? endDate)
+        {
+            DateTime EndDate = new DateTime(2222, 06, 06);
+            if (endDate == null)
+                endDate = EndDate;
+
+            var userTask = _usermanager.FindByEmailAsync(email);
+            userTask.Wait();
+            var user = userTask.Result;
+
+            var lockUserTask = _usermanager.SetLockoutEnabledAsync(user, true);
+            lockUserTask.Wait();
+
+            var lockDateTask = _usermanager.SetLockoutEndDateAsync(user, endDate);
+            lockDateTask.Wait();
+            if(lockDateTask.Result.Succeeded && lockUserTask.Result.Succeeded)
+            {
+                _notyf.Success("locked: " + user.Email);
+            }
+            else 
+            {
+                _notyf.Error("Something is wrong");
+            }
+            if(user.RoleId=="2") return RedirectToAction("DoctorsList", "AdminDashboard");
+            if(user.RoleId=="3") return RedirectToAction("PatientList", "AdminDashboard");
+            return RedirectToAction("PatientList", "AdminDashboard");
+        }
+        public async Task<IActionResult> UnlockUser(string email)
+        {
+            var userTask = _usermanager.FindByEmailAsync(email);
+            userTask.Wait();
+            var user = userTask.Result;
+
+            var lockDisabledTask = _usermanager.SetLockoutEnabledAsync(user, false);
+            lockDisabledTask.Wait();
+
+            var setLockoutEndDateTask = _usermanager.SetLockoutEndDateAsync(user, DateTime.Now - TimeSpan.FromMinutes(1));
+            setLockoutEndDateTask.Wait();
+            var result = setLockoutEndDateTask.Result.Succeeded && lockDisabledTask.Result.Succeeded;
+         
+            _notyf.Success("Unlocked: " + user.Email);
+            if (user.RoleId == "2") return RedirectToAction("DoctorsList", "AdminDashboard");
+            if (user.RoleId == "3") return RedirectToAction("PatientList", "AdminDashboard");
+            return RedirectToAction("PatientList", "AdminDashboard");
+       
         }
     }
 }

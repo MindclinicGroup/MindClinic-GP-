@@ -1,6 +1,12 @@
 ﻿@model MindClinic.Models.Schedule
-
+ @using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> signInManager;
+ 
 @{
+    if (signInManager.IsSignedIn(User) && User.IsInRole("DOCTOR"))
+    {
+       Layout = "_LayoutDoctotDashboard";
+    }
     ViewData["Title"] = "Edit";
 }
 
