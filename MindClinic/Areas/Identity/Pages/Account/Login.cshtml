@@ -35,7 +35,9 @@
     <br>
 
 <!-- Main Wrapper -->
-        <div class="main-wrapper login-body">
+ <div class="row">
+     <div class="col-2"></div>
+        <div class="main-wrapper login-body col-8">
 
             <div class="login-wrapper">
 
@@ -84,14 +86,14 @@
                     <p>
                         <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
                     </p>*@
-                    <p>
+                @*    <p>
                         <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
+                    </p>*@
                 </div>
             </form>
 								<!-- /Form -->
 								
-								<div class="text-center forgotpass"><a id="forgot-password" asp-page="./ForgotPassword">Forgot Password?</a></div>
+								@*<div class="text-center forgotpass"><a id="forgot-password" asp-page="./ForgotPassword">Forgot Password?</a></div>*@
 								<div class="login-or">
 									<span class="or-line"></span>
 									<span class="span-or">or</span>
@@ -104,6 +106,7 @@
                 </div>
             </div>
         </div>
+         </div>
 		<!-- /Main Wrapper -->
 
 @*<div class="row">

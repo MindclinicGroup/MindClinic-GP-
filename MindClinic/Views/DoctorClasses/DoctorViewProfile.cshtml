@@ -6,7 +6,7 @@
 <div class="content">
     <div class="container">
 
-        <!-- Doctor Widget -->
+
         <div class="card">
             <div class="card-body">
                 <div class="doctor-widget">
@@ -33,34 +33,10 @@
                                         <i class="fas fa-star"></i>
                                     }
                                 }
-                            
+
                                 <span class="d-inline-block average-rating">(@Model.RatingsCount)</span>
                             </div>
-                            @*<div class="clinic-details">
-                                <p class="doc-location"><i class="fas fa-map-marker-alt"></i> Newyork, USA - <a href="javascript:void(0);">Get Directions</a></p>
-                                <ul class="clinic-gallery">
-                                <li>
-                                <a href="assets/img/features/feature-01.jpg" data-fancybox="gallery">
-                                <img src="assets/img/features/feature-01.jpg" alt="Feature">
-                                </a>
-                                </li>
-                                <li>
-                                <a href="assets/img/features/feature-02.jpg" data-fancybox="gallery">
-                                <img src="assets/img/features/feature-02.jpg" alt="Feature Image">
-                                </a>
-                                </li>
-                                <li>
-                                <a href="assets/img/features/feature-03.jpg" data-fancybox="gallery">
-                                <img src="assets/img/features/feature-03.jpg" alt="Feature">
-                                </a>
-                                </li>
-                                <li>
-                                <a href="assets/img/features/feature-04.jpg" data-fancybox="gallery">
-                                <img src="assets/img/features/feature-04.jpg" alt="Feature">
-                                </a>
-                                </li>
-                                </ul>
-                                </div>*@
+
                             <div>
                                 <!-- Facebook -->
                                 <a class="btn btn-primary" style="background-color: #3b5998;" href="@Model.FacebookURL" target="_blank" role="button">
@@ -94,20 +70,7 @@
                             <p id="price"></p><small><muted>\</muted></small>Hour</p>
 
                         </div>
-                        @*<div class="doctor-action">
-                            <a href="javascript:void(0)" class="btn btn-white fav-btn">
-                            <i class="far fa-bookmark"></i>
-                            </a>
-                            <a href="chat.html" class="btn btn-white msg-btn">
-                            <i class="far fa-comment-alt"></i>
-                            </a>
-                            <a href="javascript:void(0)" class="btn btn-white call-btn" data-toggle="modal" data-target="#voice_call">
-                            <i class="fas fa-phone"></i>
-                            </a>
-                            <a href="javascript:void(0)" class="btn btn-white call-btn" data-toggle="modal" data-target="#video_call">
-                            <i class="fas fa-video"></i>
-                            </a>
-                            </div>*@
+
                         @if (!User.IsInRole("DOCTOR"))
                         {
                             <div class="clinic-booking">
@@ -118,28 +81,21 @@
                 </div>
             </div>
         </div>
-        <!-- /Doctor Widget -->
-        <!-- Doctor Details Tab -->
+
         <div class="card">
             <div class="card-body pt-0">
 
-                <!-- Tab Menu -->
                 <nav class="user-tabs mb-4">
                     <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
                         <li class="nav-item">
                             <a id="btnOverView" class="nav-link active" data-toggle="tab">Overview</a>
                         </li>
-                        @*<li class="nav-item">
-                            <a class="nav-link" href="#doc_locations" data-toggle="tab">Locations</a>
-                            </li>*@
+
                         <li class="nav-item">
                             <a id="btnReview" class="nav-link" data-toggle="tab">Reviews</a>
                         </li>
 
 
-                        @*<li class="nav-item">
-                            <a class="nav-link" href="#doc_business_hours" data-toggle="tab">Business Hours</a>
-                            </li>*@
                     </ul>
                 </nav>
                 <!-- /Tab Menu -->
@@ -155,7 +111,7 @@
 
                                 </a>
                             }
-                          
+
                         </div>
                         <div class="modal fade" id="Cancel_Appointment" aria-hidden="true" role="dialog">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -172,21 +128,10 @@
 
                                         <form method="post">
                                             <div style="padding-left: 10px;" class="row form-row">
-                                                @*<div class="form-group">
-                                                    <select class="form-control" id="rate" name="rate">
-
-                                                        <option value="1">1</option>
-                                                        <option value="2">2</option>
-                                                        <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
 
 
-                                                    </select>
-                                                </div>*@
-                                                
                                                 <div class="star-rating">
-                                                    <input  id="star-5" type="radio" name="rate" value="5">
+                                                    <input id="star-5" type="radio" name="rate" value="5">
                                                     <label for="star-5" title="5 stars">
                                                         <i class="active fa fa-star"></i>
                                                     </label>
@@ -238,140 +183,25 @@
                     </div>
 
                 </div>
-                <!-- Tab Content -->
+
                 <div id="overView" class="tab-content pt-0">
 
-                    <!-- Overview Content -->
                     <div role="tabpanel" id="doc_overview" class="tab-pane fade show active">
                         <div class="row">
                             <div class="col-md-12 col-lg-9">
 
-                                <!-- About Details -->
                                 <div class="widget about-widget">
                                     <h4 class="widget-title">About Me</h4>
                                     <p id="aboutme"></p>
                                 </div>
-                                <!-- /About Details -->
-                                <!-- Education Details -->
+
                                 <div id="education" class="widget education-widget">
-                                    <!--   <h4 class="widget-title">Education</h4>
-                                        <div class="experience-box">
-                                            <ul class="experience-list">
-                                                <li>
-                                                    <div class="experience-user">
-                                                        <div class="before-circle"></div>
-                                                    </div>
-                                                    <div class="experience-content">
-                                                        <div class="timeline-content">
-                                                            <a href="#/" class="name">American Dental Medical University</a>
-                                                            <div>BDS</div>
-                                                            <span class="time">1998 - 2003</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="experience-user">
-                                                        <div class="before-circle"></div>
-                                                    </div>
-                                                    <div class="experience-content">
-                                                        <div class="timeline-content">
-                                                            <a href="#/" class="name">American Dental Medical University</a>
-                                                            <div>MDS</div>
-                                                            <span class="time">2003 - 2005</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>-->
                                 </div>
-                                <!-- /Education Details -->
-                                <!-- Experience Details -->
-                                @*<div class="widget experience-widget">
-                                    <h4 class="widget-title">Work & Experience</h4>
-                                    <div class="experience-box">
-                                    <ul class="experience-list">
-                                    <li>
-                                    <div class="experience-user">
-                                    <div class="before-circle"></div>
-                                    </div>
-                                    <div class="experience-content">
-                                    <div class="timeline-content">
-                                    <a href="#/" class="name">Glowing Smiles Family Dental Clinic</a>
-                                    <span class="time">2010 - Present (5 years)</span>
-                                    </div>
-                                    </div>
-                                    </li>
-                                    <li>
-                                    <div class="experience-user">
-                                    <div class="before-circle"></div>
-                                    </div>
-                                    <div class="experience-content">
-                                    <div class="timeline-content">
-                                    <a href="#/" class="name">Comfort Care Dental Clinic</a>
-                                    <span class="time">2007 - 2010 (3 years)</span>
-                                    </div>
-                                    </div>
-                                    </li>
-                                    <li>
-                                    <div class="experience-user">
-                                    <div class="before-circle"></div>
-                                    </div>
-                                    <div class="experience-content">
-                                    <div class="timeline-content">
-                                    <a href="#/" class="name">Dream Smile Dental Practice</a>
-                                    <span class="time">2005 - 2007 (2 years)</span>
-                                    </div>
-                                    </div>
-                                    </li>
-                                    </ul>
-                                    </div>*@
+
                                 <div id="awards" class="widget awards-widget">
-                                    @*<h4 class="widget-title">Awards</h4>
-                                        <div class="experience-box">
-                                        <ul class="experience-list">
-                                        <li>
-                                        <div class="experience-user">
-                                        <div class="before-circle"></div>
-                                        </div>
-                                        <div class="experience-content">
-                                        <div class="timeline-content">
-                                        <p class="exp-year">July 2019</p>
-                                        <h4 class="exp-title">Humanitarian Award</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                                        </div>
-                                        </div>
-                                        </li>
-                                        <li>
-                                        <div class="experience-user">
-                                        <div class="before-circle"></div>
-                                        </div>
-                                        <div class="experience-content">
-                                        <div class="timeline-content">
-                                        <p class="exp-year">March 2011</p>
-                                        <h4 class="exp-title">Certificate for International Volunteer Service</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                                        </div>
-                                        </div>
-                                        </li>
-                                        <li>
-                                        <div class="experience-user">
-                                        <div class="before-circle"></div>
-                                        </div>
-                                        <div class="experience-content">
-                                        <div class="timeline-content">
-                                        <p class="exp-year">May 2008</p>
-                                        <h4 class="exp-title">The Dental Professional of The Year Award</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                                        </div>
-                                        </div>
-                                        </li>
-                                        </ul>
-                                        </div>*@
                                 </div>
                             </div>
-                            <!-- /Experience Details -->
-                            <!-- Awards Details -->
+
 
                         </div>
                     </div>
@@ -439,10 +269,5 @@
                     $("#overView").show();
                 });
             });
-
-
-
-
-
 
         </script>

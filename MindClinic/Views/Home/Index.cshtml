@@ -8,15 +8,15 @@
     <div class="container-fluid">
         <div class="banner-wrapper">
             <div class="banner-header text-center">
-                <h1 >Search Doctor, Make an Appointment</h1>
-                <p >Discover the best doctors</p>
+                <h1>Search Doctor, Make an Appointment</h1>
+                <h2>Discover the best doctors</h2>
             </div>
 
 
             <!-- Search -->
 
             <form>
-                <div style="padding-top:20px" class="input-group mb-3">
+                <div style="padding-top:10px" class="input-group mb-3">
                     <input type="text" name="search" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search for doctor's name, email ..">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" asp-controller="Home" asp-action="SearchForDoctors" type="submit" id="submit" value="Submit"> <i class="fas fa-search"></i></button>
@@ -25,87 +25,11 @@
             </form>
 
 
-   @*         @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-            {
 
-                <input id="txtDoctor" name="search" type="text" class="form-control" placeholder="Search Doctors">
-                <input id="hfDoctor" name="DoctorId" type="hidden" class="form-control" placeholder="Search Doctors">
-                <div id="hello"></div>
-               <button type="submit" class="btn btn-primary search-btn"><i class="fas fa-search"></i> <span>Search</span></button>
-                <input asp-action="SearchForDoctors" type="submit" id="submit" value="Submit" />
-                <br />
-
-                <br />
-
-
-            }
-
-            <script type="text/javascript">
-                $(function () {
-                    $("#txtDoctor").autocomplete({
-                        source: function (request, response) {
-                            $.ajax({
-                                url: '/Home/AutoComplete/',
-                                data: { "prefix": request.term },
-                                type: "POST",
-                                success: function (data) {
-                                    response($.map(data,
-                                        function (item) {
-
-                                            return item;
-                                        }))
-                                },
-                                error: function (response) {
-                                    alert(response.responseText)
-                                },
-                                failure: function (response) {
-                                    alert(response.responseText)
-                                }
-                            });
-                        },
-                        select: function (e, i) {
-                            $("#hfDoctor").val(i.item.val);
-
-                        },
-                        minLength: 1
-                    });
-                });
-
-            </script>
-*@
         </div>
     </div>
 </section>
-<!-- /Home Banner -->
-<!-- Clinic and Specialities -->
-@*<section class="section section-specialities">
-    <div class="container-fluid">
-        <div class="section-header text-center">
-            <h2>Clinic and Specialities</h2>
-            <p class="sub-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-9">
-                <!-- Slider -->
-                <div class="specialities-slider slider">
-                    <div class="speicality-item text-center">
-                        <div class="speicality-img">
-                            <img src="~/assets/img/specialities/specialities-02.png" class="img-fluid" alt="Speciality">
-                            <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                        </div>
-                        <p>Neurology</p>
-                    </div>
 
-
-                </div>
-                <!-- /Slider -->
-
-            </div>
-        </div>
-    </div>
-</section>*@
-<!-- Clinic and Specialities -->
-<!-- Popular Section -->
 <section class="section section-doctor">
     <div class="container-fluid">
         <div class="row">
@@ -157,9 +81,15 @@
                                                 }
 
                                                 <span class="d-inline-block average-rating">(@item.RatingsCount)</span>
-                                            </div></li>
+                                            </div>
+                                        </li>
                                         <li>
-                                            <i class="fas fa-map-marker-alt"></i> @item.User.Gender
+                                            @if (item.User.Gender == "Female")
+                                            {
+                                                <i class="fa fa-venus"></i>
+                                            }
+                                            else{<i class="fa fa-mars"></i> }
+                                           @item.User.Gender
                                         </li>
                                         <li>
                                             <i class="far fa-clock"></i> @item.User.Age
@@ -181,98 +111,90 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /Doctor Widget -->
+
                         }
                     }
-
-
-
-
                 </div>
             </div>
         </div>
     </div>
 </section>
 <!-- /Popular Section -->
-
-
 <section class="page-section" id="Faqs">
-<div class="container-fluid">
-<div class="row wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
-<div class="col-md-12 text-center">
-<h1 class="font-weight-bold">Frequently Asked Questions</h1>
-</div>
-</div>
-<br>
+    <div class="container-fluid">
+        <div class="row wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+            <div class="col-md-12 text-center">
+                <h1 class="font-weight-bold">Frequently Asked Questions</h1>
+            </div>
+        </div>
+        <br>
 
-<div style="visibility: visible; animation-name: fadeInUp;">
-<div id="Faq">
-<div class="card mb-0">
+        <div style="visibility: visible; animation-name: fadeInUp;">
+            <div id="Faq">
+                <div class="card mb-0">
 
-<div class="card-header w-100 collapsed" data-toggle="collapse" href="#collapseOne">
-<a class="card-title text-primary">
-     <strong style="color:#0de0fe;">Can I cancel an appointment I have already booked and paid for?</strong>
+                    <div class="card-header w-100 collapsed" data-toggle="collapse" href="#collapseOne">
+                        <a class="card-title text-primary">
+                            <strong style="color:#0de0fe;">Can I cancel an appointment I have already booked and paid for?</strong>
 
-</a>
-</div>
+                        </a>
+                    </div>
 
-<div id="collapseOne" class="card-body collapse" data-parent="#Faq">
-<p>Yes, you can also receive a full refund if you cancel within two days of the appointment, otherwise, you get a refund of half of the amount you paid.
-</p>
-</div>
+                    <div id="collapseOne" class="card-body collapse" data-parent="#Faq">
+                        <p>
+                            Yes, you can also receive a full refund if you cancel within two days of the appointment, otherwise, you get a refund of half of the amount you paid.
+                        </p>
+                    </div>
 
-<div class="card-header w-100 collapsed" data-toggle="collapse" data-parent="#Faq" href="#collapseTwo">
-<a class="card-title">
-    <strong style="color:#0de0fe;">Can other users see my information?</strong>
+                    <div class="card-header w-100 collapsed" data-toggle="collapse" data-parent="#Faq" href="#collapseTwo">
+                        <a class="card-title">
+                            <strong style="color:#0de0fe;">Can other users see my information?</strong>
 
-</a>
-</div>
+                        </a>
+                    </div>
 
-<div id="collapseTwo" class="card-body collapse" data-parent="#Faq">
-<p class="">No, your name and information will only be shared with doctors whom you have booked an appointment with.
-</p>
-</div>
+                    <div id="collapseTwo" class="card-body collapse" data-parent="#Faq">
+                        <p class="">
+                            No, your name and information will only be shared with doctors whom you have booked an appointment with.
+                        </p>
+                    </div>
 
-<div class="card-header  w-100 collapsed" data-toggle="collapse" data-parent="#Faq" href="#collapseThree">
-<a class="card-title text-primary" >
-<strong style="color:#0de0fe;">How do I access the live video call with the therapist? </strong>
-</a>
-</div>
-<div id="collapseThree" class="collapse" data-parent="#accordion">
-<div class="card-body">
-<p>You can access the meeting link that your doctor has provided in the "My Appointments" tab next to the meeting information.</p>
-<p>(Note: you can only access the meeting link 10 minutes before the appointment starts.)</p>
-</div>
-</div>
-<div class="card-header  w-100 collapsed" data-toggle="collapse" data-parent="#Faq" href="#collapseFour">
-<a class="card-title text-primary"  >
- <strong style="color:#0de0fe;">How can I communicate with my therapist?</strong>
-</a>
-</div>
-<div id="collapseFour" class="collapse" data-parent="#accordion">
-<div class="card-body">
-<p>You can message them directly through our website or call the phone number listed on their profile page.</p>
-</div>
-</div>
-<div class="card-header  w-100 collapsed" data-toggle="collapse" data-parent="#Faq" href="#collapseFive">
-<a class="card-title text-primary"  >
- <strong style="color:#0de0fe;">How can I file an inquiry, complaint, report, or suggestion?</strong>
-</a>
-</div>
-<div id="collapseFive" class="collapse" data-parent="#accordion">
-<div class="card-body">
-<p>You can email or call us using the provided contact information on the "Contact" page.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+                    <div class="card-header  w-100 collapsed" data-toggle="collapse" data-parent="#Faq" href="#collapseThree">
+                        <a class="card-title text-primary">
+                            <strong style="color:#0de0fe;">How do I access the live video call with the therapist? </strong>
+                        </a>
+                    </div>
+                    <div id="collapseThree" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>You can access the meeting link that your doctor has provided in the "My Appointments" tab next to the meeting information.</p>
+                            <p>(Note: you can only access the meeting link 10 minutes before the appointment starts.)</p>
+                        </div>
+                    </div>
+                    <div class="card-header  w-100 collapsed" data-toggle="collapse" data-parent="#Faq" href="#collapseFour">
+                        <a class="card-title text-primary">
+                            <strong style="color:#0de0fe;">How can I communicate with my therapist?</strong>
+                        </a>
+                    </div>
+                    <div id="collapseFour" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>You can message them directly through our website or call the phone number listed on their profile page.</p>
+                        </div>
+                    </div>
+                    <div class="card-header  w-100 collapsed" data-toggle="collapse" data-parent="#Faq" href="#collapseFive">
+                        <a class="card-title text-primary">
+                            <strong style="color:#0de0fe;">How can I file an inquiry, complaint, report, or suggestion?</strong>
+                        </a>
+                    </div>
+                    <div id="collapseFive" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>You can email or call us using the provided contact information on the "Contact" page.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
-
-
-
-
 
 <br>
 
@@ -289,37 +211,27 @@
                     <p>Our therapists can help you with many mental health issues</p>
                 </div>
                 <div class="features-slider slider">
-                    <!-- Slider Item -->
+
                     <div class="feature-item text-center">
                         <img src="~/assets/img/features/feature-01.jpg" class="img-fluid" alt="Feature">
                         <p>Patient Ward</p>
                     </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
                     <div class="feature-item text-center">
                         <img src="~/assets/img/features/feature-02.jpg" class="img-fluid" alt="Feature">
                         <p>Test Room</p>
                     </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
                     <div class="feature-item text-center">
                         <img src="~/assets/img/features/feature-03.jpg" class="img-fluid" alt="Feature">
                         <p>ICU</p>
                     </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
                     <div class="feature-item text-center">
                         <img src="~/assets/img/features/feature-04.jpg" class="img-fluid" alt="Feature">
                         <p>Laboratory</p>
                     </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
                     <div class="feature-item text-center">
                         <img src="~/assets/img/features/feature-05.jpg" class="img-fluid" alt="Feature">
                         <p>Operation</p>
                     </div>
-                    <!-- /Slider Item -->
-                    <!-- Slider Item -->
                     <div class="feature-item text-center">
                         <img src="~/assets/img/features/feature-06.jpg" class="img-fluid" alt="Feature">
                         <p>Medical</p>

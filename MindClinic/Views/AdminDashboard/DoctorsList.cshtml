@@ -41,6 +41,7 @@
                                             <th>Gender</th>
                                             <th>Email</th>
                                             <th>Doctor Photo</th>
+                                             <th>Edit</th>
                                             
                                         </tr>
                                     </thead>
@@ -63,7 +64,15 @@
                                                 <img class="avatar-img rounded-circle" alt="No Photo" src="~/Doctorsimage/@item.image">
                                             </span>
                                         </td>
-                                    </tr>
+                                              <td> 
+                                                  @if(!item.LockoutEnabled || item.LockoutEnd==null){
+                                                    <a asp-controller="AdminDashboard" asp-action="LockUser" asp-route-email="@item.Email" >Lock</a>
+
+                                                }
+                                                else{                                       <a asp-controller="AdminDashboard" asp-action="UnlockUser" asp-route-email="@item.Email" style="color:red;" >UnLock</a>
+}
+                                           </td> </tr>
+                                    
                                     }
                                     </tbody>
                                 </table>
