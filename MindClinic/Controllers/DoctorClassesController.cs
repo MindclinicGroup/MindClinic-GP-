@@ -217,12 +217,13 @@ namespace MindClinic.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DoctorProfile(int id, [Bind("id,AboutMe,pricePerSession,userID,FacebookURL,InstagramURL,TwitterURL,LinkedinURL,YoutubeURL")] DoctorClass doctorClass)
+        public async Task<IActionResult> DoctorProfile(int id, [Bind("id,AboutMe,DefaultMeetingLink,pricePerSession,userID,FacebookURL,InstagramURL,TwitterURL,LinkedinURL,YoutubeURL")] DoctorClass doctorClass)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
             var doctor = _context.Doctors.Where(x => x.userID == userid).First();
             doctor.AboutMe = doctorClass.AboutMe;
             doctor.pricePerSession = doctorClass.pricePerSession;
+            doctor.DefaultMeetingLink = doctorClass.DefaultMeetingLink;
             doctor.FacebookURL = doctorClass.FacebookURL;
             doctor.InstagramURL = doctorClass.InstagramURL;
             doctor.TwitterURL = doctorClass.TwitterURL;
@@ -529,11 +530,7 @@ namespace MindClinic.Controllers
         public IActionResult Reviews(string? id)
         {
             List<Reviews> reviews;
-            reviews = _context.Reviews.Where(x => x.DoctorUserId == id).Include(s => s.DoctorUser).Include(s => s.WriterUser).ToList();
-            
-
-
-
+            reviews =  _context.Reviews.Where(x => x.DoctorUserId == id).Include(s => s.DoctorUser).Include(s => s.WriterUser).OrderByDescending(x => x.TimeOfReview.Date).ToList(); 
             return View(reviews);
         }
 
@@ -544,24 +541,45 @@ namespace MindClinic.Controllers
         public async Task<IActionResult> CreateReview(string id, string txt, string rate, string Privacy)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
-            var appointment = _context.Appointments.Where(x => x.patientId == userid && x.doctorId == id);
-
-
-            var Review = new Reviews
+            var appointment = _context.Appointments.Where(x => x.patientId == userid && x.doctorId == id).FirstOrDefault();
+            if (appointment != null)
             {
-                WriterUserId = userid,
-                DoctorUserId = id,
-                Text = txt,
-                TimeOfReview = DateTime.Now,
-                Privacy = Privacy,
-                Rating = int.Parse(rate)
-            };
-        
-            var doctor = _context.Doctors.Where(x => x.userID == id).First();
-            doctor.AvgRating = ((doctor.RatingsCount * doctor.AvgRating) + Review.Rating) / ++doctor.RatingsCount;
-            _context.Update(doctor);
-            _context.Add(Review);
-            await _context.SaveChangesAsync();
+                var oldreview = _context.Reviews.Where(x => x.WriterUserId == userid && x.DoctorUserId == id).FirstOrDefault();
+                var doctor = _context.Doctors.Where(x => x.userID == id).First();
+                if (oldreview != null) 
+                {
+                    oldreview.Text = txt;
+                    oldreview.Privacy = Privacy;
+                    oldreview.TimeOfReview = DateTime.Now;
+                 
+                    doctor.AvgRating = ((doctor.RatingsCount * doctor.AvgRating) -oldreview.Rating + int.Parse(rate))/doctor.RatingsCount;
+                    oldreview.Rating = int.Parse(rate);
+                    _context.Update(oldreview);
+                }
+                else
+                {
+                    var Review = new Reviews
+                    {
+                        WriterUserId = userid,
+                        DoctorUserId = id,
+                        Text = txt,
+                        TimeOfReview = DateTime.Now,
+                        Privacy = Privacy,
+                        Rating = int.Parse(rate)
+                    };
+                    _context.Add(Review);
+                 
+                    doctor.AvgRating = ((doctor.RatingsCount * doctor.AvgRating) + int.Parse(rate)) / ++doctor.RatingsCount;
+                    _context.Update(doctor);
+
+
+                }
+
+
+
+                await _context.SaveChangesAsync();
+            }
+             
 
             return RedirectToAction("DoctorViewProfile", "DoctorClasses", new { id = id });
 
