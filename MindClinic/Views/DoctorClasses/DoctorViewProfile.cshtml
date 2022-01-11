@@ -104,10 +104,10 @@
                     <div class="table-action">
 
                         <div class="text-right">
-                            @if (signInManager.IsSignedIn(User))
+                            @if (signInManager.IsSignedIn(User) && User.IsInRole("PATIENT"))
                             {
-                                <a class="btn btn-sm bg-success-light " data-toggle="modal" href="#Cancel_Appointment">
-                                    <i class="fas fa-plus"></i>Rate Doctor
+                                <a class="btn bg-success-light " data-toggle="modal" href="#Cancel_Appointment">
+                                    <i class="fas fa-star"></i> Rate Doctor
 
                                 </a>
                             }
