@@ -50,6 +50,7 @@
                         </tr>
                     </thead>
                     <tbody>
+
                         @foreach (var item in Model)
                         {
                             <tr>
@@ -285,9 +286,25 @@
                                     </div>
                                 </td>
                             </tr>
+
                         }
+
+
                     </tbody>
+
                 </table>
+                        @if (!Model.Any())
+                        {
+                            <br>
+
+                            
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Empty!</strong> No matching <a href="#" class="alert-link">appointments</a> have been found!
+										
+						</div>  
+                                    
+                        <div  style="display:flex;min-height:100vh; flex-direction:column;" ></div>
+                        }
             </div>
         </div>
     </div>
