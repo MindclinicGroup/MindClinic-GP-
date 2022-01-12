@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,13 +18,16 @@ namespace MindClinic.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _usermanager;
+        private readonly  INotyfService _notyf;
 
 
-        public DoctorClassesController(ApplicationDbContext context, UserManager<User> usermanager)
+        public DoctorClassesController(ApplicationDbContext context, UserManager<User> usermanager, INotyfService notyf)
         {
             _usermanager = usermanager;
             _context = context;
             _usermanager = usermanager;
+            _notyf = notyf;
+
         }
 
 
@@ -542,7 +546,7 @@ namespace MindClinic.Controllers
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
             var appointment = _context.Appointments.Where(x => x.patientId == userid && x.doctorId == id).FirstOrDefault();
-            if (appointment != null)
+            if (appointment != null && appointment.status=="True")
             {
                 var oldreview = _context.Reviews.Where(x => x.WriterUserId == userid && x.DoctorUserId == id).FirstOrDefault();
                 var doctor = _context.Doctors.Where(x => x.userID == id).First();
@@ -555,6 +559,8 @@ namespace MindClinic.Controllers
                     doctor.AvgRating = ((doctor.RatingsCount * doctor.AvgRating) -oldreview.Rating + int.Parse(rate))/doctor.RatingsCount;
                     oldreview.Rating = int.Parse(rate);
                     _context.Update(oldreview);
+                    _notyf.Success("Review Updated!");
+
                 }
                 else
                 {
@@ -571,6 +577,7 @@ namespace MindClinic.Controllers
                  
                     doctor.AvgRating = ((doctor.RatingsCount * doctor.AvgRating) + int.Parse(rate)) / ++doctor.RatingsCount;
                     _context.Update(doctor);
+                    _notyf.Success("Review Created!");
 
 
                 }
@@ -578,6 +585,11 @@ namespace MindClinic.Controllers
 
 
                 await _context.SaveChangesAsync();
+            }
+
+            else
+            {
+                _notyf.Error("You do not have a previous appointment with this doctor!");
             }
              
 
