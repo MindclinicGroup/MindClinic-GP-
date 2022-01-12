@@ -3764,6 +3764,7 @@ html.menu-opened body {
     margin-bottom: 30px;
     background-color: #09e5ab;
 }
+
 .success-cont h3 {
     font-size: 24px;
 }
@@ -3778,6 +3779,56 @@ html.menu-opened body {
 	font-weight: 600;
 	padding: 12px 30px;
 }
+
+
+
+.success-page-cont {
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	display: flex;
+}
+
+.success-card .card-body {
+	padding: 50px 20px;
+}
+
+.error-cont {
+	text-align: center;
+}
+
+	.error-cont i {
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+		color: #fff;
+		width: 60px;
+		height: 60px;
+		border: 2px solid #dc143c;
+		border-radius: 50%;
+		display: -webkit-inline-box;
+		display: -ms-inline-flexbox;
+		display: inline-flex;
+		justify-content: center;
+		-webkit-justify-content: center;
+		-ms-flex-pack: center;
+		font-size: 30px;
+		margin-bottom: 30px;
+		background-color: #dc143c;
+	}
+
+.error-cont h3 {
+	font-size: 24px;
+}
+
+.error-cont p {
+	margin-bottom: 30px;
+}
+
+	.error-cont strong {
+		font-weight: 600;
+	}
+
 
 /*-----------------
 	21. Invoice View

@@ -425,6 +425,7 @@ namespace MindClinic.Controllers
                 ViewBag.CountOfAppointments = _context.Appointments.Where(x => x.doctorId == userid && x.status != "Canceled").Count();
                 ViewBag.TotalPrice = _context.Appointments.Where(x => x.doctorId == userid && x.status != "Canceled" && x.status != "Unpaid").Sum(x => x.Price);
                 var appointment = _context.Appointments.Where(x => x.doctorId == userid).Include(x => x.patient).OrderBy(x => x.Time);
+                DateTime now = DateTime.Now;
                 if (orderby != null)
                 {
                     ViewData["orderBy"] = orderby;
@@ -432,14 +433,14 @@ namespace MindClinic.Controllers
                     {
 
                         case "On going":
-                            appointment = _context.Appointments.Where(x => x.doctorId == userid && x.status == "True").Include(x => x.patient).OrderBy(x => x.Time);
+                            appointment = _context.Appointments.Where(x => x.doctorId == userid && x.status == "True" && x.Time.AddMinutes(60) > now).Include(x => x.patient).OrderBy(x => x.Time);
 
                             break;
                         case "Cancelled":
                             appointment = _context.Appointments.Where(x => x.doctorId == userid && x.status == "Canceled").Include(x => x.patient).OrderBy(x => x.Time);
                             break;
                         case "Ended":
-                            appointment = _context.Appointments.Where(x => x.doctorId == userid && x.status == "False").Include(x => x.patient).OrderBy(x => x.Time);
+                            appointment = _context.Appointments.Where(x => x.doctorId == userid && x.status == "True" && x.Time.AddMinutes(60) < now).Include(x => x.patient).OrderBy(x => x.Time);
                             break;
                         case "Unpaid":
                             appointment = _context.Appointments.Where(x => x.doctorId == userid && x.status == "Unpaid").Include(x => x.patient).OrderBy(x => x.Time);
