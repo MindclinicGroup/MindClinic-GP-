@@ -110,13 +110,13 @@
                                                                         if (!item.status.Equals("Unpaid") && item.Time.DayOfYear - now.DayOfYear < 2 && (item.Time.Year == now.Year))
                                                                         {
                                                                             <p class="text-warning">Less than 48 hours remaining.</p>
-                                                                            <p class="text-warning">Please note that you will be refunded half of the payed rate.</p>
+                                                                            <p class="text-warning">Please note that you will be refunded half of the paid rate.</p>
                                                                         }
 
                                                                         else if(!item.status.Equals("Unpaid"))
                                                                         {
                                                                             <p class="text-primary">More than 48 hours remaining.</p>
-                                                                            <p class="text-primary">Please note that you will be refunded the full payed rate.</p>
+                                                                            <p class="text-primary">Please note that you will be refunded the full paid rate.</p>
                                                                         }
                                                                         else
                                                                         {
@@ -288,7 +288,7 @@
                             </tr>
 
                         }
-
+                        
 
                     </tbody>
 
