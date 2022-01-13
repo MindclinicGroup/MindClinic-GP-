@@ -622,7 +622,7 @@ namespace MindClinic.Controllers
               else  html += "</div><div> <ul> <li> <i class=\"fas fa-venus\"></i> " + doctor.User.Gender;
                 html += " </li><li><i class=\"far fa-clock\"></i> "+doctor.User.Age+"</li><li>";
                 html += "    <i class=\"far fa-money-bill-alt\"></i> $" +doctor.pricePerSession;
-                html += "<i class=\"fas fa-info-circle\" data-toggle=\"tooltip\" title=\"Lorem Ipsum\"></i>";
+              
                 html += "  </li>";
                 html += "  </ul></div>";
                 return html;

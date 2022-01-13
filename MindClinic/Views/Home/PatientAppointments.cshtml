@@ -54,6 +54,7 @@
                         @foreach (var item in Model)
                         {
                             <tr>
+                                <td hidden><input hidden id="theid" value="@item.id"/> </td>
                                 <td>
                                     <h2 class="table-avatar">
                                         <a asp-action="DoctorViewProfile" asp-controller="DoctorClasses" asp-route-id="@item.doctorId" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" alt="User Image" src="~/Doctorsimage/@(item.doctor.image?? "Default.jpg")"></a>
@@ -88,10 +89,10 @@
                                     <div class="table-action">
                                         @if ((item.status.ToString().Equals("Unpaid") || item.status.ToString().Equals("True")) && item.Time.CompareTo(now) > 0)
                                         {
-                                            <a class="btn btn-sm bg-danger-light" data-toggle="modal" href="#Cancel_Appointment">
+                                            <button id="btncancel" class="btn btn-sm bg-danger-light" onclick="func(@item.id)" data-toggle="modal" href="#Cancel_Appointment">
                                                 <i class="fas fa-times"></i> Cancel
 
-                                            </a>
+                                            </button>
 
                                             <div class="modal fade" id="Cancel_Appointment" aria-hidden="true" role="dialog">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -133,13 +134,13 @@
                                                                         <div class="form-group row">
                                                                             <div class="col-5"><label>Reason for Cancellation</label></div>
                                                                             <div class="col-7"> <input name="description" type="text" class="form-control"></div>
-                                                                            
+                                                                                <input hidden id="target" name="id" type="text" class="form-control">
                                                                        
                                                                         </div>
                                                                  
 
                                                                 </div>
-                                                                <button type="submit" class="btn btn btn-danger btn-block" asp-controller="Appointments" asp-action="Cancel" asp-route-id="@item.id" method="post">Cancel Appointment</button>
+                                                                <button type="submit"  class="btn btn btn-danger btn-block" asp-controller="Appointments" asp-action="Cancel" method="post">Cancel Appointment</button>
                                                             </form>
 
 
@@ -308,4 +309,12 @@
             </div>
         </div>
     </div>
+    <script>
+   function func(id)
+   {
+    $("#target").val(id);
+   }
+
+</script>
 </div>
+

@@ -8,10 +8,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Doccure - Appointment List Page</title>
+    <title>MindClinc</title>
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+    <!-- Favicons -->
+    <link type="image/x-icon" href="~/assets/img/LogoMin.PNG" rel="icon">
+
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/Admin/assets/css/bootstrap.min.css">
@@ -99,30 +100,33 @@
                             <a asp-controller="Home" asp-action="Index"><i class="fe fe-home"></i><span> Home Page</span> </a>
                         </li>
                         <li>
-                            <a asp-controller="AdminDashboard" asp-action="Index"><i class="fe fe-home"></i> <span>Dashboard</span></a>
+                            <a asp-controller="AdminDashboard" asp-action="Index"><i class="fe fe-activity"></i> <span>Dashboard</span></a>
                         </li>
                         <li>
-                            <a asp-controller="AdminDashboard" asp-action="Appointment"><i class="fe fe-user-plus"></i> <span>Appointments</span></a>
+                            <a asp-controller="AdminDashboard" asp-action="Appointment"><i class="fe fe-layout"></i> <span>Appointments</span></a>
                         </li>
 
                         <li>
                             <a asp-controller="AdminDashboard" asp-action="DoctorsList"><i class="fe fe-user-plus"></i> <span>Doctors</span></a>
                         </li>
                         <li>
-                            <a asp-controller="AdminDashboard" asp-action="PatientList"><i class="fe fe-user"></i> <span>Patients</span></a>
+                            <a asp-controller="AdminDashboard" asp-action="PatientList"><i class="fe fe-user-plus"></i> <span>Patients</span></a>
                         </li>
 
                         <li>
-                            <a asp-controller="AdminDashboard" asp-action="ContactUs"><i class="fe fe-user"></i> <span>Contacts</span></a>
+                            <a asp-controller="AdminDashboard" asp-action="ContactUs" ><i class="fe fe-user"></i> <span>Contacts</span></a>
+                        </li>
+                        <li>
+                            <a asp-controller="AdminDashboard" asp-action="Reviews"><i class="fe fe-star-o"></i> <span>Reviews</span></a>
                         </li>
                         <li>
                             <a asp-controller="MyProfile" asp-action="Index"><i class="fe fe-user"></i> <span>My Profile</span></a>
                         </li>
                          <li>
-                            <a asp-controller="MyProfile" asp-action="ChangePassword"><i class="fe fe-user"></i> <span>Change password</span></a>
+                             <a asp-controller="MyProfile" asp-action="ChangePassword"><i class="fe fe-warning"></i><span>Change password</span></a>
                         </li>
                         <li>
-                            <a asp-area="Identity" asp-page="/Account/Logout"><i class="fe fe-user"></i> <span>Logout</span></a>
+                            <a asp-area="Identity" asp-page="/Account/Logout"><span>Logout</span></a>
                         </li>
 
                     </ul>
@@ -163,7 +167,8 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <!-- Custom JS -->
-    <script src="~/Admin/assets/js/script.js"></script>
+<script src="~/Admin/assets/js/script.js"></script>
+<script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script>
 
 
 </body>

@@ -7,6 +7,7 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.Extensions.Logging;
 using MindClinic.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MindClinic.Models;
 
 namespace MindClinic.Controllers
@@ -62,14 +63,43 @@ namespace MindClinic.Controllers
             return View(model1);
         }
 
-        public IActionResult Reviews()
+        public IActionResult Reviews(string? id)
         {
-            var reviews = _context.Reviews.ToList();
-            return View(reviews);
+            var reviews = _context.Reviews.Include(x=>x.DoctorUser).Include(z=>z.WriterUser).ToList();
+
+            if (id != null)
+            {
+              
+                 reviews = _context.Reviews.Where(x => x.DoctorUserId == id).ToList();
+                 var user = _context.Users.Where(x => x.RoleId == "2").ToList();
+                 var model1 = Tuple.Create<IEnumerable<MindClinic.Models.User>, IEnumerable<MindClinic.Models.Reviews>>(user, reviews);
+
+
+                return View(model1);
+            }
+            else
+            {
+                reviews = _context.Reviews.ToList();
+                var user = _context.Users.Where(x=>x.RoleId=="2").ToList();
+                var model1 = Tuple.Create<IEnumerable<MindClinic.Models.User>, IEnumerable<MindClinic.Models.Reviews>>(user, reviews);
+
+                return View(model1);
+            }
 
         }
 
-        
+        [HttpPost]
+        public async Task<IActionResult> DeleteReview(int id)
+        {
+            var reviews = _context.Reviews.Where(x => x.Id == id).First();
+
+            _notyf.Error("Deleted");
+            _context.Reviews.Remove(reviews);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Reviews");
+        }
+
+
 
         public IActionResult ContactUs()
         {
@@ -85,7 +115,6 @@ namespace MindClinic.Controllers
             _notyf.Error("Deleted");
             _context.ContactUs.Remove(Contact);
             await _context.SaveChangesAsync();
-
             return RedirectToAction("ContactUs");
 
         }

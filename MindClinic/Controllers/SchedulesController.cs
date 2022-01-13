@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MindClinic.Data;
 using MindClinic.Models;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace MindClinic.Controllers
 {
@@ -15,11 +16,13 @@ namespace MindClinic.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _usermanager;
+        private readonly INotyfService _notyf;
 
-        public SchedulesController(ApplicationDbContext context, UserManager<User> usermanager)
+        public SchedulesController(ApplicationDbContext context, UserManager<User> usermanager, INotyfService notyf)
         {
             _context = context;
             _usermanager = usermanager;
+            _notyf = notyf;
         }
 
         // GET: Schedules
@@ -65,20 +68,24 @@ namespace MindClinic.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,startTime,endtime,doctorID")] Schedule schedule)
         {
-            if (ModelState.IsValid)
+            var schedule1 = _context.Schedules.Where(x => x.doctorID == schedule.doctorID && x.startTime.Date == schedule.startTime.Date && x.endtime.TimeOfDay >= schedule.startTime.TimeOfDay).FirstOrDefault();
+            if (schedule1 == null)
             {
-                _context.Add(schedule);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(schedule);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+
             }
+            else _notyf.Error("Schedule Conflict, Bad request!");
+
             var userid = _usermanager.GetUserId(HttpContext.User);
             ViewData["doctorID"] = new SelectList(_context.UserRoles.Where(x => x.RoleId == "2"), "Id", "Name", schedule.doctorID);
-
-
             User user = _usermanager.FindByIdAsync(userid).Result;
 
             ViewBag.UserID = userid;
-
 
             return View(schedule);
         }
