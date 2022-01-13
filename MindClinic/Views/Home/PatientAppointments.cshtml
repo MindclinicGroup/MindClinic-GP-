@@ -5,7 +5,14 @@
 @{
     ViewData["Title"] = "PatientAppointments";
     DateTime now = DateTime.Now;
+
+    string CancelModalId = "C";
+    string PayModalId = "P";
+    string JoinModalId = "J";
+
+
 }
+
 
 
 <div class="card-body">
@@ -53,6 +60,7 @@
 
                         @foreach (var item in Model)
                         {
+                           <h1><?php $divId; ?> </h1>
                             <tr>
                                 <td hidden><input hidden id="theid" value="@item.id"/> </td>
                                 <td>
@@ -89,12 +97,12 @@
                                     <div class="table-action">
                                         @if ((item.status.ToString().Equals("Unpaid") || item.status.ToString().Equals("True")) && item.Time.CompareTo(now) > 0)
                                         {
-                                            <button id="btncancel" class="btn btn-sm bg-danger-light" onclick="func(@item.id)" data-toggle="modal" href="#Cancel_Appointment">
+                                            <button id="btncancel" class="btn btn-sm bg-danger-light" onclick="func(@item.id)" data-toggle="modal" href="#@CancelModalId">
                                                 <i class="fas fa-times"></i> Cancel
 
                                             </button>
-
-                                            <div class="modal fade" id="Cancel_Appointment" aria-hidden="true" role="dialog">
+                                            
+                                            <div class="modal fade" id="@CancelModalId" aria-hidden="true" role="dialog">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -140,7 +148,7 @@
                                                                  
 
                                                                 </div>
-                                                                <button type="submit"  class="btn btn btn-danger btn-block" asp-controller="Appointments" asp-action="Cancel" method="post">Cancel Appointment</button>
+                                                                <button type="submit"  class="btn btn btn-danger btn-block" asp-controller="Appointments" asp-action="Cancel" asp-route-id="@item.id" method="post">Cancel Appointment</button>
                                                             </form>
 
 
@@ -149,16 +157,19 @@
                                                 </div>
                                             </div>
 
+                                            CancelModalId = String.Concat(CancelModalId,'C');
 
                                         }
+                                       
+                                       
 
                                         @if (item.status.ToString().Equals("Unpaid") && item.Time.CompareTo(now) > 0)
                                         {
-                                            <button class="btn btn-sm bg-primary-light" onclick="func(@item.id)" data-toggle="modal" href="#InsertCard">
+                                            <button class="btn btn-sm bg-primary-light" onclick="func(@item.id)" data-toggle="modal" href="#@PayModalId">
                                                 <i class="fa fa-dollar-sign"></i>  Pay
                                             </button>
                                             
-                                            <div class="modal fade" id="InsertCard" aria-hidden="true" role="dialog">
+                                            <div class="modal fade" id="@PayModalId" aria-hidden="true" role="dialog">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -215,7 +226,7 @@
                                     </div>
                                 </div>
                                 @*<input type="submit" name="submit" class="btn btn-info btn-md" value="Procced Pay">*@
-                                <button type="submit" name="submit" class="btn btn btn-info btn-block" asp-controller="Appointments" asp-action="Pay" method="post">Pay and Confirm</button>
+                                <button type="submit" name="submit" class="btn btn btn-info btn-block" asp-controller="Appointments" asp-action="Pay" asp-route-id="@item.id" method="post">Pay and Confirm</button>
                             </form>
                             </div>
                             
@@ -227,17 +238,17 @@
                                                 </div>
                                             </div>
 
-
+                                            PayModalId = String.Concat(PayModalId,'P');
                                         }
 
                                        @if (item.status.ToString().Equals("True") && item.Time.CompareTo(now) > 0)
                                         {
-                                            <a class="btn btn-sm bg-info-light" data-toggle="modal" onclick="meeting(@item.MeetingLink)" href="#Meeting_Link">
+                                            <a class="btn btn-sm bg-info-light" data-toggle="modal" onclick="meeting(@item.MeetingLink)" href="#@PayModalId">
                                                 <i class="fa fa-video-camera"></i>  Join Meeting
 
                                             </a>
 
-                                            <div class="modal fade" id="Meeting_Link" aria-hidden="true" role="dialog">
+                                            <div class="modal fade" id="@PayModalId" aria-hidden="true" role="dialog">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -283,11 +294,15 @@
                                                 </div>
                                             </div>
 
+                                        JoinModalId = String.Concat(JoinModalId,'J');
 
                                         }
+                                         
                                     </div>
                                 </td>
+
                             </tr>
+
 
                         }
                         
@@ -310,16 +325,5 @@
             </div>
         </div>
     </div>
-    <script>
-   function func(id)
-   {
-    $("#target").val(id);
-   }
-  function meeting(link)
-  {
-      $("#link").attr("href",link)
-  }
-
-</script>
 </div>
 
