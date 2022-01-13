@@ -160,6 +160,9 @@
                                                                 <div class="col-12 col-sm-6">
                                                                     <h5 class="card-title text-center">Are you sure you want to cancel this appointment?</h5>
                                                                     @{
+                                                                        if (!User.IsInRole("DOCTOR") && !User.IsInRole("Secretary"))
+                                                                        {
+                                                                            
                                                                         if (!item.status.Equals("Unpaid") && item.Time.DayOfYear - now.DayOfYear < 2 && (item.Time.Year == now.Year))
                                                                         {
                                                                             <p class="text-warning">Less than 48 hours remaining.</p>
@@ -175,6 +178,8 @@
                                                                         {
                                                                             <p class="text-info">This appointment is unpaid and will only be unscheduled.</p>
                                                                         }
+                                                                        }
+
                                                                     }
 
                                                                 </div>
@@ -271,9 +276,10 @@
                                                             <div class="row form-row">
                                                                 <div class="col-12 col-sm-6">
                                                                     <h5 class="card-title text-left">Appointment link</h5>
-                                                             
+                                                               
 
                                                                     @{
+                                                                        
                                                                         if (item.Time > now.AddMinutes(10))
                                                                         {
                                                                             <p class="text-warning">More than 10 minutes remaining.</p>

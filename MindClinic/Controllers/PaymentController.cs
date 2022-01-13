@@ -35,6 +35,12 @@ namespace MindClinic.Controllers
                 _notyf.Error("Doctors can not book appointments");
                 return RedirectToAction("Index", "Home");
             }
+            if (HttpContext.User.IsInRole("ADMIN"))
+            {
+                _notyf.Error("Admins can not book appointments");
+                return RedirectToAction("Index", "Home");
+            }
+
 
             ViewBag.Time = time;
             var userid = _usermanager.GetUserId(HttpContext.User);
@@ -50,13 +56,23 @@ namespace MindClinic.Controllers
             if (Doctor != null)
             {
                 
-                var schedule = _context.Schedules.Where(x => x.startTime.Date == a.Date && x.doctorID == Doctor.userID).FirstOrDefault();
-                var booked = _context.Appointments.Where(x => x.doctorId == Doctor.userID && x.Time == a).FirstOrDefault();
-                if (schedule == null || booked != null || a.Minute!=schedule.startTime.Minute)
+                var schedule = _context.Schedules.Where(x => x.startTime.Date == a.Date && x.doctorID == Doctor.userID);
+                bool tag = false;
+                foreach (var item in schedule) 
+                {
+                    var booked = _context.Appointments.Where(x => x.doctorId == Doctor.userID && x.Time == a).FirstOrDefault();
+                    if (schedule != null && booked == null &&a.Minute == item.startTime.Minute && a.TimeOfDay <item.endtime.TimeOfDay)
+                    {
+                        tag = true;
+                        break;
+                    }
+                }
+                if (tag == false)
                 {
                     _notyf.Error("Bad Request!");
                     return RedirectToAction("Index", "Home");
-                } 
+                }
+              
                 var Payment = _context.PaymentMethods.Where(x =>
                     x.NameOnCard == Name && x.CCV == CVV && x.CardNumber == CardNum && x.ExpiryMonth == ExpMon &&
                     x.ExpiryYear == ExpYear).FirstOrDefault();
