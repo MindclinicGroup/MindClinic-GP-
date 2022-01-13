@@ -82,6 +82,7 @@ namespace MindClinic.Controllers
             //var applicationDbContext = _context.Reviews.Include(r => r.DoctorUser).Include(r => r.WriterUser);
 
             string user = _usermanager.FindByIdAsync(userid).Result.Id;
+            DateTime now = DateTime.Now;
 
             var appointment = _context.Appointments.Where(x => x.patientId == user).Include(x => x.doctor).OrderBy(x => x.Time);
             if (orderby != null)
@@ -91,14 +92,14 @@ namespace MindClinic.Controllers
                 {
 
                     case "On going":
-                        appointment = _context.Appointments.Where(x => x.patientId == userid && x.status == "True").Include(x => x.doctor).OrderBy(x => x.Time);
+                        appointment = _context.Appointments.Where(x => x.patientId == userid && x.status == "True" && x.Time.AddMinutes(60) > now).Include(x => x.doctor).OrderBy(x => x.Time);
 
                         break;
                     case "Cancelled":
                         appointment = _context.Appointments.Where(x => x.patientId == userid && x.status == "Canceled").Include(x => x.doctor).OrderBy(x => x.Time);
                         break;
                     case "Ended":
-                        appointment = _context.Appointments.Where(x => x.patientId == userid && x.status == "False").Include(x => x.doctor).OrderBy(x => x.Time);
+                        appointment = _context.Appointments.Where(x => x.patientId == userid && x.status == "True" && x.Time.AddMinutes(60) < now).Include(x => x.doctor).OrderBy(x => x.Time);
                         break;
                     case "Unpaid":
                         appointment = _context.Appointments.Where(x => x.patientId == userid && x.status == "Unpaid").Include(x => x.doctor).OrderBy(x => x.Time);

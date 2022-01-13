@@ -137,16 +137,7 @@ namespace MindClinic.Areas.Identity.Pages.Account
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
-                if (Input.role == "DOCTOR")
-                {
-                    var doctorClass = new DoctorClass();
-                    doctorClass.AboutMe = "";
-                    doctorClass.pricePerSession = 0;
-                    doctorClass.userID = user.Id;
 
-                    _context.Add(doctorClass);
-                    await _context.SaveChangesAsync();
-                }
 
                 var result2 = await _userManager.AddToRoleAsync(user, Input.role);
 
@@ -154,6 +145,17 @@ namespace MindClinic.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    if (Input.role == "DOCTOR")
+                    {
+                        var doctorClass = new DoctorClass();
+                        doctorClass.AboutMe = "";
+                        doctorClass.pricePerSession = 0;
+                        doctorClass.userID = user.Id;
+
+                        _context.Add(doctorClass);
+                        await _context.SaveChangesAsync();
+                    }
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

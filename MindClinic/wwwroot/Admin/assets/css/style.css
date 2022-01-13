@@ -419,6 +419,8 @@ button.bg-info:focus,
 button.bg-info:hover {
     background-color: #028ee1 !important;
 }
+
+
 .bg-warning,
 .badge-warning {
 	background-color: #ffbc34 !important;

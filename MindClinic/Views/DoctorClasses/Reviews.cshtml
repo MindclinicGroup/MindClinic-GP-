@@ -8,7 +8,8 @@
     <div class="widget review-listing">
         <ul class="comments-list">
             @foreach (var item in Model)
-            {<li>
+            {
+                <li>
                  <div class="comment">
                      @if (@item.Privacy == "Public")
                      {
@@ -22,8 +23,8 @@
                      <div class="comment-body">
                          <div class="meta-data">
                              @if (@item.Privacy == "Public")
-                             {
-                                 <span class="comment-author">@item.WriterUser.Name</span>
+                             {<div></div>
+                                 <span  class="comment-author">@item.WriterUser.Name</span>
                              }
                          
                              @if (@item.Privacy == "Private")
