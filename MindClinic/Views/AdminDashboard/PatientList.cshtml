@@ -62,14 +62,14 @@
                                                     <td>
                                                     @if (!item.LockoutEnabled || item.LockoutEnd == null)
                                                     {
-                                                                <a asp-controller="AdminDashboard" asp-action="LockUser" asp-route-email="@item.Email">Lock</a>
+                                                                <a style="color: red" asp-controller="AdminDashboard" asp-action="LockUser" asp-route-email="@item.Email">Lock</a>
 
                                                     }
 
 
                                                     else
                                                     {
-                                                                <a asp-controller="AdminDashboard" asp-action="UnlockUser" asp-route-email="@item.Email" style="color:red;">UnLock</a>
+                                                                <a asp-controller="AdminDashboard" asp-action="UnlockUser" asp-route-email="@item.Email">UnLock</a>
                                                     }
                                                     </td>
                                                 </tr>

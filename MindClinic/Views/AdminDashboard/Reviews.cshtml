@@ -1,7 +1,71 @@
-﻿
+﻿@model Tuple<IEnumerable<MindClinic.Models.User>, IEnumerable<MindClinic.Models.Reviews>>
+
 @{
     ViewData["Title"] = "Reviews";
+    Layout = "_LayoutAdminDashboard";
 }
 
-<h1>Reviews</h1>
+<div class="main-wrapper">
+
+    <!-- Header -->
+    <!-- /Sidebar -->
+    <!-- Page Wrapper -->
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+
+            <form class="text-left" asp-controller="AdminDashboard" asp-action="Reviews">
+                <strong><label for="cars">Choose a Doctor:</label></strong>
+                <select name="id" id="id" class="form-control">
+
+                    @foreach (var item in Model.Item1)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+
+                </select>
+                <br>
+                <input class="btn btn-success col-3" type="submit" value="Submit">
+            </form>
+
+            <!-- /Page Header -->
+            <div class="row">
+                <div class="col-md-12">
+                    <form>
+                        <!-- Recent Orders -->
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="datatable table table-hover table-center mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Patient name</th>
+                                                <th>Comment</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.Item2)
+                                            {
+                                                <tr>
+                                                    <td>@item.Id</td>
+                                                    <td>@item.WriterUser.Name</td>
+                                                    <td>@item.Text</td>
+                                                    <td><a style="color: red" asp-controller="AdminDashboard" asp-action="DeleteReview" asp-route-id="@item.Id">Delete</a> </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Recent Orders -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Wrapper -->
+
+</div>
+
 
