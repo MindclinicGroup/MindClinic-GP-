@@ -37,9 +37,8 @@ namespace MindClinic
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-
-
-
+         
+      
 
             //services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<
             //    ApplicationDbContext>();

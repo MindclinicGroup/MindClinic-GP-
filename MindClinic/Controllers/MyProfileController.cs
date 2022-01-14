@@ -53,15 +53,16 @@ namespace MindClinic.Controllers
             if (user.Age != age)
             {
                 if (age > 0) user.Age = age;
-                _notyf.Success("Profile updated.");
+                else _notyf.Error("Wrong age input");
+                 
             }
-
-            if (user.PhoneNumber != phoneNumber)
-            {
-                user.PhoneNumber = phoneNumber;
-                _notyf.Success("Profile updated.");
+            if (user.PhoneNumber != phoneNumber) {
+                bool isNumeric = int.TryParse(phoneNumber, out int n);
+                if (isNumeric)
+                    user.PhoneNumber = phoneNumber;
+                else _notyf.Error("Wrong phone number input");
+                
             }
-
             if (Img != null)
             {
 
@@ -73,7 +74,6 @@ namespace MindClinic.Controllers
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await user.ImageFile.CopyToAsync(fileStream);
-                    _notyf.Success("Profile updated.");
                 }
                 user.image = fileName;
             }
@@ -83,11 +83,11 @@ namespace MindClinic.Controllers
                 try
                 {
                     await _usermanager.UpdateAsync(user);
-
+                    _notyf.Success("Profile updated.");
                 }
                 catch
                 {
-
+                    
                 }
 
 

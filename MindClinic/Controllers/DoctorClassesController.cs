@@ -18,7 +18,7 @@ namespace MindClinic.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _usermanager;
-        private readonly  INotyfService _notyf;
+        private readonly INotyfService _notyf;
 
 
         public DoctorClassesController(ApplicationDbContext context, UserManager<User> usermanager, INotyfService notyf)
@@ -534,7 +534,7 @@ namespace MindClinic.Controllers
         public IActionResult Reviews(string? id)
         {
             List<Reviews> reviews;
-            reviews =  _context.Reviews.Where(x => x.DoctorUserId == id).Include(s => s.DoctorUser).Include(s => s.WriterUser).OrderByDescending(x => x.TimeOfReview.Date).ToList(); 
+            reviews = _context.Reviews.Where(x => x.DoctorUserId == id).Include(s => s.DoctorUser).Include(s => s.WriterUser).OrderByDescending(x => x.TimeOfReview.Date).ToList();
             return View(reviews);
         }
 
@@ -545,18 +545,18 @@ namespace MindClinic.Controllers
         public async Task<IActionResult> CreateReview(string id, string txt, string rate, string Privacy)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
-            var appointment = _context.Appointments.Where(x => x.patientId == userid && x.doctorId == id).FirstOrDefault();
-            if (appointment != null && appointment.status=="True")
+            var appointment = _context.Appointments.Where(x => x.patientId == userid && x.doctorId == id && x.status == "True").FirstOrDefault();
+            if (appointment != null)
             {
                 var oldreview = _context.Reviews.Where(x => x.WriterUserId == userid && x.DoctorUserId == id).FirstOrDefault();
                 var doctor = _context.Doctors.Where(x => x.userID == id).First();
-                if (oldreview != null) 
+                if (oldreview != null)
                 {
                     oldreview.Text = txt;
                     oldreview.Privacy = Privacy;
                     oldreview.TimeOfReview = DateTime.Now;
-                 
-                    doctor.AvgRating = ((doctor.RatingsCount * doctor.AvgRating) -oldreview.Rating + int.Parse(rate))/doctor.RatingsCount;
+
+                    doctor.AvgRating = ((doctor.RatingsCount * doctor.AvgRating) - oldreview.Rating + int.Parse(rate)) / doctor.RatingsCount;
                     oldreview.Rating = int.Parse(rate);
                     _context.Update(oldreview);
                     _notyf.Success("Review Updated!");
@@ -574,7 +574,7 @@ namespace MindClinic.Controllers
                         Rating = int.Parse(rate)
                     };
                     _context.Add(Review);
-                 
+
                     doctor.AvgRating = ((doctor.RatingsCount * doctor.AvgRating) + int.Parse(rate)) / ++doctor.RatingsCount;
                     _context.Update(doctor);
                     _notyf.Success("Review Created!");
@@ -591,7 +591,7 @@ namespace MindClinic.Controllers
             {
                 _notyf.Error("You do not have a previous appointment with this doctor!");
             }
-             
+
 
             return RedirectToAction("DoctorViewProfile", "DoctorClasses", new { id = id });
 
@@ -618,15 +618,15 @@ namespace MindClinic.Controllers
                 }
 
                 html += "<span class=\"d-inline-block average-rating\">(" + doctor.RatingsCount + ") </span>";
-                if(doctor.User.Gender=="Male") html += "</div><div> <ul> <li> <i class=\"fas fa-mars\"></i> " + doctor.User.Gender;
-              else  html += "</div><div> <ul> <li> <i class=\"fas fa-venus\"></i> " + doctor.User.Gender;
-                html += " </li><li><i class=\"far fa-clock\"></i> "+doctor.User.Age+"</li><li>";
-                html += "    <i class=\"far fa-money-bill-alt\"></i> $" +doctor.pricePerSession;
-              
+                if (doctor.User.Gender == "Male") html += "</div><div> <ul> <li> <i class=\"fas fa-mars\"></i> " + doctor.User.Gender;
+                else html += "</div><div> <ul> <li> <i class=\"fas fa-venus\"></i> " + doctor.User.Gender;
+                html += " </li><li><i class=\"far fa-clock\"></i> " + doctor.User.Age + "</li><li>";
+                html += "    <i class=\"far fa-money-bill-alt\"></i> $" + doctor.pricePerSession;
+
                 html += "  </li>";
                 html += "  </ul></div>";
                 return html;
-              
+
             }
             catch (Exception Ex)
             {
