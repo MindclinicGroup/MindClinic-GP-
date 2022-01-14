@@ -53,8 +53,15 @@ namespace MindClinic.Controllers
             if (user.Age != age)
             {
                 if (age > 0) user.Age = age;
+                _notyf.Success("Profile updated.");
             }
-            if (user.PhoneNumber != phoneNumber) user.PhoneNumber = phoneNumber;
+
+            if (user.PhoneNumber != phoneNumber)
+            {
+                user.PhoneNumber = phoneNumber;
+                _notyf.Success("Profile updated.");
+            }
+
             if (Img != null)
             {
 
@@ -66,6 +73,7 @@ namespace MindClinic.Controllers
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await user.ImageFile.CopyToAsync(fileStream);
+                    _notyf.Success("Profile updated.");
                 }
                 user.image = fileName;
             }
