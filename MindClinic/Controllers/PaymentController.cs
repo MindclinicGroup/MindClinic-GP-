@@ -40,7 +40,11 @@ namespace MindClinic.Controllers
                 _notyf.Error("Admins can not book appointments");
                 return RedirectToAction("Index", "Home");
             }
-
+            if (HttpContext.User.IsInRole("Secretary"))
+            {
+                _notyf.Error("Secretaries can not book appointments");
+                return RedirectToAction("Index", "Home");
+            }
 
             ViewBag.Time = time;
             var userid = _usermanager.GetUserId(HttpContext.User);

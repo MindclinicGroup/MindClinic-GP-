@@ -211,7 +211,7 @@ namespace MindClinic.Controllers
                 }
             }
 
-            int pageSize = 8;
+            int pageSize = 12;
 
             return View(await PaginatedList<User>.CreateAsync(Doctors.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
