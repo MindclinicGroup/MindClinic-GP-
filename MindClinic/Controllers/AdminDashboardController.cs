@@ -32,6 +32,11 @@ namespace MindClinic.Controllers
          
         public IActionResult Index()
         {
+            if (!HttpContext.User.IsInRole("ADMIN"))
+            {
+                _notyf.Error("Access denied!");
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.CountOfAppointments = _context.Appointments.Count();
             ViewBag.CountOfPatients = _context.Users.Where(x => x.RoleId == "3").Count();
             ViewBag.CountOfDoctors = _context.Users.Where(x => x.RoleId == "2").Count();
@@ -47,11 +52,21 @@ namespace MindClinic.Controllers
         }
         public IActionResult DoctorsList()
         {
+            if (!HttpContext.User.IsInRole("ADMIN"))
+            {
+                _notyf.Error("Access denied!");
+                return RedirectToAction("Index", "Home");
+            }
             var Doctors = _context.Users.Where(r => r.RoleId == "2").ToList();
             return View(Doctors);
         }
         public IActionResult PatientList()
         {
+            if (!HttpContext.User.IsInRole("ADMIN"))
+            {
+                _notyf.Error("Access denied!");
+                return RedirectToAction("Index", "Home");
+            }
             var Patients = _context.Users.Where(r => r.RoleId == "3").ToList();
 
             return View(Patients);
@@ -59,6 +74,11 @@ namespace MindClinic.Controllers
 
         public IActionResult Appointment()
         {
+            if (!HttpContext.User.IsInRole("ADMIN"))
+            {
+                _notyf.Error("Access denied!");
+                return RedirectToAction("Index", "Home");
+            }
             var Appointments = _context.Appointments.ToList();
             var Doctors = _context.Users.Where(r => r.RoleId == "2").ToList();
             var Patients = _context.Users.Where(r => r.RoleId == "3").ToList();
@@ -68,6 +88,11 @@ namespace MindClinic.Controllers
 
         public IActionResult Reviews(string? id)
         {
+            if (!HttpContext.User.IsInRole("ADMIN"))
+            {
+                _notyf.Error("Access denied!");
+                return RedirectToAction("Index", "Home");
+            }
             var reviews = _context.Reviews.Include(x=>x.DoctorUser).Include(z=>z.WriterUser).ToList();
 
             if (id != null)
@@ -94,6 +119,11 @@ namespace MindClinic.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteReview(int id)
         {
+            if (!HttpContext.User.IsInRole("ADMIN"))
+            {
+                _notyf.Error("Access denied!");
+                return RedirectToAction("Index", "Home");
+            }
             var reviews = _context.Reviews.Where(x => x.Id == id).First();
 
             _notyf.Error("Deleted");
@@ -106,6 +136,11 @@ namespace MindClinic.Controllers
 
         public IActionResult ContactUs()
         {
+            if (!HttpContext.User.IsInRole("ADMIN"))
+            {
+                _notyf.Error("Access denied!");
+                return RedirectToAction("Index", "Home");
+            }
             var contact = _context.ContactUs.ToList();
             return View(contact);
         }
@@ -113,6 +148,11 @@ namespace MindClinic.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteContactUs(int id)
         {
+            if (!HttpContext.User.IsInRole("ADMIN"))
+            {
+                _notyf.Error("Access denied!");
+                return RedirectToAction("Index", "Home");
+            }
             var Contact = _context.ContactUs.Where(x => x.Id == id).First();
 
             _notyf.Error("Deleted");
@@ -124,6 +164,11 @@ namespace MindClinic.Controllers
         [HttpGet]
         public async Task<IActionResult> LockUser(string email, DateTime? endDate)
         {
+            if (!HttpContext.User.IsInRole("ADMIN"))
+            {
+                _notyf.Error("Access denied!");
+                return RedirectToAction("Index", "Home");
+            }
             DateTime EndDate = new DateTime(2222, 06, 06);
             if (endDate == null)
                 endDate = EndDate;
@@ -151,6 +196,11 @@ namespace MindClinic.Controllers
         }
         public async Task<IActionResult> UnlockUser(string email)
         {
+            if (!HttpContext.User.IsInRole("ADMIN"))
+            {
+                _notyf.Error("Access denied!");
+                return RedirectToAction("Index", "Home");
+            }
             var userTask = _usermanager.FindByEmailAsync(email);
             userTask.Wait();
             var user = userTask.Result;
