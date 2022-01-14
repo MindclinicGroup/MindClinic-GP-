@@ -78,20 +78,30 @@
             @if (signInManager.IsSignedIn(User) && User.IsInRole("ADMIN"))
             {
                 <div class="form-group">
+                    <label style="font-weight: bolder">Role</label>
+                    <br/>
+                    <label for="ADMIN">ADMIN</label>
+                    <input asp-for="Input.role" type="radio" id="ADMIN" value="ADMIN"/>
+                    <br/>
                     <label for="DOCTOR">DOCTOR</label>
-                    <input asp-for="Input.role" type="radio" id="DOCTOR" value="DOCTOR" />
+                    <input asp-for="Input.role" type="radio" id="DOCTOR" value="DOCTOR"/>
+                    <br/>
                     <label for="DOCTOR">Secretary</label>
-                    <input asp-for="Input.role" type="radio" id="Secretary" value="Secretary" />
+                    <input asp-for="Input.role" type="radio" id="Secretary" value="Secretary"/>
+                    <br/>
                     <label for="PATIENT">PATIENT</label>
-                    <input asp-for="Input.role" type="radio" id="PATIENT" value="PATIENT" />
+                    <input asp-for="Input.role" type="radio" id="PATIENT" value="PATIENT"/>
                 </div>
             }
 
             <div class="form-group">
+                <label  style="font-weight: bolder">Gender</label>
+                <br/>
                 <label for="Male">Male</label>
-                <input asp-for="Input.Gender" type="radio" id="Male" value="Male" />
+                <input asp-for="Input.Gender" type="radio" id="Male" value="Male"/>
+                <br/>
                 <label for="Female">Female</label>
-                <input asp-for="Input.Gender" type="radio" id="Female" value="Female" />
+                <input asp-for="Input.Gender" type="radio" id="Female" value="Female"/>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Imagefile"></label>
