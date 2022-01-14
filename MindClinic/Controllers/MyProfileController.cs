@@ -53,8 +53,16 @@ namespace MindClinic.Controllers
             if (user.Age != age)
             {
                 if (age > 0) user.Age = age;
+                else _notyf.Error("Wrong age input");
+                 
             }
-            if (user.PhoneNumber != phoneNumber) user.PhoneNumber = phoneNumber;
+            if (user.PhoneNumber != phoneNumber) {
+                bool isNumeric = int.TryParse(phoneNumber, out int n);
+                if (isNumeric)
+                    user.PhoneNumber = phoneNumber;
+                else _notyf.Error("Wrong phone number input");
+                
+            }
             if (Img != null)
             {
 
@@ -75,11 +83,11 @@ namespace MindClinic.Controllers
                 try
                 {
                     await _usermanager.UpdateAsync(user);
-
+                    _notyf.Success("Profile updated.");
                 }
                 catch
                 {
-
+                    
                 }
 
 

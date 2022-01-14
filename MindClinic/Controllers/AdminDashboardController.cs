@@ -9,9 +9,11 @@ using MindClinic.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MindClinic.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MindClinic.Controllers
 {
+    
     public class AdminDashboardController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -26,7 +28,8 @@ namespace MindClinic.Controllers
             _logger = logger;
             _usermanager = usermanager;
         }
-
+       
+         
         public IActionResult Index()
         {
             ViewBag.CountOfAppointments = _context.Appointments.Count();

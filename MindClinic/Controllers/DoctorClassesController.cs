@@ -545,8 +545,8 @@ namespace MindClinic.Controllers
         public async Task<IActionResult> CreateReview(string id, string txt, string rate, string Privacy)
         {
             var userid = _usermanager.GetUserId(HttpContext.User);
-            var appointment = _context.Appointments.Where(x => x.patientId == userid && x.doctorId == id).FirstOrDefault();
-            if (appointment != null && appointment.status == "True")
+            var appointment = _context.Appointments.Where(x => x.patientId == userid && x.doctorId == id && x.status == "True").FirstOrDefault();
+            if (appointment != null)
             {
                 var oldreview = _context.Reviews.Where(x => x.WriterUserId == userid && x.DoctorUserId == id).FirstOrDefault();
                 var doctor = _context.Doctors.Where(x => x.userID == id).First();
