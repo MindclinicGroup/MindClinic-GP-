@@ -8,6 +8,10 @@
 
     var TotalPrice = ViewBag.TotalPrice;
     DateTime now = DateTime.Now;
+
+    string CancelModalId = "C";
+    string LinkModalId = "L";
+    string JoinModalId = "J";
 }
 
 <br>
@@ -141,12 +145,12 @@
                                     <div class="table-action">
                                         @if ((item.status.ToString().Equals("Unpaid") || item.status.ToString().Equals("True")) && item.Time.CompareTo(now) > 0)
                                         {
-                                            <a class="btn btn-sm bg-danger-light" data-toggle="modal" href="#Cancel_Appointment">
+                                            <a class="btn btn-sm bg-danger-light" data-toggle="modal" href="#@CancelModalId">
                                                 <i class="fas fa-times"></i> Cancel
 
                                             </a>
 
-                                            <div class="modal fade" id="Cancel_Appointment" aria-hidden="true" role="dialog">
+                                            <div class="modal fade" id="@CancelModalId" aria-hidden="true" role="dialog">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -206,17 +210,18 @@
                                                 </div>
                                             </div>
 
+                                            CancelModalId = String.Concat(CancelModalId,'C');
 
                                         }
 
 
                                         @if (item.status.ToString().Equals("True") && item.Time.CompareTo(now) > 0)
                                         {
-                                            <a class="btn btn-sm bg-info-light" data-toggle="modal" href="#Change_Link">
+                                            <a class="btn btn-sm bg-info-light" data-toggle="modal" href="#@LinkModalId">
                                                 <i class="fas fa-gear"></i> Change Meeting Link
                                             </a>
 
-                                            <div class="modal fade" id="Change_Link" aria-hidden="true" role="dialog">
+                                            <div class="modal fade" id="@LinkModalId" aria-hidden="true" role="dialog">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -253,17 +258,17 @@
                                                 </div>
                                             </div>
 
-
+                                            LinkModalId = String.Concat(LinkModalId,'L');
                                         }
 
                                                                                @if (item.status.ToString().Equals("True") && item.Time.CompareTo(now) > 0)
                                         {
-                                            <a class="btn btn-sm bg-info-light" data-toggle="modal" href="#Meeting_Link">
+                                            <a class="btn btn-sm bg-info-light" data-toggle="modal" href="#@JoinModalId">
                                                 <i class="fa fa-video-camera"></i>  Join Meeting
 
                                             </a>
 
-                                            <div class="modal fade" id="Meeting_Link" aria-hidden="true" role="dialog">
+                                            <div class="modal fade" id="@JoinModalId" aria-hidden="true" role="dialog">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -305,7 +310,13 @@
                                                 </div>
                                             </div>
 
+                                            JoinModalId = String.Concat(JoinModalId,'J');
+                                        }
 
+                                        {
+                                        @JoinModalId
+                                        @LinkModalId
+                                        @CancelModalId
                                         }
                                     </div>
                                 </td>
