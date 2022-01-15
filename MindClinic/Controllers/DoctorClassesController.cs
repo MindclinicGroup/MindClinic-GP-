@@ -28,13 +28,7 @@ namespace MindClinic.Controllers
             _usermanager = usermanager;
             _notyf = notyf;
 
-        }
-
-
-
-
-
-
+        }  
         // GET: DoctorClasses
         public async Task<IActionResult> Index()
         {
