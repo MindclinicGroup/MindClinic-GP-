@@ -88,7 +88,7 @@ namespace MindClinic.Controllers
 
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> DeleteReview(int id)
         {
             var reviews = _context.Reviews.Where(x => x.Id == id).First();
